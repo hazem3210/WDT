@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Suaah</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/bootstrap.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Suaah.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3 fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Suaah</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="btn btn-outline-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+
+                        <div class="btn-group mx-1" role="group" aria-label="Button group with nested dropdown">
+
+                            <a type="button" class="btn btn-outline-dark " asp-controller="SocialDatas" asp-action="Index">
+                                Social Data
+                            </a>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
+                                    <a class="dropdown-item" asp-controller="SocialDatas" asp-action="Create">Create Social Data</a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+
+                            <a type="button" class="btn btn-outline-dark " asp-controller="Customers" asp-action="Index">
+                                Customer
+                            </a>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
+                                    <a class="dropdown-item" asp-controller="Customers" asp-action="Create">Create a Customer</a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="btn-group mx-1" role="group" aria-label="Button group with nested dropdown">
+
+                            <a type="button" class="btn btn-outline-dark " asp-controller="Airlines" asp-action="Index">
+                                Airline
+                            </a>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
+                                    <a class="dropdown-item" asp-controller="Airlines" asp-action="Create">Create an Airline</a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+
+                            <a type="button" class="btn btn-outline-dark " asp-controller="Airports" asp-action="Index">
+                                Airport
+                            </a>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
+                                    <a class="dropdown-item" asp-controller="Airports" asp-action="Create">Create an Airport</a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="btn-group mx-1" role="group" aria-label="Button group with nested dropdown">
+
+                            <a type="button" class="btn btn-outline-dark " asp-controller="Flights" asp-action="Index">
+                                Flight
+                            </a>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
+                                    <a class="dropdown-item" asp-controller="Flights" asp-action="Create">Create a Flight</a>
+                                    <a class="dropdown-item" asp-controller="FlightClasses" asp-action="Create">Create Flight Classes</a>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+
+                            <a type="button" class="btn btn-outline-dark " asp-controller="FlightBookings" asp-action="Index">
+                                FlightBooking
+                            </a>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
+                                    <a class="dropdown-item" asp-controller="FlightBookings" asp-action="Create">Create a FlightBooking</a>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="btn-group mx-1" role="group" aria-label="Button group with nested dropdown">
+
+                            <a type="button" class="btn btn-outline-dark " asp-controller="Hotels" asp-action="Index">
+                                Hotel
+                            </a>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
+                                    <a class="dropdown-item" asp-controller="Hotels" asp-action="Create">Create an Hotel</a>
+                                    <a class="dropdown-item" asp-controller="HotelRooms" asp-action="Create">Create an Hotel HotelRooms</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+
+                            <a type="button" class="btn btn-outline-dark " asp-controller="HotelBookings" asp-action="Index">
+                                HotelBooking
+                            </a>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
+                                    <a class="dropdown-item" asp-controller="HotelBookings" asp-action="Create">Create an HotelBooking</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
+
+                    <form class="d-flex">
+                        <input class="form-control me-sm-2" type="text" placeholder="Search">
+                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3 mb-5">
+            <br/><br/><br/><br/> 
+            @RenderBody()
+        </main>
+    </div>
+    <br/>
+    <br/>
+    <footer class="border-top footer text-muted mt-5">
+        <div class="container">
+            &copy; 2022 - Suaah - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
