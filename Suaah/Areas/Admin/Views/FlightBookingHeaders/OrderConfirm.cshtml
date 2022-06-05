@@ -1,0 +1,13 @@
+﻿@model int
+
+<div class="container row">
+    <div class="col-12 text-center">
+        <h1 class="text-primary text-center">Payment Successfully!</h1>
+        Booking Number : @Model <br /><br />
+    </div>
+    <div class="col-12 text-center" style="color:maroon">
+        <br />
+        Payment has been applied successfully! <br />
+        <a asp-action="Details" asp-route-id="@Model" class="btn btn-primary">Back to Booking Details</a>
+    </div>
+</div> 

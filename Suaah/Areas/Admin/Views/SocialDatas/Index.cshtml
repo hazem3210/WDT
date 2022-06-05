@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Suaah.Models.SocialData>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<form method="get" asp-action="Index">
+    <div class="row">
+        <div class="col-1">
+            <label class="control-label">Search</label>
+        </div>
+        <div class="col-2">
+            <input name="name" class="form-control" value="@ViewBag.name" />
+        </div>
+        <input name="order" id="ord" value="@ViewBag.order" hidden />
+        <div class="col-1">
+            <input type="submit" class="btn btn-secondary" onclick="go();" />
+        </div>
+
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-order="@ViewBag.order" asp-route-name="@ViewBag.name">
+                    @Html.DisplayNameFor(model => model.SocialName)
+                </a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Link)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SocialName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Link)
+                </td>
+                <td>
+                    @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <span>|</span>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a><span>|</span>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        function go() {
+            if (document.getElementById("ord").value == "desc") {
+                document.getElementById("ord").value = "asc";
+            }
+            else
+                document.getElementById("ord").value = "desc";
+        }
+    </script>
+}

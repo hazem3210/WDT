@@ -1,0 +1,173 @@
+﻿@model IEnumerable<Suaah.Models.Flight>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<form method="get" asp-action="Index">
+    <div class="row">
+        <div class="col-3"><h3>Search</h3></div>
+        <div class="col-3"><h3>Time</h3></div>
+        <div class="col-3"><h3>Country</h3></div>
+
+    </div>
+    <div class="row">
+        <div class="col-1" style="margin-bottom:5px;">
+            <label class="control-label">Type of Search</label>
+        </div>
+        <div class="col-2">
+            <select name="type" class="form-control form-select" asp-items="@ViewBag.types"></select>
+        </div>
+        <div class="col-1">
+            <label class="control-label">From</label>
+        </div>
+        <div class="col-2">
+            <input name="timef" type="datetime-local" class="form-control" value="@ViewBag.timef" format-value="yyyy-MM-ddThh:mm" />
+        </div>
+        <div class="col-1">
+            <label class="control-label">From</label>
+        </div>
+        <div class="col-2">
+            <input name="conf" class="form-control" value="@ViewBag.conf" />
+        </div>
+
+        <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden />
+        <input name="order" value="@ViewBag.order" hidden />
+
+
+
+    </div>
+    <div class="row">
+
+        <div class="col-1">
+            <label class="control-label">Search</label>
+        </div>
+        <div class="col-2">
+            <input name="search" class="form-control" value="@ViewBag.search" />
+        </div>
+
+        <div class="col-1">
+            <label class="control-label">To</label>
+        </div>
+        <div class="col-2">
+            <input name="timet" type="datetime-local" class="form-control" value="@ViewBag.timet" format-value="yyyy-MM-ddThh:mm" />
+        </div>
+
+        <div class="col-1">
+            <label class="control-label">To</label>
+        </div>
+        <div class="col-2">
+            <input name="cont" class="form-control" value="@ViewBag.cont" />
+        </div>
+
+        <div class="col-1">
+            <input type="submit" class="btn btn-secondary" onclick="go();" />
+        </div>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-order="DepartingGate" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
+                    @Html.DisplayNameFor(model => model.DepartingGate)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-order="ArriveGate" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
+                    @Html.DisplayNameFor(model => model.ArriveGate)
+                </a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfStops)
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-order="LeaveTime" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
+                    @Html.DisplayNameFor(model => model.LeaveTime)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-order="Airline" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
+                    @Html.DisplayNameFor(model => model.AirlineCode)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-order="From" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
+                    From
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-order="To" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
+                    To
+                </a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FlightClasses)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartingGate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArriveGate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfStops)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Airline.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartingAirport.Country.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArrivingAirport.Country.Name)
+                </td>
+                <td>
+                    <ul>
+                        @foreach (FlightsClasses clas in item.FlightClasses)
+                        {
+                            <li> @clas.FlightClass.Class</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <span>|</span>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a><span>|</span>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        function go() {
+            if (document.getElementById("ord").value == "desc") {
+                document.getElementById("ord").value = "asc";
+            }
+            else
+                document.getElementById("ord").value = "desc";
+        }
+    </script>
+}

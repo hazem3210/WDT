@@ -1,0 +1,81 @@
+﻿@{
+    ViewData["Title"] = "Index";
+
+    var status = Context.Request.Query["status"];
+    var pending = "text-primary";
+    var approved = "text-primary";
+    var done = "text-primary";
+    var cancelled = "text-primary";
+    var all = "text-primary";
+
+    switch (status)
+    {
+        case "pending":
+            pending = "active text-white";
+            break;
+        case "approved":
+            approved = "active text-white";
+            break;
+        case "done":
+            done = "active text-white";
+            break;
+        case "cancelled":
+            cancelled = "active text-white";
+            break;
+        default:
+            all = "active text-white";
+            break;
+    }
+}
+
+<h1 class="mb-4">All Customers Hotel Bookings </h1>
+
+<div>
+    <div class="d-flex justify-content-between pt-4">
+        <div class="p-2">
+            <h2>Status</h2>
+        </div>
+        <div class="p-2">
+            <ul class="list-group list-group-horizontal-sm">
+                <a style="text-decoration:none;" asp-controller="AllHotelBookingHeaders" asp-action="Index" asp-route-status="pending">
+                <li class="list-group-item @pending">Pending</li>
+                </a>
+                <a style="text-decoration:none;" asp-controller="AllHotelBookingHeaders" asp-action="Index" asp-route-status="approved">
+                <li class="list-group-item @approved">Approved</li>
+                </a>
+                <a style="text-decoration:none;" asp-controller="AllHotelBookingHeaders" asp-action="Index" asp-route-status="done">
+                <li class="list-group-item @done">Done</li>
+                </a>
+                <a style="text-decoration:none;" asp-controller="AllHotelBookingHeaders" asp-action="Index" asp-route-status="cancelled">
+                <li class="list-group-item @cancelled">Cancelled</li>
+                </a>
+                <a style="text-decoration:none;" asp-controller="AllHotelBookingHeaders" asp-action="Index" asp-route-status="all">
+                <li class="list-group-item @all">All</li>
+                </a>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-striped" id="myTable" style="width:100%;">
+    <thead>
+        <tr class="m-5">
+            <th class="text-white"> Booking Id </th>
+            <th class="text-white"> Name </th>
+            <th class="text-white"> Booking Date </th>
+            <th class="text-white"> Total Price </th>
+            <th class="text-white"> Status  </th>
+            <th class="text-white"> Payment </th>
+            <th class="text-white"></th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+
+
+@section Scripts{
+<script src="~/js/AllHotelBookings.js"></script>
+}
+
+

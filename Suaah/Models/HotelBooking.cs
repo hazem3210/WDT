@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Configuration;
 
 namespace Suaah.Models
 {
@@ -7,30 +9,32 @@ namespace Suaah.Models
     {
         public int Id { get; set; }
 
-        [Required]
-        public string Status { get; set; }
-
-        [Required]
-        [Column("NoOfRooms")]
-        [Display(Name = "Number Of Rooms")]
-        public string NumberOfRooms { get; set; }
-
-        [Required]
-        [DataType(DataType.Date)]
+        [Display(Name = "Check In")]
         public DateTime Date { get; set; }
 
-        [Required]
         [Column("NoOfDays")]
         [Display(Name = "Number Of Days")]
+        [Range(1, int.MaxValue)]
         public int NumberOfDays { get; set; }
+
+        [Column("NoOfRooms")]
+        [Display(Name = "Number Of Rooms")]
+        [Range(1, int.MaxValue)]
+        public int NumberOfRooms { get; set; } = 1;
 
         [Display(Name = "Total Price")]
         public double TotalPrice { get; set; }
 
-        public int HotelRoomlId { get; set; }
+        public string NotCustomerId { get; set; } = "";
+
+        public int Flag { get; set; } = 0;
+
+        public int HotelRoomId { get; set; }
+        [ValidateNever]
         public HotelRoom HoteRoom { get; set; }
 
-        public int CustomerId { get; set; }
+        public string? CustomerId { get; set; }
+        [ValidateNever]
         public Customer Customer { get; set; }
     }
 }

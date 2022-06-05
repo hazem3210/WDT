@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Suaah.Models
@@ -18,7 +19,9 @@ namespace Suaah.Models
         [Required]
         public string Description { get; set; }
 
-        public ICollection<Flight> Flights { get; set; }
+        [ValidateNever]
+
+        public ICollection<Flight>? Flights { get; set; }
 
     }
 }

@@ -1,0 +1,142 @@
+﻿@model Suaah.Models.HotelBookingHeaderAndDetails
+@using Microsoft.Extensions.Options
+@inject IOptions<Suaah.Models.StripeSettings> Stripe
+
+<form asp-action="Summary">
+    <br />
+    <div class="container">
+        <div class="card">
+            <div class="card-header bg-dark text-light ml-0">
+                <div class=" row container">
+                    <div class="col-6">
+                        Booking Summary
+                    </div>
+                    <div class="col-6 text-end">
+                        <a class="btn btn-outline-info btn-sm" asp-action="PendingReservation">
+                            Back to Your Hotel Reservation
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="container rounded p-2">
+                    <div class="row">
+                        <div class="col-12 col-lg-6 pb-4">
+                            <div class="row">
+                                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-info">Booking Header</span>
+                                </h4>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">
+                                    <label>Name</label>
+                                </div>
+                                <div class="col-9">
+                                    <input class="form-control" value="@Model.HotelBookingHeader.Name" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">
+                                    <label>Booking Date</label>
+                                </div>
+                                <div class="col-9">
+                                    <input class="form-control" value="@Model.HotelBookingHeader.BookingDate" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">
+                                    <label>Cancel Before(Hours)</label>
+                                </div>
+                                <div class="col-9">
+                                    <input class="form-control" value="@Model.HotelBookingHeader.CancelBeforeHours" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">
+                                    <label>Total Price</label>
+                                </div>
+                                <div class="col-9">
+                                    <input class="form-control" value="@Model.HotelBookingHeader.TotalPrice.ToString("c")" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="col-12 col-lg-6 pb-4">
+                        <h4 class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-info">Booking Details</span>
+                        </h4>
+                        @foreach (var item in Model.HotelBookingDetails)
+                        {
+                            <ul class="list-group mb-3">
+
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <div>
+                                        <h5 class="my-0 text-danger d-inline">Room, Hotel: </h5>
+                                        <small class="text-black mx-5">@item.HoteRoom.Description@*@item.HoteRoom.Type*@, @item.HoteRoom.Hotel.Name</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <div>
+                                        <h5 class="my-0 text-danger d-inline">Check In Date: </h5>
+                                        <small class="text-black mx-5">@item.CheckInDate</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <div>
+                                        <h5 class="my-0 text-danger d-inline">Number Of Days: </h5>
+                                        <small class="text-black mx-5">@item.NumberOfDays</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <div>
+                                        <h5 class="my-0 text-danger d-inline">Number Of Rooms:</h5>
+                                        <small class="text-black mx-4 px-2">@item.NumberOfRooms</small>
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <div>
+                                        <h5 class="my-0 text-danger d-inline">Services:</h5>
+                                       @foreach (var item2 in item.HoteRoom.Services)
+                                       {
+                                            <small class="text-black mx-2">@item2.Services.Name</small>
+                                       }
+                                    </div>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between bg-white">
+                                    <small class="text-dark">Price For Day</small>
+                                    <strong class="text-dark">@item.PriceForDay</strong>
+                                </li>
+                            </ul>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+
+
+            @if (User.IsInRole(SD.Role_Customer))
+            {
+                <div class="row">
+                    <button type="submit" value="Place Order" class="btn btn-primary form-control" asp-action="Summary">Place Booking</button>
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <button type="submit" value="Place Order" class="btn btn-primary form-control" disabled asp-action="Summary">Place Booking</button>
+                </div>
+               
+                <br />
+                <div class="row">
+                    <button type="submit" value="Place Order" class="btn btn-primary form-control" asp-action="EndBooking">End Booking</button>
+                </div>
+            }
+
+
+        </div>
+    </div>
+
+</form>

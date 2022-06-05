@@ -1,14 +1,19 @@
-﻿namespace Suaah.Models
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
+
+namespace Suaah.Models
 {
     public class FlightClass
     {
-        public int Id { get; set; }
+        public int ID { get; set; }
+
+        [Required]
         public string Class { get; set; }
-        public double Price { get; set; }
 
-        public int FlightId { get; set; }
-        public Flight Flight { get; set; }
-
+        [ValidateNever]
         public ICollection<FlightBooking> FlightBooking { get; set; }
+
+        [ValidateNever]
+        public ICollection<FlightsClasses> Flights { get; set; }
     }
 }

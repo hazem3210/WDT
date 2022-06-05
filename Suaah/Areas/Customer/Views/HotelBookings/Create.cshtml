@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Suaah.Data
+@using System.Security.Claims
+@model Suaah.Models.HotelBooking
+@inject IHttpContextAccessor HttpContextAccessor
+@inject ApplicationDbContext _context
+ 
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>HotelBooking</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+            {
+                if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.Session_HotelBooking).Value == 0)
+                {
+                    <div class="form-group">
+                        <label asp-for="CustomerId" class="control-label"></label>
+                        <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.customerId"></select>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label asp-for="CustomerId" class="control-label"></label>
+                        <input asp-for="CustomerId" value="@ViewBag.customerName" disabled class="form-control" />
+                        <span asp-validation-for="CustomerId" class="text-danger"></span>
+                    </div>
+                }
+            }
+            else if (User.IsInRole(SD.Role_Customer))
+            {
+                <input type="hidden" asp-for="CustomerId" />
+            }
+            <div class="form-group">
+                <label asp-for="NumberOfRooms" class="control-label"></label>
+                <input asp-for="NumberOfRooms" class="form-control" />
+                <span asp-validation-for="NumberOfRooms" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberOfDays" class="control-label"></label>
+                <input asp-for="NumberOfDays" class="form-control" />
+                <span asp-validation-for="NumberOfDays" class="text-danger"></span>
+            </div>
+            @*   <div class="form-group">
+                <label asp-for="TotalPrice" class="control-label"></label>
+                <input asp-for="TotalPrice" class="form-control" />
+                <span asp-validation-for="TotalPrice" class="text-danger"></span>
+                </div>*@
+            <div class="form-group">
+                <label asp-for="HotelRoomId" class="control-label"></label>
+                <select asp-for="HotelRoomId" class="form-control" asp-items="ViewBag.roomId"></select>
+            </div>
+            @* <div class="form-group">
+                <label asp-for="CustomerId" class="control-label"></label>
+                <select asp-for="CustomerId" class ="form-control" asp-items="ViewBag.CustomerId"></select>
+                </div>*@
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}

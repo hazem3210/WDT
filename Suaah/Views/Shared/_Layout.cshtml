@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@using Suaah.Data
+@using System.Security.Claims
+@inject IHttpContextAccessor HttpContextAccessor
+@inject ApplicationDbContext _context
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,73 +14,247 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/bootstrap.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Suaah.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 </head>
-<body>
+<body style="zoom:90%">
     <header>
         <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3 fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Suaah</a>
+                <a class="navbar-brand" asp-area="Customer" asp-controller="Home" asp-action="Index">Suaah</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="btn btn-outline-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <li class="nav-item mx-1">
+                            <a class="btn btn-outline-dark" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
 
                         <div class="btn-group mx-1" role="group" aria-label="Button group with nested dropdown">
 
-                            <a type="button" class="btn btn-outline-dark " asp-controller="SocialDatas" asp-action="Index">
+                            <a type="button" class="btn btn-outline-dark" asp-area="Admin" asp-controller="SocialDatas"
+                               asp-action="Index">
                                 Social Data
                             </a>
                             <div class="btn-group" role="group">
-                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
-                                    <a class="dropdown-item" asp-controller="SocialDatas" asp-action="Create">Create Social Data</a>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-
-                            <a type="button" class="btn btn-outline-dark " asp-controller="Customers" asp-action="Index">
-                                Customer
-                            </a>
-                            <div class="btn-group" role="group">
-                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
-                                    <a class="dropdown-item" asp-controller="Customers" asp-action="Create">Create a Customer</a>
-
+                                    @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+                                    {
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="SocialDatas" asp-action="Create">
+                                            Create Social Data
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="SocialDatas" asp-action="Index">
+                                            Our Social Data
+                                        </a>
+                                    }
                                 </div>
                             </div>
                         </div>
 
                         <div class="btn-group mx-1" role="group" aria-label="Button group with nested dropdown">
+                            @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+                            {
+                                <a type="button" class="btn btn-outline-dark " asp-area="Admin" asp-controller="Customers"
+                               asp-action="Users">
+                                    Users
+                                </a>
+                                <div class="btn-group" role="group">
+                                    <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Customers"
+                                       asp-action="Index">Customers</a>
+                                        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Create a User</a>
+                                    </div>
+                                </div>
+                            }
+                            else if (User.IsInRole(SD.Role_Customer))
+                            {
+                                var claimIdentity = (ClaimsIdentity)User.Identity;
+                                var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-                            <a type="button" class="btn btn-outline-dark " asp-controller="Airlines" asp-action="Index">
+                                <a type="button" class="btn btn-outline-dark " asp-area="Admin" asp-controller="Customers"
+                               asp-action="Details" asp-route-id="@claim.Value">
+                                    Your data
+                                </a>
+                                <div class="btn-group" role="group">
+                                    <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Customers"
+                                       asp-action="Details" asp-route-id="@claim.Value">See your data</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="btn-group mx-1" role="group" aria-label="Button group with nested dropdown">
+                            <a type="button" class="btn btn-outline-dark" asp-area="Admin" asp-controller="Airlines"
+                               asp-action="Index">
                                 Airline
                             </a>
                             <div class="btn-group" role="group">
-                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
-                                    <a class="dropdown-item" asp-controller="Airlines" asp-action="Create">Create an Airline</a>
-
+                                    @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+                                    {
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Airlines" asp-action="Create">
+                                            Create an Airline
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Airlines" asp-action="Index">
+                                            Airlines
+                                        </a>
+                                    }
                                 </div>
                             </div>
                         </div>
 
-                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                        <div class="btn-group mx-1" role="group" aria-label="Button group with nested dropdown">
 
-                            <a type="button" class="btn btn-outline-dark " asp-controller="Airports" asp-action="Index">
+                            <a type="button" class="btn btn-outline-dark " asp-area="Admin" asp-controller="Airports"
+                               asp-action="Index">
                                 Airport
                             </a>
                             <div class="btn-group" role="group">
-                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
-                                    <a class="dropdown-item" asp-controller="Airports" asp-action="Create">Create an Airport</a>
+                                    @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+                                    {
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Airports" asp-action="Create">
+                                            Create an Airport
+                                        </a>
+
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Countries" asp-action="Create">
+                                            Create a Country
+                                        </a>
+                                    }
+                                    <a type="button" class="dropdown-item" asp-area="Admin" asp-controller="Airports"
+                                       asp-action="Index">
+                                        Airports
+                                    </a>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Countries" asp-action="Index">
+                                        Countries
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-group mx-1" role="group" aria-label="Button group with nested dropdown">
+
+                            <a type="button" class="btn btn-outline-dark " asp-area="Admin" asp-controller="Hotels" asp-action="Index">
+                                Hotels
+                            </a>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
+
+                                    @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+                                    {
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Hotels" asp-action="Create">
+                                            Create an Hotel
+                                        </a>
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="HotelRooms" asp-action="Create">
+                                            Create Hotel Rooms
+                                        </a>
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Services" asp-action="Create">
+                                            Create Rooms Services
+                                        </a>
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="HotelRooms" asp-action="Index">
+                                            Hotel Rooms
+                                        </a>
+
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Services" asp-action="Index">
+                                            Rooms Services
+                                        </a>
+                                    }
+                                    <a type="button" class="dropdown-item" asp-area="Admin" asp-controller="Hotels" asp-action="Index">
+                                        Hotel
+                                    </a>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+@if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+                                    {
+                        <div class="btn-group mx-1" role="group" aria-label="Button group with nested dropdown">
+
+                            <a type="button" class="btn btn-outline-dark " asp-area="Admin" asp-controller="Flights"
+                               asp-action="Index">
+                                Flights
+                            </a>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle"
+                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
+
+                                    
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="Flights" asp-action="Create">
+                                            Create a Flight
+                                        </a>
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="FlightClasses" asp-action="Index">
+                                            Flight Classes
+                                        </a>
+                                        <a class="dropdown-item" asp-area="Admin" asp-controller="FlightClasses" asp-action="Create">
+                                            Create a Flight Class
+                                        </a>
+                                   
+                                    <a class="dropdown-item"  asp-area="Admin" asp-controller="Flights"
+                               asp-action="Index">
+                                            Flights
+                                        </a>
+                                </div>
+                            </div>
+                        </div>
+ }
+
+
+                        <div class="btn-group mx-1" role="group" aria-label="Button group with nested dropdown">
+
+                            <a type="button" class="btn btn-outline-dark " asp-area="Customer" asp-controller="FlightBookings"
+                               asp-action="Index">
+                                Flight Booking
+                            </a>
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false"></button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
+                                    @{
+                                        if (User.IsInRole(SD.Role_Customer))
+                                        {
+                                            <a class="dropdown-item" asp-area="Admin" asp-controller="FlightBookingHeaders"
+                                       asp-action="Index">My Flights Booking</a>
+                                        }
+                                        else if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+                                        {
+                                            <a class="dropdown-item" asp-area="Customer" asp-controller="FlightBookings"
+                                       asp-action="Create">Create a Flight Booking</a>
+                                            <a class="dropdown-item" asp-area="Admin" asp-controller="FlightBookingHeaders"
+                                       asp-action="Index">
+                                                All Customers Flights Bookings
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a class="dropdown-item" asp-area="Customer" asp-controller="FlightBookings"
+                                       asp-action="Index">
+                                                Browse Flights for reservations
+                                            </a>
+                                        }
+                                    }
 
                                 </div>
                             </div>
@@ -82,85 +262,109 @@
 
                         <div class="btn-group mx-1" role="group" aria-label="Button group with nested dropdown">
 
-                            <a type="button" class="btn btn-outline-dark " asp-controller="Flights" asp-action="Index">
-                                Flight
+                            <a type="button" class="btn btn-outline-dark " asp-area="Customer" asp-controller="HotelBookings"
+                               asp-action="Index">
+                                Hotel Booking
                             </a>
                             <div class="btn-group" role="group">
-                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false"></button>
                                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
-                                    <a class="dropdown-item" asp-controller="Flights" asp-action="Create">Create a Flight</a>
-                                    <a class="dropdown-item" asp-controller="FlightClasses" asp-action="Create">Create Flight Classes</a>
+
+                                    @{
+                                        if (User.IsInRole(SD.Role_Customer))
+                                        {
+                                            <a class="dropdown-item" asp-area="Customer" asp-controller="HotelBookings"
+                                       asp-action="CustomerBooking">My Hotel Booking</a>
+                                        }
+                                        else if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+                                        {
+                                            <a class="dropdown-item" asp-area="Customer" asp-controller="HotelBookings"
+                                       asp-action="Create">Create an HotelBooking</a>
+                                            <a class="dropdown-item" asp-area="Admin" asp-controller="AllHotelBookingHeaders"
+                                       asp-action="Index">
+                                                All Customers Hotel Bookings
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a class="dropdown-item" asp-area="Customer" asp-controller="HotelBookings" asp-action="Index">
+                                                Browse rooms for reservations
+                                            </a>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>
 
-                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-
-                            <a type="button" class="btn btn-outline-dark " asp-controller="FlightBookings" asp-action="Index">
-                                FlightBooking
-                            </a>
-                            <div class="btn-group" role="group">
-                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
-                                    <a class="dropdown-item" asp-controller="FlightBookings" asp-action="Create">Create a FlightBooking</a>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="btn-group mx-1" role="group" aria-label="Button group with nested dropdown">
-
-                            <a type="button" class="btn btn-outline-dark " asp-controller="Hotels" asp-action="Index">
-                                Hotel
-                            </a>
-                            <div class="btn-group" role="group">
-                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
-                                    <a class="dropdown-item" asp-controller="Hotels" asp-action="Create">Create an Hotel</a>
-                                    <a class="dropdown-item" asp-controller="HotelRooms" asp-action="Create">Create an Hotel HotelRooms</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-
-                            <a type="button" class="btn btn-outline-dark " asp-controller="HotelBookings" asp-action="Index">
-                                HotelBooking
-                            </a>
-                            <div class="btn-group" role="group">
-                                <button id="btnGroupDrop4" type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop4">
-                                    <a class="dropdown-item" asp-controller="HotelBookings" asp-action="Create">Create an HotelBooking</a>
-
-                                </div>
-                            </div>
-                        </div>
                     </ul>
 
-                    <form class="d-flex">
-                        <input class="form-control me-sm-2" type="text" placeholder="Search">
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-                    </form>
+                    @{
+                        //if (User.IsInRole(SD.Role_Customer))
+                        //{
+                        if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.Session_HotelBooking) != null)
+                        {
+                            <a class="nav-link" asp-area="Customer" asp-controller="HotelBookings" asp-action="PendingReservation">
+                                <img src="~/img/5-star-hotel.png" title="Your Pending Reservation" />&nbsp; ( @HttpContextAccessor.HttpContext.Session.GetInt32(SD.Session_HotelBooking) )
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="nav-link" asp-area="Customer" asp-controller="HotelBookings" asp-action="PendingReservation">
+                                <img src="~/img/5-star-hotel.png" title="Your Pending Reservation" />&nbsp; (0)
+                            </a>
+                        }
+
+                        if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.Session_FlightBooking) != null)
+                        {
+                            <a class="nav-link" asp-area="Customer" asp-controller="FlightBookings" asp-action="BookingList">
+                                <img src="~/img/plane.png" title="Your Pending Reservation" />&nbsp; ( @HttpContextAccessor.HttpContext.Session.GetInt32(SD.Session_FlightBooking) )
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="nav-link" asp-area="Customer" asp-controller="FlightBookings" asp-action="BookingList">
+                                <img src="~/img/plane.png" title="Your Pending Reservation" />&nbsp; (0)
+                            </a>
+                        }
+
+                    }
+                    <partial name="_LoginPartial" />
+
                 </div>
             </div>
         </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3 mb-5">
-            <br/><br/><br/><br/> 
+            <br /><br /><br /><br />
             @RenderBody()
+            <br /><br /><br /><br />
         </main>
     </div>
-    <br/>
-    <br/>
+    <br />
+    <br />
     <footer class="border-top footer text-muted mt-5">
+        @*
+        @{
+        var social = _context.SocialData;
+
+        }
+        *@
         <div class="container">
-            &copy; 2022 - Suaah - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - Suaah - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> <br />
+            @*@foreach (var item in social)
+            {
+            <a href="@item.Link">@item.SocialName</a>
+            }*@
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js" asp-append-version="true"></script>
+    <script src="https://cdn.tiny.cloud/1/755d75hje8adrnpem3oms3wvu9amgaqrazcqzy3frrq3ajod/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

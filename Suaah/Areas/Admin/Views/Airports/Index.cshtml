@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Suaah.Models.Airport>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<form method="get" asp-action="Index">
+    <div class="row">
+        <div class="col-1">
+            <label class="control-label">Search</label>
+        </div>
+        <div class="col-2">
+            <input name="search" class="form-control" value="@ViewBag.search" />
+        </div>
+        <div class="col-1">
+            <label class="control-label">Type of Search</label>
+        </div>
+        <div class="col-2">
+            <select name="type" class="form-control form-select" asp-items="@ViewBag.types"></select>
+        </div>
+        <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden />
+        <input name="order" value="@ViewBag.order" hidden />
+
+        <div class="col-1">
+            <input type="submit" class="btn btn-secondary" onclick="go();" />
+        </div>
+
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-order="name" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                    @Html.DisplayNameFor(model => model.Name)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-order="country" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                    @Html.DisplayNameFor(model => model.CountryId)
+                </a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-order="city" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                    @Html.DisplayNameFor(model => model.City)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <span>|</span>
+                        <a asp-action = "Delete" asp-route-id = "@item.Id"> Delete </a> <span>|</span>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        function go() {
+            if (document.getElementById("ord").value == "desc") {
+                document.getElementById("ord").value = "asc";
+            }
+            else
+                document.getElementById("ord").value = "desc";
+        }
+    </script>
+}

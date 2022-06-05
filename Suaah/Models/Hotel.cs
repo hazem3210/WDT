@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Suaah.Models
@@ -9,6 +10,9 @@ namespace Suaah.Models
 
         [Required]
         public string Name { get; set; }
+
+        [Required]
+        public string Stars { get; set; }
 
         [Required]
         public string Address { get; set; }
@@ -24,6 +28,8 @@ namespace Suaah.Models
         [Required]
         public string Description { get; set; }
 
+        [ValidateNever]
         public ICollection<HotelRoom> HotelRooms { get; set; }
+       
     }
 }

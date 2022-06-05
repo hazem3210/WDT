@@ -1,0 +1,208 @@
+﻿@model Suaah.Models.HotelBookingHeaderAndDetails
+
+@{
+    ViewData["Title"] = "Details";
+
+    bool cancelTime = false;
+
+    TimeSpan difference = DateTime.Now - Model.HotelBookingHeader.PaymentDate;
+    var t = difference.Hours;
+
+    if (t >= Model.HotelBookingHeader.CancelBeforeHours)
+    {
+        cancelTime = true;
+    }
+}
+
+<h1>Hotel Booking Details for Booking No. {@Model.HotelBookingHeader.Id}</h1>
+
+<form method="post">
+    <br />
+    <div class="container">
+        <div class="card">
+            <div class="card-header bg-dark text-light ml-0">
+                <div class="container row">
+                    <div class="col-12 d-none d-md-block col-md-6 pb-1">
+                        <i class="fas fa-shopping-cart"></i> &nbsp; Booking Summary
+                    </div>
+                    <div class="col-12 col-md-4 offset-md-2 text-right">
+                        <a class="btn btn-outline-info form-control btn-sm" asp-action="Index">Back to Bookings</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="container rounded p-2">
+                    <div class="row">
+                        <div class="col-12 col-lg-6 pb-4">
+                            <div class="row">
+                                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-primary">PickUp Details:</span>
+                                </h4>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Customer Name</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" value="@Model.HotelBookingHeader.Customer.Name" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Phone</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" value="@Model.HotelBookingHeader.Customer.IdentityUser.PhoneNumber" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Email</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" value="@Model.HotelBookingHeader.Customer.IdentityUser.Email" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Passport Number</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" value="@Model.HotelBookingHeader.Customer.PassportNumber" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">BirthDate</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" value="@Model.HotelBookingHeader.Customer.BirthDate.ToShortDateString()" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Citizenship Country</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" value="@Model.HotelBookingHeader.Customer.CitizenshipCountry" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Residence Country</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" value="@Model.HotelBookingHeader.Customer.ResidenceCountry" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Booking Date</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" value="@Model.HotelBookingHeader.BookingDate" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Total Price</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" value="@Model.HotelBookingHeader.TotalPrice" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Cancel Before Hours</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" value="@Model.HotelBookingHeader.CancelBeforeHours" readonly />
+                                </div>
+                            </div>
+
+                            <div class="row my-1">
+                                <div class="col-3">Payment</div>
+                                <div class="col-9">
+                                    <input id="shippingDate" type="text" class="form-control" value="@Model.HotelBookingHeader.Payment" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Payment Date</div>
+                                <div class="col-9">
+                                    <input id="shippingDate" type="text" class="form-control" value="@Model.HotelBookingHeader.PaymentDate.ToShortDateString()" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Session Id</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" value="@Model.HotelBookingHeader.SessionId" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Payment Intent Id</div>
+                                <div class="col-9">
+                                    <input class="form-control" value="@Model.HotelBookingHeader.PaymentIntentId" readonly />
+                                </div>
+                            </div>
+
+                            @*    <input type="submit" class="btn btn-warning form-control my-1" value="Update Order Details" />*@
+
+
+                        </div>
+                        <div class="col-12 col-lg-5 offset-lg-1">
+                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-primary">Booking Summary</span>
+                            </h4>
+                            <label class="btn btn-outline-primary form-control my-2">Booking Status - @Model.HotelBookingHeader.Status</label>
+
+                            <ul class="list-group mb-3">
+                                @foreach (var item in Model.HotelBookingHeader.HotelBookingDetails)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between p-2">
+                                        <div class="row container">
+                                            <div class="col-8">
+
+                                                <h6 class="my-0 text-primary  d-inline">Room, Hotel: </h6><small class="text-muted mx-4">@*@item.HoteRoom.Type,*@@item.HoteRoom.Description, @item.HoteRoom.Hotel.Name </small><br>
+                                               <h6 class="my-0 text-primary  d-inline"> Price For Day: </h6><small class="text-muted mx-5">@item.PriceForDay</small><br />
+                                               <h6 class="my-0 text-primary  d-inline"> Number Of Days:</h6> <small class="text-muted mx-4">@item.NumberOfDays</small><br />
+                                               <h6 class="my-0 text-primary  d-inline"> Number Of Rooms:</h6><small class="text-muted mx-2"> @item.NumberOfRooms</small><br />
+                                               <h6 class="my-0 text-primary  d-inline"> Check In Dats: </h6><small class="text-muted mx-3">@item.CheckInDate</small><br />
+                                                <h6>Services</h6>
+                                                @foreach (var item2 in item.HoteRoom.Services)
+                                                {
+                                                    <small class="text-muted mx2">@item2.Services.Name</small>
+
+                                                }
+                                            </div>
+                                            <div class="col-4">
+                                                <p class="text-success"></p>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="list-group-item bg-info">
+                                        <div class="row container">
+                                            <div class="col-6">
+                                                <h5 class="text-white">TOTAL</h5>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                @{
+                                                    double x = item.PriceForDay * item.NumberOfDays;
+                                                }
+                                                <h5 class="text-white">@x.ToString("c")</h5>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+
+                            @* <input type="submit" class="btn btn-primary form-control my-1" value="Start Processing" />
+                                <input type="submit" class="btn btn-primary form-control my-1" value="Ship Order" />*@
+
+                            @if (Model.HotelBookingHeader.Payment == SD.Payment_Approved && Model.HotelBookingHeader.Status != SD.Status_Done)
+                            {
+                                <input type="submit" class="btn btn-success form-control my-1" value="Done" asp-action="Done" asp-route-id="@Model.HotelBookingHeader.Id" />
+                            }
+                            else
+                            {
+                                <input type="submit" class="btn btn-success form-control my-1" value="Done" disabled />
+                            }
+
+                            @if ((Model.HotelBookingHeader.Payment == SD.Payment_Approved || Model.HotelBookingHeader.Payment == SD.Payment_Pending) && cancelTime == false)
+                            {
+                                <input type="submit" class="btn btn-danger form-control my-1" value="Cancel Booking" asp-action="CancelBooking" asp-route-id="@Model.HotelBookingHeader.Id" />
+                            }
+                            else
+                            {
+                                <input type="submit" class="btn btn-danger form-control my-1" value="Cancel Booking" disabled />
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

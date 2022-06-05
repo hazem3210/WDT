@@ -11,7 +11,6 @@ namespace Suaah.Models
         [StringLength(200, ErrorMessage = "Data Name cannot be longer than 200 characters.")]
         public string SocialName { get; set; }
         [Required]
-        [Display(Name = "Description")]
         public string Link { get; set; }
     }
 }

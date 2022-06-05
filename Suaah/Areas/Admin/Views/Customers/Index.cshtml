@@ -1,0 +1,97 @@
+﻿@model IEnumerable<Suaah.Models.Customer>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a id="register" asp-area="Identity" asp-page="/Account/Register">Create New</a>
+</p>
+<form method="get" asp-action="Index">
+<div class="row">
+    <div class="col-1">
+        <label class="control-label">Search</label>
+    </div>
+    <div class="col-2">
+        <input name="search" class="form-control" value="@ViewBag.search" />
+    </div>
+    <div class="col-1">
+        <label class="control-label">Type of Search</label>
+    </div>
+    <div class="col-2">
+        <select name="type" class="form-control form-select" asp-items="@ViewBag.types" ></select>
+    </div>
+    <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden/>
+    <input name="order" value="@ViewBag.order" hidden/>
+
+    <div class="col-1">
+        <input type="submit" class="btn btn-secondary" onclick="go();"/>
+        </div>
+    
+</div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-order="name" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                @Html.DisplayNameFor(model => model.Name)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-order="email" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                @Html.DisplayNameFor(model => model.IdentityUser.Email)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-order="phone" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                @Html.DisplayNameFor(model => model.IdentityUser.PhoneNumber)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-order="passport" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                @Html.DisplayNameFor(model => model.PassportNumber)
+                </a>
+            </th>
+
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>
+                    @Html.DisplayFor(model => item.Name)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.IdentityUser.Email)
+                </th>
+                <th>
+                    @Html.DisplayFor(model => item.IdentityUser.PhoneNumber)
+                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PassportNumber)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+function go() {
+    if (document.getElementById("ord").value == "desc") {
+        document.getElementById("ord").value = "asc";
+    }
+    else
+        document.getElementById("ord").value = "desc";
+}
+    </script>
+}

@@ -1,0 +1,195 @@
+﻿@model Suaah.Models.FlightBookingHeader
+@{
+    bool cancel = true;
+    DateTime canceltime = Model.FlightBookings.OrderByDescending(f => f.Flight.LeaveTime).First().Flight.LeaveTime.Subtract(TimeSpan.FromDays(2));
+    if (DateTime.Now.Millisecond > canceltime.Millisecond)
+        cancel = false;
+}
+<h1>Hotel Booking Details for Booking No. @Model.ID</h1>
+
+<form method="post">
+        <br />
+        <div class="backgroundWhite container">
+            <div class="card">
+                 <div class="card-header bg-dark text-light ml-0">
+                <div class="container row">
+                    <div class="col-12 d-none d-md-block col-md-6 pb-1">
+                        <i class="fas fa-shopping-cart"></i> &nbsp; Booking Summary
+                    </div>
+                    <div class="col-12 col-md-4 offset-md-2 text-right">
+                        <a class="btn btn-outline-info form-control btn-sm" asp-action="Index">Back to Bookings</a>
+                    </div>
+                </div>
+            </div>
+                <div class="card-body">
+                    <div class="container rounded p-2">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 pb-4">
+                                <div class="row">
+                                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="text-primary">PickUp Details:</span>
+                                    </h4>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">ustomer Name</div>
+                                    <div class="col-9">
+                                            <input readonly value="@Model.Customer.Name" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">Phone</div>
+                                    <div class="col-9">
+                                            <input readonly value="@Model.Customer.IdentityUser.PhoneNumber" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">Email</div>
+                                    <div class="col-9">
+                                            <input id="txtName" readonly value="@Model.Customer.IdentityUser.Email" type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                 <div class="row my-1">
+                                <div class="col-3">Passport Number</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" value="@Model.Customer.PassportNumber" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">BirthDate</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" value="@Model.Customer.BirthDate.ToShortDateString()" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Citizenship Country</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" value="@Model.Customer.CitizenshipCountry" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Residence Country</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" value="@Model.Customer.ResidenceCountry" readonly />
+                                </div>
+                            </div>
+                                <div class="row my-1">
+                                    <div class="col-3">Order Date</div>
+                                    <div class="col-9">
+                                            <input  type="text" readonly value="@Model.OrderDate.ToShortDateString()" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-3">Cancel Before</div>
+                                    <div class="col-9">
+                                            <input  type="text" readonly value="@canceltime" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                @if(Model.PaymentStatus==SD.Payment_Pending){
+                                    
+                                            <div class="col-3">Payment Due Date</div>
+                                            <div class="col-9">
+                                                <input  readonly type="text" value="@Model.PaymentDueDate.ToShortDateString()" class="form-control" />
+                                            </div>
+                                }
+                                @if(Model.PaymentStatus!=SD.Payment_Pending){
+                                            <div class="col-3">Payment Date</div>
+                                            <div class="col-9">
+                                                <input  readonly id="paymentDate" value="@Model.PaymentDate" type="text" class="form-control" />
+                                            </div>
+                                }
+                                    </div>
+                                    <div class="row my-1">
+                                        <div class="col-3">Payment Status</div>
+                                        <div class="col-9">
+                                            <input  type="text" readonly value="" class="form-control" />
+                                        </div>
+                                    </div>
+                                     <div class="row my-1">
+                                <div class="col-3">Session Id</div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" value="@Model.SessionId" readonly />
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">Payment Intent Id</div>
+                                <div class="col-9">
+                                    <input class="form-control" value="@Model.PaymentId" readonly />
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col-12 col-lg-5 offset-lg-1">
+                                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-primary">Order Summary</span>
+                                </h4>
+                                <label class="btn btn-outline-primary form-control my-2">Booking Status - @Model.OrderStatus</label>
+                                <ul class="list-group mb-3">
+                                    @foreach (var item in Model.FlightBookings)
+                                    {
+
+                                        <li class="list-group-item d-flex justify-content-between">
+                                            <div class="row container">
+                                                <div class="col-8">
+                                                    <h6 class="my-0">@item.FlightClass.Class</h6>
+                                                    <small class="text-muted">Arriving Airport : @item.Flight.ArrivingAirport.Name ,City: @item.Flight.ArrivingAirport.Country ,@item.Flight.ArrivingAirport.Country.Name</small>
+                                                    <small class="text-muted">Departing Airport : @item.Flight.DepartingAirport.Name ,City: @item.Flight.DepartingAirport.Country ,@item.Flight.DepartingAirport.Country.Name</small>
+                                                    <small class="text-muted">Airline: @item.Flight.Airline.Name</small>
+                                                    <small class="text-muted">Price :@item.Flight.FlightClasses.FirstOrDefault(f=>f.FlightClassId== item.FlightClassId).Price.ToString("c")</small>
+                                                    <small class="text-muted">Quantity : @item.NumberOfSeats</small>
+                                                </div>
+                                                <div class="col-4">
+                                                    <h5 class="text-success">@item.TotalPrice.Value.ToString("c")</h5>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        }
+                                    <li class="list-group-item bg-info">
+                                        <div class="row container">
+                                            <div class="col-6">
+                                                <h5 class="text-white">TOTAL </h5>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <h5 class="text-white">@Model.OrderTotal</h5>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            @if (!User.IsInRole(SD.Role_Customer))
+                            {
+                                @if (Model.PaymentStatus == SD.Payment_Approved && Model.OrderStatus != SD.Status_Done)
+                                {
+                                    <input type="submit" class="btn btn-success form-control my-1" value="Done" asp-action="Done" asp-route-id="@Model.ID" />
+                                }
+                                else
+                                {
+                                    <input type="submit" class="btn btn-success form-control my-1" value="Done" disabled />
+                                }
+
+                                @if ((Model.PaymentStatus == SD.Payment_Approved || Model.OrderStatus == SD.Status_Approved) && cancel == false)
+                                {
+                                    <input type="submit" class="btn btn-danger form-control my-1" value="Cancel Booking" asp-action="CancelBooking" asp-route-id="@Model.ID" />
+                                }
+                                else
+                                {
+                                    <input type="submit" class="btn btn-danger form-control my-1" value="Cancel Booking" disabled />
+                                }
+                            }
+                            else
+                            {
+                                @if(Model.PaymentStatus==SD.Payment_Pending && Model.PaymentDueDate > DateTime.Now)
+                                {
+                                    <input type="submit" class="btn btn-success form-control my-1" value="Pay Now" asp-action="Pay" asp-route-id="@Model.ID" />
+                                }
+                                @if(Model.OrderStatus!=SD.Status_Done && Model.OrderStatus!=SD.Status_Cancelled)
+                                {
+                                    <input type="submit" class="btn btn-danger form-control my-1" value="Cancel Booking" asp-action="CancelBooking" asp-route-id="@Model.ID" />
+                                }
+                            }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</form>

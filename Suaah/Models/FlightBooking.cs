@@ -5,41 +5,27 @@ namespace Suaah.Models
 {
     public class FlightBooking
     {
-        public int Id { get; set; }
-
-        [Required]
-        public string Status { get; set; }
-
-        [Required]
-        [Column("NoOfAdults")]
-        [Display(Name = "Number Of Adults")]
-        public string NumberOfAdults { get; set; }
-
-        [Required]
-        [Column("NoOfChildren")]
-        [Display(Name = "Number Of Children")]
-        public string NumberOfChildren { get; set; }
-
-        [Required]
-        [Column("NoOfInfants")]
-        [Display(Name = "Number Of Infants")]
-        public string NumberOfInfants { get; set; }
+        [Key]
+        public int Booknum { get; set; }
 
         [Required]
         [Column("NoOfSeats")]
         [Display(Name = "Number Of Seats")]
-        public string NumberOfSeats { get; set; }
+        [Range(1,int.MaxValue,ErrorMessage ="Enter valid number")]
+        public int NumberOfSeats { get; set; }
 
-        [Required]
+        
         [Display(Name = "Total Price")]
-        public double TotalPrice { get; set; }
+        public double? TotalPrice { get; set; }
 
+        public int FlightId { get; set; }
+        public Flight? Flight { get; set; }
 
         public int FlightClassId { get; set; }
-        public FlightClass FlightClass { get; set; }
+        public FlightClass? FlightClass { get; set; }
 
-        public int CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public string CustomerId { get; set; }
+        public Customer? Customer { get; set; }
 
     }
 }

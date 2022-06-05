@@ -1,0 +1,97 @@
+﻿@model FlightBooking
+@{
+    SelectList clas = new SelectList(Model.Flight.FlightClasses,"FlightClass.ID","FlightClass.Class");
+}
+<div class="row">
+    <img src="@Model.Flight.ArrivingAirport.Country.PhotoPath" class="offset-1 col-md-9 img-fluid img-thumbnail"/>
+    <div class="offset-1 col-md-4">
+        
+        <form asp-action="FlightDetails">
+           @{
+            if(User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Admin))
+            {
+                <div class="form-group" >
+                <label asp-for="CustomerId" class="control-label" ></label>
+               <select asp-for="CustomerId" asp-items="ViewBag.customers" class="form-control form-select col-4"  >
+               <option selected disabled >Select Customer...</option>
+               </select>
+               <span asp-validation-for="CustomerId"></span>
+                    </div>
+                }
+                else
+                {
+                    <input hidden asp-for="CustomerId" value="@Model.Customer.Id">
+                }
+
+           }
+           <input hidden asp-for="FlightId" value="@Model.FlightId" />
+           <div class="form-group" >
+                <label asp-for="NumberOfSeats" class="control-label" ></label>
+               <input asp-for="NumberOfSeats" type="number" class="form-control col-4" />
+               <span asp-validation-for="NumberOfSeats"></span>
+           </div>
+
+           <div class="form-group" >
+                <label asp-for="FlightClassId" class="control-label" ></label>
+               <select asp-for="FlightClassId" asp-items="@clas" class="form-control form-select col-4"  >
+               <option selected disabled >Select Class...</option>
+               </select>
+               
+               <span asp-validation-for="FlightClassId"></span>
+           </div>
+               <button class="btn btn-success" type="submit">Book <i class="bi bi-calendar2-plus-fill"></i></button>
+        </form>
+        </div>
+        <div class="offset-1 col-md-4 row" >
+            <div class="col-5">
+            <div class="form-group" >
+            <h5 >Class Prices</h5>
+            <ul class="">
+                @foreach(var item in Model.Flight.FlightClasses)
+                {
+                    <li>@Html.DisplayFor(Item=>item.FlightClass.Class): @Html.DisplayFor(Item=>item.Price) $</li>
+                }
+            </ul>
+            </div>
+
+             <div class="form-group" >
+                <h5  >@Html.DisplayNameFor(Item=>Model.Flight.LeaveTime)</h5>
+               <p class="">@Html.DisplayFor(Item=>Model.Flight.LeaveTime) </p>
+           </div>
+
+           <div class="form-group" >
+                <h5  >@Html.DisplayNameFor(Item=>Model.Flight.AirlineCode)</h5>
+               <p class="">@Html.DisplayFor(Item=>Model.Flight.Airline.Name) </p>
+           </div>
+
+           <div class="form-group" >
+                <h5 >@Html.DisplayNameFor(Item=>Model.Flight.DepartingGate)</h5>
+               <p class="">@Html.DisplayFor(Item=>Model.Flight.DepartingGate) </p>
+           </div>
+
+</div>
+         <div class="offset-1 col-5">
+            <div class="form-group" >
+                <h5>To</h5>
+               <p class="">City: @Html.DisplayFor(Item=>Model.Flight.ArrivingAirport.City), @Html.DisplayFor(Item=>Model.Flight.ArrivingAirport.Country.Name) </p>
+               <p class="">Airport: @Html.DisplayFor(Item=>Model.Flight.ArrivingAirport.Name) </p>
+           </div>
+
+           <div class="form-group" >
+                <h5  >From</h5>
+               <p class="">City: @Html.DisplayFor(Item=>Model.Flight.DepartingAirport.City), @Html.DisplayFor(Item=>Model.Flight.DepartingAirport.Country.Name) </p>
+               <p class="">Airport: @Html.DisplayFor(Item=>Model.Flight.DepartingAirport.Name) </p>
+           </div>
+
+            <div class="form-group" >
+                <h5 >@Html.DisplayNameFor(Item=>Model.Flight.ArriveGate)</h5>
+               <p class="">@Html.DisplayFor(Item=>Model.Flight.ArriveGate) </p>
+           </div>
+
+            
+         </div>
+        </div>
+
+
+    
+</div>

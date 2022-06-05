@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Suaah.Models.HotelBooking>
+
+@{
+    double tPrice = 0;
+}
+
+<form method="post">
+    <br />
+    <div class="container">
+        <div class="card">
+            <div class="card-header bg-dark text-light ml-0">
+                <div class="row">
+                    <div class="col-6  pt-2">
+                        Your Hotel Reservation
+                    </div>
+                    <div class="col-6 text-end">
+                        <a class="btn btn-outline-info btn-sm" asp-action="Index">Reserve another room</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                @foreach (var item in Model)
+                {
+                    <div class="row">
+                        <div class="col-12 col-lg-6 pt-md-3">
+                            <h5 class="d-inline">Hotel Name:</h5><strong class="mx-5">@item.HoteRoom.Hotel.Name</strong> <br>
+                            <h5 class="d-inline"> Room Type: </h5> <strong class="mx-5"> @item.HoteRoom.Description
+                                @*@item.HoteRoom.Type*@</strong> <br>
+                            <h5 class="d-inline" title="You Can Cancel Booking Before ... Hours"> Cancel Before: </h5> <strong class="mx-4"> @item.HoteRoom.CancelBeforeHours h</strong> <br>
+                            <h5 class="d-inline"> Description: </h5>
+                            <div class="col-9">
+                                <textarea class="form-control text-danger text-center" asp-for="@item.HoteRoom.Description" readonly></textarea>
+                            </div>
+                        </div>
+                        <div class="col-12  col-lg-6  row">
+                            <div class="col-6 pt-3">
+                                <h6><strong>@item.TotalPrice.ToString("c")<span class="text-muted">:</span> For @item.NumberOfDays Days<span class="text-muted">:</span>and For @item.NumberOfRooms Rooms </strong></h6>
+                            </div>
+                            <div class="col-6 col-sm-4 col-lg-6 pt-2">
+                                <div class="w-75 btn-group" role="group">
+                                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a> &nbsp;
+                                    <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="col-12 col-lg-6 pt-md-3">
+                         <h5 class="d-inline">Services:</h5>
+                           @foreach (var item2 in item.HoteRoom.Services)
+                           {
+                                <h6 class="my-0 text-danger">> @item2.Services.Name</h6>                        
+                           }
+
+                    </div>
+                     <hr />
+                    tPrice += item.TotalPrice;
+                }
+                <div class="row">
+                    <div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between bg-white">
+                                <span class="text-dark"> Total </span>
+                                <strong class="text-dark">@tPrice.ToString("c")</strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card-footer">
+                <div class="card-footer row">
+      
+                        <a class="btn btn-success form-control" asp-action="Summary">Summary</a>
+               
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

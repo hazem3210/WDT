@@ -16,3 +16,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+#myTable_filter
+{
+    margin-bottom:15px;
+}
