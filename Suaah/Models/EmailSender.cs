@@ -15,15 +15,15 @@ namespace Suaah.Models
             emailToSend.Body= new TextPart(MimeKit.Text.TextFormat.Html)
             { Text=htmlMessage};
 
-            using (var emailClient = new SmtpClient())
-            {
-                emailClient.Connect("smtp.gmail.com",587, MailKit.Security.SecureSocketOptions.StartTls);
+            //using (var emailClient = new SmtpClient())
+            //{
+            //    emailClient.Connect("smtp.gmail.com",587, MailKit.Security.SecureSocketOptions.StartTls);
 
-                emailClient.Authenticate("Suaah97@gmail.com", "Suaah2233/");
+            //    emailClient.Authenticate("Suaah97@gmail.com", "Suaah2233/");
 
-                emailClient.Send(emailToSend);
-                emailClient.Disconnect(true);
-            }
+            //    emailClient.Send(emailToSend);
+            //    emailClient.Disconnect(true);
+            //}
 
             return Task.CompletedTask;
         }
