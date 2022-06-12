@@ -10,6 +10,7 @@ namespace Suaah.Models
         public int Id { get; set; }
 
         [Display(Name = "Check In")]
+        [CheckinValidation(ErrorMessage = "Enter Check In date and time at least five hours from now")]
         public DateTime Date { get; set; }
 
         [Column("NoOfDays")]
