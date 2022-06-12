@@ -31,12 +31,17 @@ namespace Suaah.Areas.Customer.Controllers
 
         // GET: HotelBookings
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public IActionResult Index(string rdesc, float? rprice, string rhotel, string rservice)
         {
-            var applicationDbContext = _context.Hotels
-                .Include(h => h.HotelRooms)
-                .ThenInclude(h => h.Services)
-                .ThenInclude(h => h.Services);
+            ViewData["rdesc"] = rdesc;
+            ViewData["rprice"] = rprice;
+            ViewData["rhotel"] = rhotel;
+            ViewData["rservice"] = rservice;
+
+            IQueryable<HotelRoom> hotelsRooms = _context.HotelRooms
+              .Include(h => h.Hotel)
+              .Include(h => h.Services)
+              .ThenInclude(s => s.Services); 
 
             var claimIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
@@ -49,7 +54,47 @@ namespace Suaah.Areas.Customer.Controllers
                 HttpContext.Session.SetInt32(SD.Session_HotelBooking, _context.HotelBookings.Where(u => u.NotCustomerId == claim.Value).ToList().Count);
             }
 
-            return View(await applicationDbContext.ToListAsync());
+            if (!String.IsNullOrWhiteSpace(rdesc))
+            {
+                rdesc = rdesc.Trim();
+
+                hotelsRooms = hotelsRooms.Where(r => r.Description.Contains(rdesc));
+            }
+            
+            if (!String.IsNullOrWhiteSpace(rhotel))
+            {
+                rhotel = rhotel.Trim();
+
+                hotelsRooms = hotelsRooms.Where(r => r.Hotel.Name.Contains(rhotel));
+            } 
+            
+            if (!String.IsNullOrWhiteSpace(rservice))
+            {
+                rservice = rservice.Trim();
+
+                var temp = hotelsRooms;
+                List<HotelRoom> temp2 = new(); 
+
+                foreach (var item in temp)
+                {
+                    foreach (var t in item.Services)
+                    {
+                        if (t.Services.Name.Contains(rservice))
+                        {
+                            temp2.Add(item);
+                        }
+                    }
+                }
+
+                hotelsRooms = temp2.AsQueryable(); ;
+            }
+            
+            if(rprice != null)
+            {
+                hotelsRooms = hotelsRooms.Where(r => r.Price == rprice);
+            }
+
+            return View(hotelsRooms.ToList());
         }
 
         // GET: HotelBookings/Details/5
@@ -74,7 +119,7 @@ namespace Suaah.Areas.Customer.Controllers
         // GET: HotelBookings/Create
         public IActionResult Create(int roomId)
         {
-            s:
+        s:
             if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
             {
                 try
@@ -120,10 +165,10 @@ namespace Suaah.Areas.Customer.Controllers
                 if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
                 {
                     hotelBooking.NotCustomerId = claim.Value;
-                    s:
+                s:
                     try
                     {
-                        
+
                         if (HttpContext.Session.GetInt32(SD.Session_HotelBooking).Value != 0)
                         {
                             hotelBooking.CustomerId = _context.HotelBookings.FirstOrDefault(h => h.NotCustomerId == claim.Value).CustomerId;
@@ -457,7 +502,7 @@ namespace Suaah.Areas.Customer.Controllers
             return HBHAD;
         }
 
-        public IActionResult CustomerBooking()
+        public IActionResult CustomerBooking(DateTime? bookingd, DateTime? payment, int? hid, float? hprice)
         {
             var claimIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
@@ -468,8 +513,30 @@ namespace Suaah.Areas.Customer.Controllers
                   _context.HotelBookingHeader.Where(id => id.CustomerId == claim.Value)
                   .Include(d => d.HotelBookingDetails)
                     .ThenInclude(r => r.HoteRoom)
-                        .ThenInclude(r => r.Hotel)
-                  );
+                        .ThenInclude(r => r.Hotel));
+
+            ViewData["hid"] = hid;
+            ViewData["hprice"] = hprice;
+
+            if (bookingd != null)
+            {
+                HBHAD.HotelBookingHeaders = HBHAD.HotelBookingHeaders.Where(d => d.BookingDate.Date == bookingd).ToList();
+            } 
+            
+            if (payment != null)
+            {
+                HBHAD.HotelBookingHeaders = HBHAD.HotelBookingHeaders.Where(d => d.PaymentDate.Date == payment).ToList();
+            } 
+            
+            if (hid != null)
+            {
+                HBHAD.HotelBookingHeaders = HBHAD.HotelBookingHeaders.Where(d => d.Id == hid).ToList();
+            }
+            
+            if (hprice != null)
+            {
+                HBHAD.HotelBookingHeaders = HBHAD.HotelBookingHeaders.Where(d => d.TotalPrice == hprice).ToList();
+            }
 
             return View(HBHAD);
         }
@@ -517,7 +584,7 @@ namespace Suaah.Areas.Customer.Controllers
             _context.SaveChanges();
             HttpContext.Session.Clear();
 
-            return RedirectToAction("Index","HotelBookings");
+            return RedirectToAction("Index", "HotelBookings");
         }
     }
 }

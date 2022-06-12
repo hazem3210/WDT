@@ -17,10 +17,12 @@ namespace Suaah.Areas.Admin.Controllers
     public class AirlinesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHost;
 
-        public AirlinesController(ApplicationDbContext context)
+        public AirlinesController(ApplicationDbContext context, IWebHostEnvironment webHost)
         {
             _context = context;
+            _webHost = webHost;
         }
 
         // GET: Airlines
@@ -98,17 +100,34 @@ namespace Suaah.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Code,Name,Country,Description")] Airline airline)
+        public async Task<IActionResult> Create(Airline airline, IFormFile image)
         {
             if (ModelState.IsValid)
             {
+                CreateFiles(airline, image);
+
                 _context.Add(airline);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(airline);
         }
+        protected void CreateFiles(Airline airline, IFormFile image = null)
+        {
+            if (image != null)
+            {
+                string fileName = Guid.NewGuid().ToString();
+                var uploads = Path.Combine(_webHost.WebRootPath, @"img\airlines");
+                var extension = Path.GetExtension(image.FileName);
 
+                using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                {
+                    image.CopyTo(fileStreams);
+                }
+
+                airline.ImageUrl = @"\img\airlines\" + fileName + extension;
+            }
+        }
         // GET: Airlines/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -130,7 +149,7 @@ namespace Suaah.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Code,Name,Country,Description")] Airline airline)
+        public async Task<IActionResult> Edit(string id, Airline airline, IFormFile image)
         {
             if (id != airline.Code)
             {
@@ -141,6 +160,20 @@ namespace Suaah.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (image != null)
+                    {
+                        if (airline.ImageUrl != null)
+                        {
+                            var oldPath = Path.Combine(_webHost.WebRootPath, airline.ImageUrl.TrimStart('\\'));
+                            if (System.IO.File.Exists(oldPath))
+                            {
+                                System.IO.File.Delete(oldPath);
+                            }
+                        }
+
+                        CreateFiles(image: image, airline: airline);
+                    }
+
                     _context.Update(airline);
                     await _context.SaveChangesAsync();
                 }
@@ -183,12 +216,22 @@ namespace Suaah.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
+
             var airline = await _context.Airlines.FindAsync(id);
+
+            if (airline.ImageUrl != null)
+            {
+                var oldPath = Path.Combine(_webHost.WebRootPath, airline.ImageUrl.TrimStart('\\'));
+                if (System.IO.File.Exists(oldPath))
+                {
+                    System.IO.File.Delete(oldPath);
+                }
+            }
+
             _context.Airlines.Remove(airline);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         private bool AirlineExists(string id)
         {
             return _context.Airlines.Any(e => e.Code == id);

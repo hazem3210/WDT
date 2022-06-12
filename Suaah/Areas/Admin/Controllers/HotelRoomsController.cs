@@ -17,17 +17,69 @@ namespace Suaah.Areas.Admin.Controllers
     public class HotelRoomsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHost;
 
-        public HotelRoomsController(ApplicationDbContext context)
+        public HotelRoomsController(ApplicationDbContext context, IWebHostEnvironment webHost)
         {
             _context = context;
+            _webHost = webHost;
         }
 
         // GET: HotelRooms
-        public async Task<IActionResult> Index()
+        public IActionResult Index(string rdesc,string rhotel, double? rprice,  int pageSize, int pageNumber, string order, string ordersort)
         {
-            var applicationDbContext = _context.HotelRooms.Include(h => h.Hotel);
-            return View(await applicationDbContext.ToListAsync());
+            IQueryable<HotelRoom> rooms = _context.HotelRooms.Include(h => h.Hotel);
+            ViewData["rdesc"] = rdesc;
+            ViewData["rprice"] = rprice;
+            ViewData["rhotel"] = rhotel;
+
+            
+            if (!String.IsNullOrWhiteSpace(rdesc))
+            {
+                rdesc = rdesc.Trim();
+                rooms = rooms.Where(h => h.Description.Contains(rdesc));
+            } 
+            
+            if (!String.IsNullOrWhiteSpace(rhotel))
+            {
+                rhotel = rhotel.Trim();
+                rooms = rooms.Where(h => h.Hotel.Name.Contains(rhotel));
+            }  
+            
+            if (rprice != null)
+            {
+                rooms = rooms.Where(h => h.Price == rprice);
+            }
+
+            if (order == "description" && ordersort == "desc")
+                rooms = rooms.OrderBy(h => h.Description);
+            else if (order == "price" && ordersort == "desc")
+                rooms = rooms.OrderBy(h => h.Price);
+            else if (order == "hotel" && ordersort == "desc")
+                rooms = rooms.OrderBy(h => h.Hotel.Name);
+
+            else if (order == "description")
+                rooms = rooms.OrderByDescending(h => h.Description);
+            else if (order == "price")
+                rooms = rooms.OrderByDescending(h => h.Price);
+            else if (order == "hotel")
+                rooms = rooms.OrderByDescending(h => h.Hotel.Name);
+
+
+            if (ordersort == "desc")
+                ViewBag.ordersort = "asc";
+            else
+                ViewBag.ordersort = "desc";
+
+            if (pageSize > 0 && pageNumber > 0)
+            {
+                ViewBag.PageSize = pageSize;
+                ViewBag.PageNumber = pageNumber;
+
+                rooms = rooms.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+            }
+
+            return View(rooms.ToList());
         }
 
         // GET: HotelRooms/Details/5
@@ -41,7 +93,10 @@ namespace Suaah.Areas.Admin.Controllers
             var hotelRoom = await _context.HotelRooms
                 .Include(h => h.Hotel)
                 .Include(h => h.Services)
-                  .ThenInclude(h=>h.Services)
+                  .ThenInclude(h => h.Services)
+                .Include(b => b.BookingDetails)
+                    .ThenInclude(c => c.HotelBookingHeader)
+                        .ThenInclude(cc => cc.Customer)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -73,7 +128,7 @@ namespace Suaah.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(HotelRoom hotelRoom, string[] selectedServices)
+        public async Task<IActionResult> Create(HotelRoom hotelRoom, string[] selectedServices, IFormFile image)
         {
             if (selectedServices != null)
             {
@@ -88,6 +143,7 @@ namespace Suaah.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                CreateFiles(hotelRoom, image);
                 _context.Add(hotelRoom);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -96,6 +152,23 @@ namespace Suaah.Areas.Admin.Controllers
 
             PopulateAssignedServiceData(hotelRoom);
             return View(hotelRoom);
+        }
+
+        protected void CreateFiles(HotelRoom hotelRoom, IFormFile image = null)
+        {
+            if (image != null)
+            {
+                string fileName = Guid.NewGuid().ToString();
+                var uploads = Path.Combine(_webHost.WebRootPath, @"img\Rooms");
+                var extension = Path.GetExtension(image.FileName);
+
+                using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                {
+                    image.CopyTo(fileStreams);
+                }
+
+                hotelRoom.ImageUrl = @"\img\Rooms\" + fileName + extension;
+            }
         }
 
         private void PopulateAssignedServiceData(HotelRoom hotelRoom)
@@ -146,7 +219,7 @@ namespace Suaah.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, string[] selectedServices)
+        public async Task<IActionResult> Edit(int? id, string[] selectedServices, IFormFile image)
         {
             if (id == null)
             {
@@ -160,14 +233,26 @@ namespace Suaah.Areas.Admin.Controllers
 
             if (await TryUpdateModelAsync<HotelRoom>(
                 hotelRoom,
-                "",
-                /*i => i.Type,*/ i => i.Price, i => i.Description, i => i.CancelBeforeHours))
+                "", i => i.Price, i => i.Description, i => i.CancelBeforeHours))
             {
 
                 UpdateHotelRoomServices(selectedServices, hotelRoom);
 
                 try
                 {
+                    if (image != null)
+                    {
+                        if (hotelRoom.ImageUrl != null)
+                        {
+                            var oldPath = Path.Combine(_webHost.WebRootPath, hotelRoom.ImageUrl.TrimStart('\\'));
+                            if (System.IO.File.Exists(oldPath))
+                            {
+                                System.IO.File.Delete(oldPath);
+                            }
+                        }
+
+                        CreateFiles(image: image, hotelRoom: hotelRoom);
+                    }
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateException /* ex */)
@@ -243,6 +328,16 @@ namespace Suaah.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var hotelRoom = await _context.HotelRooms.FindAsync(id);
+
+            if (hotelRoom.ImageUrl != null)
+            {
+                var oldPath = Path.Combine(_webHost.WebRootPath, hotelRoom.ImageUrl.TrimStart('\\'));
+                if (System.IO.File.Exists(oldPath))
+                {
+                    System.IO.File.Delete(oldPath);
+                }
+            }
+
             _context.HotelRooms.Remove(hotelRoom);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

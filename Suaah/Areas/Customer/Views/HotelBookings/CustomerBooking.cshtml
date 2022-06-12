@@ -1,27 +1,71 @@
 ﻿@model Suaah.Models.HotelBookingHeaderAndDetails
-
+@using Suaah.Data
+@using System.Security.Claims
+@inject ApplicationDbContext _context
 @{
-    int x = 1;
+
+    var claimIdentity = (ClaimsIdentity)User.Identity;
+    var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+    var h = _context.HotelBookingHeader.Where(c => c.CustomerId == claim.Value);
 }
-<form asp-action="CustomerBooking">
-    <br />
-    <div class="container">
-        <div class="col-6 text-end">
-            <a class="btn btn-outline-info btn-sm" asp-action="Index">
-                Create New Hotel Reservation
-            </a>
+<br />
+<div class="container">
+    <div class="col-12 text-center">
+        <a class="btn btn-outline-info btn-sm" asp-action="Index">
+            Create New Hotel Reservation
+        </a>
+    </div>
+</div>
+<br />
+
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color text-center p-3">
+
+
+        <div class="w-25 d-inline-block">
+            Booking Date: <input type="date" name="bookingd" class="p-2" />
         </div>
+        <div class="w-25 d-inline-block">
+            Payment Date: <input type="date" name="payment" class="p-2" />
+        </div><br /><br />
+
+        <input type="search" list="hid" name="hid" value="@ViewData["hid"]" placeholder="Header Id" class="p-2" />
+        <datalist id="hid">
+            @foreach (var item in h)
+            {
+                <option>@item.Id</option>
+            }
+        </datalist>
+
+        <input type="search" list="hprice" name="hprice" value="@ViewData["hprice"]" placeholder="Price" class="p-2" />
+        <datalist id="hprice">
+            @foreach (var item in h)
+            {
+                <option>@item.TotalPrice</option>
+            }
+        </datalist>
         <br />
+        <br />
+        <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2" asp-action="CustomerBooking" />
+        <br />
+        <br />
+        <a asp-action="CustomerBooking" class="btn btn-outline-info my-4">Back to Full List</a>
+
+    </div>
+</form>
+
+
+<form asp-action="CustomerBooking">
+    <div class="container">
         @foreach (var item in Model.HotelBookingHeaders)
         {
             <div class="card">
                 <div class="card-header bg-dark text-light ml-0">
                     <div class=" row container">
                         <div class="col-6">
-                            Booking Summary for Booking No. {@x}
-                            @{
-                                x = x + 1;
-                            }
+                            Booking Summary for Booking No. {@item.Id}
                         </div>
                     </div>
                 </div>
@@ -50,7 +94,7 @@
                                         <input class="form-control" value="@item.BookingDate.ToShortDateString()" readonly />
                                     </div>
                                 </div>
-                                 <div class="row my-1">
+                                <div class="row my-1">
                                     <div class="col-3">
                                         <label>Payment Date</label>
                                     </div>
@@ -81,7 +125,7 @@
                                     <li class="list-group-item d-flex justify-content-between">
                                         <div>
                                             <h6 class="my-0 text-danger">Room, Hotel</h6>
-                                            <small class="text-dark">@item2.HoteRoom.Description @*@item2.HoteRoom.Type*@, @item2.HoteRoom.Hotel.Name</small>
+                                            <small class="text-dark">@item2.HoteRoom.Description, @item2.HoteRoom.Hotel.Name</small>
                                         </div>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between">
@@ -121,10 +165,10 @@
             </div>
             <div class="card-footer">
                 @*<div class="row">
-                    <div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
-                    <button type="submit" value="Place Order" class="btn btn-primary form-control" asp-action="Summary">Place Booking</button>
-                    </div>
-                    </div>*@
+            <div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
+            <button type="submit" value="Place Order" class="btn btn-primary form-control" asp-action="Summary">Place Booking</button>
+            </div>
+            </div>*@
             </div>
 
             <hr />

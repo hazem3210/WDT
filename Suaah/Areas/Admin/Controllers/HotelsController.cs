@@ -25,12 +25,11 @@ namespace Suaah.Areas.Admin.Controllers
 
         // GET: Hotels
         [AllowAnonymous]
-        public IActionResult Index(string hName, string hAddress, string hEmail, string hDescription, string hPhoneNumber,string hStars, string order, string ordersort)
+        public IActionResult Index(string hName, string hAddress, string hEmail, string hPhoneNumber,string hStars, string order, string ordersort, int pageSize, int pageNumber)
         {
             ViewData["hName"] = hName;
             ViewData["hAddress"] = hAddress;
             ViewData["hEmail"] = hEmail;
-            ViewData["hDescription"] = hDescription;
             ViewData["hPhoneNumber"] = hPhoneNumber;
             ViewData["hStars"] = hStars;
 
@@ -59,13 +58,7 @@ namespace Suaah.Areas.Admin.Controllers
                 hPhoneNumber = hPhoneNumber.Trim();
                 hotels = hotels.Where(h => h.PhoneNumber.Contains(hPhoneNumber));
             }
-            
-            if (!String.IsNullOrWhiteSpace(hDescription))
-            {
-                hDescription = hDescription.Trim();
-                hotels = hotels.Where(h => h.Description.Contains(hDescription));
-            }
-
+          
             if (!String.IsNullOrWhiteSpace(hStars))
             {
                 hStars = hStars.Trim();
@@ -94,6 +87,14 @@ namespace Suaah.Areas.Admin.Controllers
             else
                 ViewBag.ordersort = "desc";
 
+            if (pageSize > 0 && pageNumber > 0)
+            {
+                ViewBag.PageSize = pageSize;
+                ViewBag.PageNumber = pageNumber;
+
+                hotels = hotels.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+            }
+
             return View(hotels.ToList());
         }
 
@@ -106,8 +107,10 @@ namespace Suaah.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var hotel = await _context.Hotels
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var hotel =  _context.Hotels
+                .Where(m => m.Id == id)
+                .Include(r=>r.HotelRooms).ThenInclude(s=>s.Services).ThenInclude(ss=>ss.Services).Single();
+
             if (hotel == null)
             {
                 return NotFound();

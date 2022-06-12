@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Suaah.Models
@@ -6,11 +7,9 @@ namespace Suaah.Models
     public class HotelRoom
     {
         public int Id { get; set; }
-        //[Required]
-        //public string Type { get; set; }
 
         [Required]
-        public double Price { get; set; } 
+        public double Price { get; set; }
         [Required]
         [Display(Name = "Cancel Before(Hours)")]
         public int CancelBeforeHours { get; set; }
@@ -24,6 +23,15 @@ namespace Suaah.Models
         public Hotel Hotel { get; set; }
 
         [ValidateNever]
+        [DisplayName("Image")]
+        public string? ImageUrl { get; set; }
+
+        [ValidateNever]
         public ICollection<HotelRoomServices> Services { get; set; }
+        
+        [ValidateNever]
+        public ICollection<HotelBookingDetails> BookingDetails { get; set; }
+
+       
     }
 }

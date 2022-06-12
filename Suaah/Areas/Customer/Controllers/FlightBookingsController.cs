@@ -26,8 +26,9 @@ namespace Suaah.Areas.Customer.Controllers
             _context = context;
         }
 
-        
+
         // GET: FlightBookings
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string? airline, string? order, string? ordersort, DateTime? timef, DateTime? timet, string? conf, string? cont,int? clas,double? min,double? max)
         {
             List<Flight> flights=null;

@@ -12,8 +12,8 @@ using Suaah.Data;
 namespace Suaah.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220601191025_EdithStars")]
-    partial class EdithStars
+    [Migration("20220612030845_DB")]
+    partial class DB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -233,6 +233,9 @@ namespace Suaah.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -716,6 +719,9 @@ namespace Suaah.Migrations
 
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");

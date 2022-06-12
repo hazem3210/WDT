@@ -21,7 +21,12 @@ namespace Suaah.Areas.Customer.Controllers
 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<Country> countries = await _context.Countries.ToListAsync();
+            HomeData homeData = new HomeData()
+            {
+                Airlines = _context.Airlines.Take(4),
+                Countries = _context.Countries.Take(4),
+            };
+            
             var claimIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
            
@@ -38,7 +43,8 @@ namespace Suaah.Areas.Customer.Controllers
             {
                 HttpContext.Session.Clear();
             }
-            return View(countries);
+
+            return View(homeData);
         }
 
         public IActionResult Privacy()

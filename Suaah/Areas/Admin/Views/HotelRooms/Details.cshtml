@@ -4,65 +4,109 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Hotel Room</h4>
-    <hr />
-    <dl class="row">
-       @* <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Type)
-        </dd>*@
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CancelBeforeHours)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CancelBeforeHours)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Hotel)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Hotel.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Services)
-        </dt>
-        <dd class="col-sm-10">
-            @{
-                var list = Model.Services.ToList();
-
-                for (var i = 0; i < Model.Services.Count; i++)
-                {
-                    @list[i].Services.Name
-                    if (i != (Model.Services.Count - 1))
-                    {
-                        <span>, </span>
-                    }
-                }
-            }
-        </dd>
-    </dl>
-</div>
-<div>
+<div class="m-4 text-end">
     @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
     {
-        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> <span>|</span>
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-danger">Edit</a>
     }
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
+</div>
+
+
+
+<div class="card m-4 p-2 " style="width: 100%;">
+    <div class="card-body">
+        <h1 class="text-center m-2">Details of  The Room</h1>
+        <div class="container rounded p-2">
+            <div class="row">
+                <div class="col-12 col-lg-6 pb-4">
+
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">Description:</h4>
+
+                        </div>
+                        <div class="col-9">
+                            <p class="card-text f mx-3">@Html.DisplayFor(model => model.Description)</p>
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">Price:</h4>
+                        </div>
+                        <div class="col-9">
+                            <p class="card-text d-inline f"> @Html.DisplayFor(model => model.Price)</p> <br /><br />
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">Cancel Before:</h4>
+                        </div>
+                        <div class="col-9">
+                            <p class="card-text d-inline f">@Html.DisplayFor(model => model.CancelBeforeHours)</p> <br /><br />
+
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">Hotel:</h4>
+                        </div>
+                        <div class="col-9">
+                            <p class="card-text d-inline f"> @Html.DisplayFor(model => model.Hotel.Name)</p> <br /><br />
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">Services</h4>
+
+                        </div>
+                        <div class="col-9 f">
+                            <br />
+                            @{
+                                var list = Model.Services.ToList();
+
+                                for (var i = 0; i < Model.Services.Count; i++)
+                                {
+                                    @list[i].Services.Name
+                                    <br />
+                                }
+                            }
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-8 col-lg-5 offset-lg-1 text-left position-relative">
+                    <img src="@Model.ImageUrl" style="width:80%; height:auto; position:absolute" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+
+
+<div class="card m-4 p-2" style="width: 100%;">
+    <div class="card-body p-4">
+        <h2 class="text-center mt-2" title="Customers who have previously booked this room.">Customers</h2>
+        <br />
+
+        <div class="text-left mx-3 f">
+            @{
+                List<HotelBookingHeader> head = new();
+
+                foreach (var h in Model.BookingDetails)
+                {
+                    head.Add(h.HotelBookingHeader);
+                }
+
+                for (var i = 0; i < head.Count; i++)
+                {
+                    @head[i].Customer.Name <span>{@head[i].Customer.CitizenshipCountry}</span>
+                    <br />
+                }
+            }
+        </div>
+    </div>
 </div>
