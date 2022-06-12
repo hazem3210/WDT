@@ -4,37 +4,32 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>HotelRoom</h4>
+<div class="text-center  m-2 mt-5 p-5 h">
+    <h1>Create Hotel Room</h1>
+</div>
 <hr />
+ 
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+     <div class="col-md-8 m-auto">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-           @* <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" rows="3" class="form-control" ></textarea>
+            <div class="form-group m-2">
+                <textarea asp-for="Description" rows="3" class="form-control" placeholder="Description"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
+            <div class="form-group m-2">
+                <input asp-for="Price" class="form-control" placeholder="Price"/>
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CancelBeforeHours" class="control-label"></label>
-                <input asp-for="CancelBeforeHours" class="form-control" />
+            <div class="form-group m-2">
+                <input asp-for="CancelBeforeHours" class="form-control" placeholder="Cancel Before {Hours}"/>
                 <span asp-validation-for="CancelBeforeHours" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="HotelId" class="control-label">Hotel Name</label>
+              <div class="form-group m-2">
+                Image:<input class="form-control" accept="image/*" type="file" name="image" id="upFile1" />
+            </div>
+             <div class="form-group m-2">
                 <select asp-for="HotelId" class ="form-control" asp-items="ViewBag.HotelId"></select>
             </div>
              <div class="form-group m-3">
@@ -52,46 +47,32 @@
                                 {
                                     if (cnt++ % 3 == 0)
                                     {
-                                        @:</tr><tr>
+                                                @:</tr><tr>
                                     }
-                                    @:<td class="m-2">
+                                            @:<td class="m-2">
                                          
-                                            <input type="checkbox"
-                                               name="selectedServices"
-                                               value="@service.ServiceID"
-                                               @(Html.Raw(service.Assigned ? "checked=\"checked\"" : "")) 
-                                               class="p-2"/>
-                                               @service.Title
+                                                    <input type="checkbox"
+                                                       name="selectedServices"
+                                                       value="@service.ServiceID"
+                                                       @(Html.Raw(service.Assigned ? "checked=\"checked\"" : "")) 
+                                                       class="p-2"/>
+                                                       @service.Title
                                         
-                                        @:</td>
+                                                @:</td>
                                 }
-                                @:</tr>
+                                        @:</tr>
                             }
                     </table>
                 </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+             <div class="form-group m-3 p-3">
+                <input type="submit" value="Create" class="btn btn-primary" /> ||  <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+ 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-@*
-<script>
-    tinymce.init({
-      selector: 'textarea',
-      plugins: 'a11ychecker advcode casechange export formatpainter image editimage linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tableofcontents tinycomments tinymcespellchecker',
-      toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter image editimage pageembed permanentpen table tableofcontents',
-      toolbar_mode: 'floating',
-      tinycomments_mode: 'embedded',
-      tinycomments_author: 'Author name',
-    });
-  </script>*@
 }

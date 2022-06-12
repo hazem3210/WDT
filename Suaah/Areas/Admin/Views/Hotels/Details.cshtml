@@ -4,51 +4,83 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Hotel</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Stars)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Stars)
-        </dd>
-    </dl>
+<div class="m-4 text-end">
+    @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-danger">Edit</a>
+    }
+    <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+
+<div class="card m-4 p-2" style="width: 100%;">
+    <div class="card-body p-4">
+        <h1 class="text-center m-2">Details of  @Html.DisplayFor(model => model.Name) Hotel</h1>
+        <h4 class="card-subtitle mb-2 text-muted ">Description:</h4>
+        <p class="card-text f mx-3">@Html.DisplayFor(model => model.Description)</p>
+
+        <h4 class="card-subtitle mb-2 text-muted d-inline">Address:</h4>
+        <p class="card-text d-inline f"> @Html.DisplayFor(model => model.Address)</p> <br /><br />
+
+        <h4 class="card-subtitle mb-2 text-muted d-inline">Email:</h4>
+        <p class="card-text d-inline f">@Html.DisplayFor(model => model.Email)</p> <br /><br />
+
+        <h4 class="card-subtitle mb-2 text-muted d-inline">PhoneNumber:</h4>
+        <p class="card-text d-inline f">@Html.DisplayFor(model => model.PhoneNumber)</p> <br /><br />
+
+        <h4 class="card-subtitle mb-2 text-muted d-inline">Stars:</h4>
+        <p class="card-text d-inline f">@Html.DisplayFor(model => model.Stars)</p> <br /><br />
+
+    </div>
 </div>
+
+<br />
+
+
+<div class="card m-4 p-2" style="width: 100%;">
+    <div class="card-body p-4">
+        <h2 class="text-center mt-2">Rooms of  @Html.DisplayFor(model => model.Name) Hotel</h2>
+        <br />
+
+        <div class="text-center">
+            <a class="btn btn-outline-danger m-4 w-75" data-bs-toggle="collapse" href="#c" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Details
+            </a>
+        </div>
+
+        <div class="row text-center">
+
+            @foreach (var item in Model.HotelRooms)
+            {
+                <div class="card m-auto" style="width: 18rem;">
+                    <img src="@item.ImageUrl" class="card-img-top" alt="@item.Description" style="height:200px">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Description</h5>
+                    </div>
+                    <a class="btn btn-danger form-control" asp-area="Customer" asp-controller="HotelBookings" asp-action="Create" asp-route-roomId="@item.Id">Booking</a>
+
+                    <p>
+                    </p>
+                    <div class="collapse" id="c">
+                        <div class="card card-body">
+                            <h5 class="card-subtitle mb-2 text-muted d-inline"> Price:</h5>@item.Price
+                            <h5 class="card-subtitle mb-2 text-muted d-inline"> Cancel Be foreHours:</h5>@item.CancelBeforeHours
+
+                            <h5 class="card-subtitle mb-2 text-muted d-inline"> Services:</h5>
+
+                            @foreach (var item2 in item.Services)
+                            {
+                                @item2.Services.Name <br />
+                            }
+                        </div>
+                        <br>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+ 

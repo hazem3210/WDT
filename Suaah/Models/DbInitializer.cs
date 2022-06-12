@@ -20,7 +20,7 @@ namespace Suaah.Models
             _roleManager = roleManager;
         }
 
-        public async void Initialize()
+        public void Initialize()
         {
             try
             {
@@ -44,7 +44,7 @@ namespace Suaah.Models
                     PhoneNumber = "01111111111",
                 }, "Admin123/").GetAwaiter().GetResult();
 
-                IdentityUser user = await _context.Users.FirstOrDefaultAsync(u => u.Email == "adminsuaah@gmail.com");
+                IdentityUser user = _context.Users.FirstOrDefault(u => u.Email == "adminsuaah@gmail.com");
                 _userManager.AddToRoleAsync(user, SD.Role_Manager).GetAwaiter().GetResult();
 
                 _userManager.CreateAsync(new IdentityUser
@@ -54,7 +54,7 @@ namespace Suaah.Models
                     PhoneNumber = "01111111111",
                 }, "Admin123/").GetAwaiter().GetResult();
 
-                user = await _context.Users.FirstOrDefaultAsync(u => u.Email == "admin1@gmail.com");
+                user = _context.Users.FirstOrDefault(u => u.Email == "admin1@gmail.com");
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
 
                 _userManager.CreateAsync(new IdentityUser
@@ -64,7 +64,7 @@ namespace Suaah.Models
                     PhoneNumber = "01111111111",
                 }, "Admin123/").GetAwaiter().GetResult();
 
-                user = await _context.Users.FirstOrDefaultAsync(u => u.Email == "admin2@gmail.com");
+                user = _context.Users.FirstOrDefault(u => u.Email == "admin2@gmail.com");
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
 
                 _userManager.CreateAsync(new IdentityUser
@@ -74,8 +74,8 @@ namespace Suaah.Models
                     PhoneNumber = "01111111111",
                 }, "Cust123/").GetAwaiter().GetResult();
 
-                user = await _context.Users.FirstOrDefaultAsync(u => u.Email == "customer1@gmail.com");
-                _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
+                user = _context.Users.FirstOrDefault(u => u.Email == "customer1@gmail.com");
+                _userManager.AddToRoleAsync(user, SD.Role_Customer).GetAwaiter().GetResult();
 
 
                 _userManager.CreateAsync(new IdentityUser
@@ -85,12 +85,12 @@ namespace Suaah.Models
                     PhoneNumber = "01111111111",
                 }, "Cust123/").GetAwaiter().GetResult();
 
-                user = await _context.Users.FirstOrDefaultAsync(u => u.Email == "customer2@gmail.com");
-                _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
+                user = _context.Users.FirstOrDefault(u => u.Email == "customer2@gmail.com");
+                _userManager.AddToRoleAsync(user, SD.Role_Customer).GetAwaiter().GetResult();
 
                
-                var c1 = await _context.Users.FirstOrDefaultAsync(c => c.Email.Contains("customer1"));
-                var c2 = await _context.Users.FirstOrDefaultAsync(c => c.Email.Contains("customer2"));
+                var c1 = _context.Users.FirstOrDefault(c => c.Email.Contains("customer1"));
+                var c2 = _context.Users.FirstOrDefault(c => c.Email.Contains("customer2"));
 
                 var customers = new List<Customer>()
                 {
@@ -115,8 +115,8 @@ namespace Suaah.Models
                     }
                 };
 
-                await _context.Customers.AddRangeAsync(customers);
-                await _context.SaveChangesAsync();
+                _context.Customers.AddRange(customers);
+                _context.SaveChanges();
 
                 var social = new List<SocialData>()
                 {
@@ -137,8 +137,8 @@ namespace Suaah.Models
                         Link ="https://twitter.com/home"
                     }
                 };
-                await _context.SocialData.AddRangeAsync(social);
-                await _context.SaveChangesAsync();
+                _context.SocialData.AddRange(social);
+                _context.SaveChanges();
 
                 var hotels = new List<Hotel>()
                 {
@@ -180,8 +180,8 @@ namespace Suaah.Models
                     },
                 };
 
-                await _context.Hotels.AddRangeAsync(hotels);
-                await _context.SaveChangesAsync();
+                _context.Hotels.AddRange(hotels);
+                _context.SaveChanges();
 
                 var services = new List<Services>()
                 {
@@ -194,8 +194,8 @@ namespace Suaah.Models
                     new Services(){Name = "Room Only"},
                 };
 
-                await _context.Services.AddRangeAsync(services);
-                await _context.SaveChangesAsync();
+                _context.Services.AddRange(services);
+                _context.SaveChanges();
 
 
                 var hotelRooms = new List<HotelRoom>()
@@ -287,8 +287,8 @@ namespace Suaah.Models
                         HotelId=4
                     }
                 };
-                await _context.HotelRooms.AddRangeAsync(hotelRooms);
-                await _context.SaveChangesAsync();
+                _context.HotelRooms.AddRange(hotelRooms);
+                _context.SaveChanges();
 
                 var roomServ = new List<HotelRoomServices>()
                 {
@@ -394,8 +394,8 @@ namespace Suaah.Models
                     }
                 };
 
-               await _context.HotelRoomServices.AddRangeAsync(roomServ);
-                await _context.SaveChangesAsync();
+                _context.HotelRoomServices.AddRange(roomServ);
+                _context.SaveChanges();
 
                 var flightClasses = new List<FlightClass>()
                 {
@@ -413,52 +413,50 @@ namespace Suaah.Models
                     },
                 };
 
-                await _context.FlightClassss.AddRangeAsync(flightClasses);
-                await _context.SaveChangesAsync();
-
+                _context.FlightClassss.AddRange(flightClasses);
+                _context.SaveChanges();
 
                 var countries = new List<Country>()
                 {
                     new Country()
                     {
                         Name ="Egypt",
-                        PhotoPath ="/img/Country/download.png"
+                        PhotoPath =@"\img\Country\download.png"
                     },
                     new Country()
                     {
                         Name ="China",
-                        PhotoPath ="/img/Country/download (2).png"
+                        PhotoPath =@"\img\Country\download (2).png"
                     },
                     new Country()
                     {
                         Name ="Cuba",
-                        PhotoPath ="/img/Country/download (1).png"
+                        PhotoPath =@"\img\Country\download (1).png"
                     },
                     new Country()
                     {
                         Name ="Australia",
-                        PhotoPath ="/img/Country/download (3).png"
+                        PhotoPath =@"\img\Country\download (3).png"
                     },
                      new Country()
                     {
                         Name ="United States",
-                        PhotoPath ="/img/Country/download (4).png"
+                        PhotoPath =@"\img\Country\download (4).png"
                     },
                       new Country()
                     {
                         Name ="España",
-                        PhotoPath ="/img/Country/download (6).png"
+                        PhotoPath =@"\img\Country\download (6).png"
                     },
                       new Country()
                     {
                         Name ="France",
-                        PhotoPath ="/img/Country/download (7).png"
+                        PhotoPath =@"\img\Country\download (7).png"
                     }
                 };
 
-                await _context.Countries.AddRangeAsync(countries);
-                await _context.SaveChangesAsync();
-
+                _context.Countries.AddRange(countries);
+                _context.SaveChanges();
 
                 var airlines = new List<Airline>()
                 {
@@ -467,34 +465,37 @@ namespace Suaah.Models
                         Code = "RBG",
                         Name ="Air Arabia Egypt",
                         Country = "Cairo, Egypt",
-                        Description = "Air Arabia Egypt is an Alexandria-based Air Arabia Group company. The airline offers low-cost travel to a number of destinations across the region. The company focuses on booking online. Air Arabia Egypt also provides booking facilities through call centers, travel agents, appointed GSA's and sales shops."
+                        Description = "Air Arabia Egypt is an Alexandria-based Air Arabia Group company. The airline offers low-cost travel to a number of destinations across the region. The company focuses on booking online. Air Arabia Egypt also provides booking facilities through call centers, travel agents, appointed GSA's and sales shops.",
+                        ImageUrl=@"\img\airlines\download (7).png"
                     },
                     new Airline()
                     {
                         Code = "MSC",
                         Name ="Air Cairo",
                         Country = "Europe",
-                        Description = "Air Cairo is a low-fare airline based in Cairo, Egypt.  The airline is part owned by Egyptair. Air Cairo operates scheduled flights to the Middle East and Europe and also operates charter flights to Egypt from Europe on behalf of tour operators. Its base is Cairo International Airport, Sharm El Sheikh International Airport and Hurghada International Airport with the company head office in the Sheraton Heliopolis Zone. "
+                        Description = "Air Cairo is a low-fare airline based in Cairo, Egypt.  The airline is part owned by Egyptair. Air Cairo operates scheduled flights to the Middle East and Europe and also operates charter flights to Egypt from Europe on behalf of tour operators. Its base is Cairo International Airport, Sharm El Sheikh International Airport and Hurghada International Airport with the company head office in the Sheraton Heliopolis Zone. ",
+                        ImageUrl=@"\img\airlines\download (7).png"
                     },
                     new Airline()
                     {
                         Code = "KHH",
                         Name ="Alexandria Airlines",
                         Country = "Cairo, Egypt",
-                        Description = "The airline was established in 2006 and commenced its operations in March 2007.In April 2022, it was announced the airline would be resuming operations, from 23 April, from Alexandria to Amman and Kuwait."
+                        Description = "The airline was established in 2006 and commenced its operations in March 2007.In April 2022, it was announced the airline would be resuming operations, from 23 April, from Alexandria to Amman and Kuwait.",
+                        ImageUrl=@"\img\airlines\download (7).png"
                     },
                     new Airline()
                     {
                         Code = "MSR",
                         Name ="EgyptAir",
                         Country = "Cairo, Egypt",
-                        Description = "Egyptair is the state-owned flag carrier of Egypt. The airline is headquartered at Cairo International Airport, its main hub, operating scheduled passenger and freight services to 70 destinations in the Middle East, Europe, Africa, Asia, and the Americas."
+                        Description = "Egyptair is the state-owned flag carrier of Egypt. The airline is headquartered at Cairo International Airport, its main hub, operating scheduled passenger and freight services to 70 destinations in the Middle East, Europe, Africa, Asia, and the Americas.",
+                        ImageUrl=@"\img\airlines\download (7).png"
                     }
                 };
 
-                await _context.Airlines.AddRangeAsync(airlines);
-                await _context.SaveChangesAsync();
-
+                _context.Airlines.AddRange(airlines);
+                _context.SaveChanges();
 
                 var airports = new List<Airport>()
                 {
@@ -535,9 +536,8 @@ namespace Suaah.Models
                     },
                 };
 
-                await _context.Airports.AddRangeAsync(airports);
-                await _context.SaveChangesAsync();
-
+                _context.Airports.AddRange(airports);
+                _context.SaveChanges();
 
                 var flights = new List<Flight>()
                 {
@@ -588,9 +588,8 @@ namespace Suaah.Models
                     }
                 };
 
-                await _context.Flights.AddRangeAsync(flights);
-                await _context.SaveChangesAsync();
-
+                _context.Flights.AddRange(flights);
+                _context.SaveChanges();
 
                 var flightsclasses = new List<FlightsClasses>()
                 {
@@ -670,9 +669,8 @@ namespace Suaah.Models
                     },
                 };
 
-                await _context.FlightsClasses.AddRangeAsync(flightsclasses);
-                await _context.SaveChangesAsync();
-
+                _context.FlightsClasses.AddRange(flightsclasses);
+                _context.SaveChanges();
             }
 
             return;

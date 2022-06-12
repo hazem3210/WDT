@@ -1,8 +1,8 @@
-﻿@using Suaah.Data
-@model IEnumerable<Suaah.Models.Hotel>
+﻿@model IEnumerable<Suaah.Models.Hotel>
+@using Suaah.Data
 @inject ApplicationDbContext _context
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Hotels";
 
     var hotels = _context.Hotels.ToList();
 }
@@ -30,22 +30,50 @@
             }
         </datalist>
 
-        <input type="text" name="hAddress" value="@ViewData["hAddress"]" placeholder="Hotel Address" class="p-2" />
-        <input type="text" name="hEmail" value="@ViewData["hEmail"]" placeholder="Hotel Email" class="p-2" />
-        <input type="text" name="hPhoneNumber" value="@ViewData["hPhoneNumber"]" placeholder="Hotel Phone" class="p-2" />
-        <input type="text" name="hDescription" value="@ViewData["hDescription"]" placeholder="Hotel Description" class="p-2" />
-        <input type="text" name="hStars" value="@ViewData["hStars"]" placeholder="Hotel Stars" class="p-2" />
+        <input type="search" list="haddress" name="hAddress" value="@ViewData["hAddress"]" placeholder="Hotel Address" class="p-2" />
+        <datalist id="haddress">
+            @foreach (var item in hotels)
+            {
+                <option>@item.Address</option>
+            }
+        </datalist>
+
+        <input type="search" list="hemail" name="hEmail" value="@ViewData["hEmail"]" placeholder="Hotel Email" class="p-2" />
+        <datalist id="hemail">
+            @foreach (var item in hotels)
+            {
+                <option>@item.Email</option>
+            }
+        </datalist>
+
+        <input type="search" list="PhoneNumber" name="hPhoneNumber" value="@ViewData["hPhoneNumber"]" placeholder="Hotel Phone" class="p-2" />
+        <datalist id="PhoneNumber">
+            @foreach (var item in hotels)
+            {
+                <option>@item.PhoneNumber</option>
+            }
+        </datalist>
+
+        <input type="search" list="Stars" name="hStars" value="@ViewData["hStars"]" placeholder="Hotel Stars" class="p-2" />
+        <datalist id="Stars">
+            @foreach (var item in hotels)
+            {
+                <option>@item.Stars</option>
+            }
+        </datalist>
 
         <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2" />
         <br />
 
-        <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
-
     </div>
 </form>
 
+ <div class="text-center">
+<partial name="_Pagination" />
+<a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
+</div>
 
-<table class="table table-hover table-striped ">
+<table class="table table-hover table-striped text-center p-3">
     <thead>
         <tr>
             <th>
@@ -71,9 +99,6 @@
                 @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
                 <a asp-action="Index" asp-route-addOrder="@ViewData["AddSortParm"]"
                    asp-route-hName="@ViewData["hName"]" asp-route-hAddress="@ViewData["hAddress"]"
                    asp-route-hStars="@ViewData["hStars"]"
@@ -81,7 +106,7 @@
                     @Html.DisplayNameFor(model => model.Stars)
                 </a>
             </th>
-            <th></th>
+            <th>Operations</th>
         </tr>
     </thead>
     <tbody>
@@ -100,26 +125,20 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.PhoneNumber)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td> 
+
                 <td>
                     @Html.DisplayFor(modelItem => item.Stars)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+
+                    @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+                    {
+                        <span>|</span> <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>  <span>|</span>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
-
-<style>
-    .h {
-        background-color: black;
-        color: aliceblue;
-    }
-</style>

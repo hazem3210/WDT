@@ -12,8 +12,9 @@
         <a asp-action="Create">Create New</a>
     </p>
 }
+
 <form method="get" asp-action="Index">
-    <div class="row">
+    <div class="row m-4">
         <div class="col-1">
             <label class="control-label">Search</label>
         </div>
@@ -35,16 +36,31 @@
 
     </div>
 </form>
+
+ <div class="row m-4">
+     <partial name="_Pagination" />
+</div>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-order="name" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                <a asp-action="Index" asp-route-order="name"
+                   asp-route-ordersort="@ViewBag.ordersort"
+                   asp-route-search="@ViewBag.search"
+                   asp-route-type="@ViewBag.types.SelectedValue"
+                   asp-route-pageSize="@ViewBag.PageSize"
+                   asp-route-pageNumber="@ViewBag.PageNumber">
                     @Html.DisplayNameFor(model => model.Name)
                 </a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-order="country" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                <a asp-action="Index" asp-route-order="country"
+                   asp-route-ordersort="@ViewBag.ordersort"
+                   asp-route-search="@ViewBag.search"
+                   asp-route-type="@ViewBag.types.SelectedValue"
+                   asp-route-pageSize="@ViewBag.PageSize"
+                   asp-route-pageNumber="@ViewBag.PageNumber">
                     @Html.DisplayNameFor(model => model.CountryId)
                 </a>
             </th>
@@ -53,7 +69,12 @@
                 </a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-order="city" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                <a asp-action="Index" asp-route-order="city"
+                   asp-route-ordersort="@ViewBag.ordersort"
+                   asp-route-search="@ViewBag.search"
+                   asp-route-type="@ViewBag.types.SelectedValue"
+                   asp-route-pageSize="@ViewBag.PageSize"
+                   asp-route-pageNumber="@ViewBag.PageNumber">
                     @Html.DisplayNameFor(model => model.City)
                 </a>
             </th>
@@ -80,7 +101,7 @@
                     @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <span>|</span>
-                        <a asp-action = "Delete" asp-route-id = "@item.Id"> Delete </a> <span>|</span>
+                        <a asp-action="Delete" asp-route-id="@item.Id"> Delete </a> <span>|</span>
                     }
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a>
                 </td>

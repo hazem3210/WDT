@@ -240,8 +240,6 @@
                                         }
                                         else if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
                                         {
-                                            <a class="dropdown-item" asp-area="Customer" asp-controller="FlightBookings"
-                                       asp-action="Create">Create a Flight Booking</a>
                                             <a class="dropdown-item" asp-area="Admin" asp-controller="FlightBookingHeaders"
                                        asp-action="Index">
                                                 All Customers Flights Bookings
@@ -279,8 +277,6 @@
                                         }
                                         else if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
                                         {
-                                            <a class="dropdown-item" asp-area="Customer" asp-controller="HotelBookings"
-                                       asp-action="Create">Create an HotelBooking</a>
                                             <a class="dropdown-item" asp-area="Admin" asp-controller="AllHotelBookingHeaders"
                                        asp-action="Index">
                                                 All Customers Hotel Bookings

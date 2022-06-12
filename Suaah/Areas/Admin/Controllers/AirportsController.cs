@@ -25,7 +25,7 @@ namespace Suaah.Areas.Admin.Controllers
 
         // GET: Airports
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string? search,string? type,string? order,string? ordersort)
+        public async Task<IActionResult> Index(string search,string type,string order,string ordersort, int pageSize, int pageNumber)
         {
             List<Airport> airports;
             List<string> types=new List<string>() { "name","country","city"};
@@ -60,6 +60,16 @@ namespace Suaah.Areas.Admin.Controllers
                 ViewBag.ordersort = "asc";
             else
                 ViewBag.ordersort = "desc";
+
+
+            if (pageSize > 0 && pageNumber > 0)
+            {
+                ViewBag.PageSize = pageSize;
+                ViewBag.PageNumber = pageNumber;
+
+                airports = airports.Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToList();
+            }
+
             return View(airports);
         }
 

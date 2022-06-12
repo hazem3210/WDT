@@ -1,0 +1,12 @@
+﻿<form asp-action="Index" method="get">
+    <div class="form-actions no-color text-center p-3">
+
+
+            <input type="number" name="pagesize" class="p-2" value="@ViewBag.PageSize" placeholder="Page Size"/>
+  
+            <input type="number" name="pagenumber" class="p-2" value="@ViewBag.PageNumber" placeholder="Page Number"/>
+        
+            <input type="submit" class="btn btn-danger" value="Go" />
+ 
+    </div>
+</form>
