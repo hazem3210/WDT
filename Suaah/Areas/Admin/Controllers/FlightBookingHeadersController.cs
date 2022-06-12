@@ -26,7 +26,7 @@ namespace Suaah.Areas.Admin.Controllers
         }
 
         // GET: Admin/FlightBookingHeaders
-        public async Task<IActionResult> Index(string? search, string? type, string? order, string? ordersort, DateTime? timef, DateTime? timet, double? prif, double? prit,string? stats, string? pstats)
+        public async Task<IActionResult> Index(string? search, string? type, string? order, string? ordersort, DateTime? timef, DateTime? timet, double? prif, double? prit,string? stats, string? pstats, int pageSize, int pageNumber)
         {
             List<FlightBookingHeader> canceld = await _context.FlightBookingHeader.Where(f => f.PaymentDueDate < DateTime.Now && f.PaymentStatus == SD.Payment_Pending).ToListAsync();
             foreach(FlightBookingHeader canceldItem in canceld)
@@ -253,6 +253,15 @@ namespace Suaah.Areas.Admin.Controllers
                 ViewBag.ordersort = "asc";
             else
                 ViewBag.ordersort = "desc";
+
+            if (pageSize > 0 && pageNumber > 0)
+            {
+                ViewBag.PageSize = pageSize;
+                ViewBag.PageNumber = pageNumber;
+
+                applicationDbContext = applicationDbContext.Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToList();
+            }
+
             return View(applicationDbContext);
         }
 

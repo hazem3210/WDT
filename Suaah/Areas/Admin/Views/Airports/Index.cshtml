@@ -30,6 +30,8 @@
         <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden />
         <input name="order" value="@ViewBag.order" hidden />
 
+     <partial name="_Pagination" />
+
         <div class="col-1">
             <input type="submit" class="btn btn-secondary" onclick="go();" />
         </div>
@@ -40,9 +42,6 @@
     </div>
 </form>
 
- <div class="row m-4">
-     <partial name="_Pagination" />
-</div>
 
 <table class="table">
     <thead>

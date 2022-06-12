@@ -85,7 +85,9 @@
             <option value="">All</option>
         </select>
     </div>
-     <div class="offset-5 col-2">
+     <partial name="_Pagination" />
+
+     <div class="offset-1 col-2">
         <input type="submit" class="btn btn-secondary" onclick="go();"/>
         </div>
 </div>
@@ -100,12 +102,12 @@
 
             </th>
             <th>
-                <a asp-action="Index" asp-route-order="From" asp-route-ordersort="@ViewBag.ordersort" asp-route-airline="@ViewBag.airlines.SelectedValue" asp-route-clas="@ViewBag.classes.SelectedValue" asp-route-min="@ViewBag.min" asp-route-max="@ViewBag.max"  asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="From" asp-route-ordersort="@ViewBag.ordersort" asp-route-airline="@ViewBag.airlines.SelectedValue" asp-route-clas="@ViewBag.classes.SelectedValue" asp-route-min="@ViewBag.min" asp-route-max="@ViewBag.max"  asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
                 From
                 </a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-order="To" asp-route-ordersort="@ViewBag.ordersort" asp-route-airline="@ViewBag.airlines.SelectedValue" asp-route-clas="@ViewBag.classes.SelectedValue" asp-route-min="@ViewBag.min" asp-route-max="@ViewBag.max"  asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="To" asp-route-ordersort="@ViewBag.ordersort" asp-route-airline="@ViewBag.airlines.SelectedValue" asp-route-clas="@ViewBag.classes.SelectedValue" asp-route-min="@ViewBag.min" asp-route-max="@ViewBag.max"  asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
                To
                </a>
             </th>
@@ -113,12 +115,12 @@
                 Price of Classes
             </th>
              <th>
-                <a asp-action="Index" asp-route-order="Airline" asp-route-ordersort="@ViewBag.ordersort" asp-route-airline="@ViewBag.airlines.SelectedValue" asp-route-clas="@ViewBag.classes.SelectedValue" asp-route-min="@ViewBag.min" asp-route-max="@ViewBag.max" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="Airline" asp-route-ordersort="@ViewBag.ordersort" asp-route-airline="@ViewBag.airlines.SelectedValue" asp-route-clas="@ViewBag.classes.SelectedValue" asp-route-min="@ViewBag.min" asp-route-max="@ViewBag.max" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
                 @Html.DisplayNameFor(model => model.AirlineCode)
                 </a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-order="Time" asp-route-ordersort="@ViewBag.ordersort" asp-route-airline="@ViewBag.airlines.SelectedValue" asp-route-clas="@ViewBag.classes.SelectedValue" asp-route-min="@ViewBag.min" asp-route-max="@ViewBag.max" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="Time" asp-route-ordersort="@ViewBag.ordersort" asp-route-airline="@ViewBag.airlines.SelectedValue" asp-route-clas="@ViewBag.classes.SelectedValue" asp-route-min="@ViewBag.min" asp-route-max="@ViewBag.max" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
                 @Html.DisplayNameFor(model => model.LeaveTime)
                 </a>
             </th>
