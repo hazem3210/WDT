@@ -421,37 +421,37 @@ namespace Suaah.Models
                     new Country()
                     {
                         Name ="Egypt",
-                        PhotoPath =@"\img\Country\download.png"
+                        PhotoPath ="/img/Country/download.jpeg"
                     },
                     new Country()
                     {
                         Name ="China",
-                        PhotoPath =@"\img\Country\download (2).png"
+                        PhotoPath ="/img/Country/download (2).jpg"
                     },
                     new Country()
                     {
                         Name ="Cuba",
-                        PhotoPath =@"\img\Country\download (1).png"
+                        PhotoPath ="/img/Country/download (1).jpg"
                     },
                     new Country()
                     {
                         Name ="Australia",
-                        PhotoPath =@"\img\Country\download (3).png"
+                        PhotoPath ="/img/Country/download (3).jpg"
                     },
                      new Country()
                     {
                         Name ="United States",
-                        PhotoPath =@"\img\Country\download (4).png"
+                        PhotoPath ="/img/Country/download (4).jpg"
                     },
                       new Country()
                     {
                         Name ="España",
-                        PhotoPath =@"\img\Country\download (6).png"
+                        PhotoPath ="/img/Country/download (6).jpg"
                     },
                       new Country()
                     {
                         Name ="France",
-                        PhotoPath =@"\img\Country\download (7).png"
+                        PhotoPath ="/img/Country/download (7).jifif"
                     }
                 };
 
