@@ -25,6 +25,8 @@ namespace Suaah.Areas.Customer.Controllers
             {
                 Airlines = _context.Airlines.Take(4),
                 Countries = _context.Countries.Take(4),
+                Airports = _context.Airports.Take(4),
+                Hotels = _context.Hotels.Take(4),
             };
             
             var claimIdentity = (ClaimsIdentity)User.Identity;

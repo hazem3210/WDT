@@ -17,10 +17,12 @@ namespace Suaah.Areas.Admin.Controllers
     public class HotelsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHost;
 
-        public HotelsController(ApplicationDbContext context)
+        public HotelsController(ApplicationDbContext context, IWebHostEnvironment webHost)
         {
             _context = context;
+            _webHost = webHost;
         }
 
         // GET: Hotels
@@ -133,10 +135,12 @@ namespace Suaah.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Address,Email,PhoneNumber,Description")] Hotel hotel)
+        public async Task<IActionResult> Create(Hotel hotel, IFormFile image)
         {
             if (ModelState.IsValid)
             {
+                CreateFiles(hotel, image);
+
                 _context.Add(hotel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -144,6 +148,22 @@ namespace Suaah.Areas.Admin.Controllers
             return View(hotel);
         }
 
+        protected void CreateFiles(Hotel hotel, IFormFile image = null)
+        {
+            if (image != null)
+            {
+                string fileName = Guid.NewGuid().ToString();
+                var uploads = Path.Combine(_webHost.WebRootPath, @"img\hotel");
+                var extension = Path.GetExtension(image.FileName);
+
+                using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                {
+                    image.CopyTo(fileStreams);
+                }
+
+                hotel.ImageUrl = @"\img\hotel\" + fileName + extension;
+            }
+        }
         // GET: Hotels/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -165,7 +185,7 @@ namespace Suaah.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address,Email,PhoneNumber,Description")] Hotel hotel)
+        public async Task<IActionResult> Edit(int id, Hotel hotel, IFormFile image)
         {
             if (id != hotel.Id)
             {
@@ -176,6 +196,20 @@ namespace Suaah.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (image != null)
+                    {
+                        if (hotel.ImageUrl != null)
+                        {
+                            var oldPath = Path.Combine(_webHost.WebRootPath, hotel.ImageUrl.TrimStart('\\'));
+                            if (System.IO.File.Exists(oldPath))
+                            {
+                                System.IO.File.Delete(oldPath);
+                            }
+                        }
+
+                        CreateFiles(hotel, image);
+                    }
+
                     _context.Update(hotel);
                     await _context.SaveChangesAsync();
                 }
@@ -219,6 +253,16 @@ namespace Suaah.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var hotel = await _context.Hotels.FindAsync(id);
+
+            if (hotel.ImageUrl != null)
+            {
+                var oldPath = Path.Combine(_webHost.WebRootPath, hotel.ImageUrl.TrimStart('\\'));
+                if (System.IO.File.Exists(oldPath))
+                {
+                    System.IO.File.Delete(oldPath);
+                }
+            }
+
             _context.Hotels.Remove(hotel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

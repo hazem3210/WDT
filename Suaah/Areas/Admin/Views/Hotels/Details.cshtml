@@ -13,27 +13,64 @@
     <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
 </div>
 
-
-<div class="card m-4 p-2" style="width: 100%;">
-    <div class="card-body p-4">
+<div class="card m-4 p-2 " style="width: 100%;">
+    <div class="card-body">
         <h1 class="text-center m-2">Details of  @Html.DisplayFor(model => model.Name) Hotel</h1>
-        <h4 class="card-subtitle mb-2 text-muted ">Description:</h4>
-        <p class="card-text f mx-3">@Html.DisplayFor(model => model.Description)</p>
+        <div class="container rounded p-2">
+            <div class="row">
+                <div class="col-12 col-lg-6 pb-4">
 
-        <h4 class="card-subtitle mb-2 text-muted d-inline">Address:</h4>
-        <p class="card-text d-inline f"> @Html.DisplayFor(model => model.Address)</p> <br /><br />
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">Description:</h4>
 
-        <h4 class="card-subtitle mb-2 text-muted d-inline">Email:</h4>
-        <p class="card-text d-inline f">@Html.DisplayFor(model => model.Email)</p> <br /><br />
-
-        <h4 class="card-subtitle mb-2 text-muted d-inline">PhoneNumber:</h4>
-        <p class="card-text d-inline f">@Html.DisplayFor(model => model.PhoneNumber)</p> <br /><br />
-
-        <h4 class="card-subtitle mb-2 text-muted d-inline">Stars:</h4>
-        <p class="card-text d-inline f">@Html.DisplayFor(model => model.Stars)</p> <br /><br />
-
+                        </div>
+                        <div class="col-9">
+                            <p class="card-text f mx-3">@Html.DisplayFor(model => model.Description)</p>
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">Address:</h4>
+                        </div>
+                        <div class="col-9">
+                            <p class="card-text d-inline f"> @Html.DisplayFor(model => model.Address)</p> <br /><br />
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">Email:</h4>
+                        </div>
+                        <div class="col-9">
+                            <p class="card-text d-inline f">@Html.DisplayFor(model => model.Email)</p> <br /><br />
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">PhoneNumber:</h4>
+                        </div>
+                        <div class="col-9">
+                            <p class="card-text d-inline f">@Html.DisplayFor(model => model.PhoneNumber)</p> <br /><br />
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">Stars:</h4>
+                        </div>
+                        <div class="col-9">
+                            <p class="card-text d-inline f">@Html.DisplayFor(model => model.Stars)</p> <br /><br />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 col-lg-5 offset-lg-1 text-left position-relative">
+                    <img src="@Model.ImageUrl" style="width:80%; height:auto; position:absolute" />
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<br />
+<br />
 
 <br />
 
@@ -83,4 +120,3 @@
     </div>
 </div>
 
- 
