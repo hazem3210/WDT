@@ -9,12 +9,14 @@ namespace Suaah.Models
 
         public double Price { get; set; }
 
+        [Display(Name ="Flight")]
         [Required]
         public int FlightId { get; set; }
 
         [ValidateNever]
         public Flight? Flight { get; set; }
 
+        [Display(Name ="Class")]
         [Required]
         public int FlightClassId { get; set; }
 

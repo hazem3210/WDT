@@ -12,6 +12,7 @@ namespace Suaah.Models
         [Required(ErrorMessage ="You must enter the name")]
         public string Name { get; set; }
 
+        [Display(Name ="Photo")]
         public string? PhotoPath { get; set; }
 
         [NotMapped]

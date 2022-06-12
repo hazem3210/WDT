@@ -19,12 +19,15 @@ namespace Suaah.Models
         [Display(Name = "Total Price")]
         public double? TotalPrice { get; set; }
 
+        [Display(Name = "Flight")]
         public int FlightId { get; set; }
         public Flight? Flight { get; set; }
 
+        [Display(Name = "Class")]
         public int FlightClassId { get; set; }
         public FlightClass? FlightClass { get; set; }
 
+        [Display(Name = "Customer")]
         public string CustomerId { get; set; }
         public Customer? Customer { get; set; }
     }
