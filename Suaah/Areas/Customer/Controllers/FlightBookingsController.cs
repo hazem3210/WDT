@@ -31,6 +31,9 @@ namespace Suaah.Areas.Customer.Controllers
         public async Task<IActionResult> Index(string? airline, string? order, string? ordersort, DateTime? timef, DateTime? timet, string? conf, string? cont,int? clas,double? min,double? max)
         {
             List<Flight> flights=null;
+            List<string> names = await _context.Countries.Select(c => c.Name).ToListAsync();
+            names.AddRange(await _context.Airports.Select(f => f.City).ToListAsync());
+            ViewBag.names = names;
             List<FlightClass> classes = await _context.FlightClassss.ToListAsync();
             List<Airline> airlines = await _context.Airlines.ToListAsync();
             bool classavtive = false;

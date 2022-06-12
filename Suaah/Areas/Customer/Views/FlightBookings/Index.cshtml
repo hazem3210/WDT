@@ -22,7 +22,7 @@
         <label class="control-label">From</label>
     </div>
     <div class="col-2">
-        <input name="conf" class="form-control" value="@ViewBag.conf" />
+        <input name="conf" list="names" class="form-control" value="@ViewBag.conf" />
     </div>
     <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden/>
     <input name="order" value="@ViewBag.order" hidden/>
@@ -43,6 +43,12 @@
     </div>
     
 </div>
+<datalist id="names">
+        @foreach(string name in ViewBag.names)
+        {
+            <option>@name</option>
+        }
+    </datalist>
 <div class="row">
 
 
@@ -57,7 +63,7 @@
         <label class="control-label">To</label>
     </div>
     <div class="col-2">
-        <input name="cont" class="form-control" value="@ViewBag.cont" />
+        <input name="cont" list="names" class="form-control" value="@ViewBag.cont" />
     </div>
         <div class="col-1">
         <label class="control-label">Min</label>

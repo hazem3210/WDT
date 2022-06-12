@@ -28,6 +28,9 @@ namespace Suaah.Areas.Admin.Controllers
         public async Task<IActionResult> Index(string? search, string? type, string? order, string? ordersort,DateTime? timef, DateTime? timet,string? conf,string? cont)
         {
             List<Flight> flights=null; 
+            List<string> names=await _context.Countries.Select(c => c.Name).ToListAsync();
+            names.AddRange(await _context.Airports.Select(f=>f.City).ToListAsync());
+            ViewBag.names = names;
             List<string> types = new List<string>() { "Departing Gate", "Arrive Gate", "Airline" };
             ViewBag.search = search;
             if(timef != null)
