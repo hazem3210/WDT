@@ -2,7 +2,7 @@
 @using Suaah.Data
 @inject ApplicationDbContext _context
 @{
-    ViewData["Title"] = "Hotels";
+    ViewData["Title"] = "Hotel Rooms";
 
     var rooms = _context.HotelRooms.ToList();
     var hotels = _context.Hotels.ToList();
@@ -45,15 +45,17 @@
                 <option>@item.Name</option>
             }
         </datalist>
-
+        <partial name="_Pagination" />
         <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2" />
         <br />
+
 
     </div>
 </form>
 
+<br />
 <div class="text-center">
-    <partial name="_Pagination" />
+
     <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
 </div>
 
@@ -61,28 +63,34 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" 
+                <a asp-action="Index"
                    asp-route-rdesc="@ViewData["rdesc"]" asp-route-rprice="@ViewData["rprice"]"
                    asp-route-rhotel="@ViewData["rhotel"]"
+                    asp-route-pageNumber="@ViewData["pageNumber"]"
+                   asp-route-pageSize="@ViewData["pageSize"]"
                    asp-route-order="description" asp-route-ordersort="@ViewBag.ordersort">
                     @Html.DisplayNameFor(model => model.Description)
                 </a>
             </th>
             <th>
-                 <a asp-action="Index" 
+                <a asp-action="Index"
                    asp-route-rdesc="@ViewData["rdesc"]" asp-route-rprice="@ViewData["rprice"]"
                    asp-route-rhotel="@ViewData["rhotel"]"
+                    asp-route-pageNumber="@ViewData["pageNumber"]"
+                   asp-route-pageSize="@ViewData["pageSize"]"
                    asp-route-order="price" asp-route-ordersort="@ViewBag.ordersort">
                     @Html.DisplayNameFor(model => model.Price)
                 </a>
-               
+
             </th>
             <th>
-                 <a asp-action="Index" 
+                <a asp-action="Index"
                    asp-route-rdesc="@ViewData["rdesc"]" asp-route-rprice="@ViewData["rprice"]"
                    asp-route-rhotel="@ViewData["rhotel"]"
+                    asp-route-pageNumber="@ViewData["pageNumber"]"
+                   asp-route-pageSize="@ViewData["pageSize"]"
                    asp-route-order="hotel" asp-route-ordersort="@ViewBag.ordersort">
-                @Html.DisplayNameFor(model => model.Hotel)
+                    @Html.DisplayNameFor(model => model.Hotel)
                 </a>
             </th>
             <th></th>
