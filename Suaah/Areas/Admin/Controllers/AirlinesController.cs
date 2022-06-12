@@ -79,7 +79,11 @@ namespace Suaah.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.flights=await _context.Flights.Where(f=>f.AirlineCode==id).Include(f=>f.Airline)
+                .Include(f=>f.FlightClasses).ThenInclude(e=>e.FlightClass)
+                .Include(f=>f.ArrivingAirport).ThenInclude(e=>e.Country)
+                .Include(f => f.DepartingAirport).ThenInclude(e => e.Country)
+                .ToListAsync();
             return View(airline);
         }
 

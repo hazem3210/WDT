@@ -31,6 +31,8 @@ namespace Suaah.Areas.Admin.Controllers
             List<string> names=await _context.Countries.Select(c => c.Name).ToListAsync();
             names.AddRange(await _context.Airports.Select(f=>f.City).ToListAsync());
             ViewBag.names = names;
+            List<string> airlines=await _context.Airlines.Select(f=>f.Name).ToListAsync();
+            ViewBag.airlines = airlines; 
             List<string> types = new List<string>() { "Departing Gate", "Arrive Gate", "Airline" };
             ViewBag.search = search;
             if(timef != null)
@@ -62,7 +64,7 @@ namespace Suaah.Areas.Admin.Controllers
                    .Include(f => f.ArrivingAirport).ThenInclude(a => a.Country)
                    .Include(f => f.DepartingAirport).ThenInclude(a => a.Country)
                    .Include(f => f.FlightClasses).ThenInclude(a => a.FlightClass).ToListAsync();
-                else if (type == "Arrive Gate") // airline??
+                else if (type == "Airline") // airline??
                     flights = await _context.Flights
                    .Include(f => f.Airline)
                    .Where(f => f.Airline.Name.ToLower().Contains(search.Trim().ToLower()))

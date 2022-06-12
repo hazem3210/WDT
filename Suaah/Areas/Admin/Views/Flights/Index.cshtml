@@ -24,7 +24,7 @@
             <label class="control-label">Type of Search</label>
         </div>
         <div class="col-2">
-            <select name="type" class="form-control form-select" asp-items="@ViewBag.types"></select>
+            <select name="type" class="form-control form-select" onchange="select();" asp-items="@ViewBag.types"></select>
         </div>
         <div class="col-1">
             <label class="control-label">From</label>
@@ -57,7 +57,7 @@
             <label class="control-label">Search</label>
         </div>
         <div class="col-2">
-            <input name="search" class="form-control" value="@ViewBag.search" />
+            <input name="search" list="airline" class="form-control" value="@ViewBag.search" />
         </div>
 
         <div class="col-1">
@@ -168,6 +168,16 @@
 </table>
 @section Scripts{
     <script>
+function select() {
+    var airline = document.getElementsByName('type')[0].value;
+    if (airline == 'Airline') {
+        Input();
+    }
+    else {
+        Remove();
+    }
+}
+
         function go() {
             if (document.getElementById("ord").value == "desc") {
                 document.getElementById("ord").value = "asc";
@@ -175,5 +185,19 @@
             else
                 document.getElementById("ord").value = "desc";
         }
+function Input() {
+    var airlines = @Html.Raw(Json.Serialize(ViewBag.airlines));
+    var data = '<datalist id="airline">';
+    for (var i = 0; i < airlines.length; i++) {
+        data += "<option>" + airlines[i] + "</option>";
+    }
+    data += "</datalist>";
+    document.getElementsByTagName("form")[0].innerHTML += data;
+    return data;
+}
+function Remove() {
+    var data = document.getElementById("airline");
+    data?.remove();
+}
     </script>
 }

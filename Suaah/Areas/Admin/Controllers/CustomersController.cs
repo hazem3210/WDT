@@ -86,7 +86,14 @@ namespace Suaah.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.flights = await _context.FlightBookingDetails.Where(f => f.CustomerId == id)
+                .Include(f => f.Customer).ThenInclude(e => e.IdentityUser)
+                .Include(f => f.Flight).ThenInclude(e => e.FlightClasses)
+                .Include(f => f.FlightClass).ThenInclude(e => e.Flights)
+                .Include(f => f.Flight).ThenInclude(e => e.Airline)
+                .Include(f => f.Flight).ThenInclude(e => e.ArrivingAirport).ThenInclude(d => d.Country)
+                .Include(f => f.Flight).ThenInclude(e => e.DepartingAirport).ThenInclude(d => d.Country)
+                .ToListAsync();
             return View(customer);
         }
 

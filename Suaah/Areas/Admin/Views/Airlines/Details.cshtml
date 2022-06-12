@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
+    List<Flight> flights = ViewBag.flights;
 }
 
 <h1>Details</h1>
@@ -30,6 +31,76 @@
         </dd>
     </dl>
 </div>
+@if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+{
+    <h1 style="text-align:center;">Flights</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Departing Gate
+                </th>
+                <th>
+                    Arrive Gate
+                </th>
+                <th>
+                    Number Of Stops
+                </th>
+                <th>
+                    Take off Time
+                </th>
+                <th>
+                    Airline
+                </th>
+                <th>
+                    From
+                </th>
+                <th>
+                    To
+                </th>
+                <th>
+                    Classes
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in flights)
+            {
+                <tr>
+                    <td>
+                        @item.DepartingGate
+                    </td>
+                    <td>
+                        @item.ArriveGate
+                    </td>
+                    <td>
+                        @item.NumberOfStops
+                    </td>
+                    <td>
+                        @item.LeaveTime
+                    </td>
+                    <td>
+                        @item.Airline.Name
+                    </td>
+                    <td>
+                        @item.DepartingAirport.Country.Name
+                    </td>
+                    <td>
+                        @item.ArrivingAirport.Country.Name
+                    </td>
+                    <td>
+                        <ul>
+                            @foreach (FlightsClasses clas in item.FlightClasses)
+                            {
+                                <li> @clas.FlightClass.Class</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 <div>
     @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
     {

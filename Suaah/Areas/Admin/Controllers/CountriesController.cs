@@ -62,7 +62,7 @@ namespace Suaah.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.airports = await _context.Airports.Where(f => f.CountryId == id).Include(f => f.Country).ToListAsync();
             return View(country);
         }
 
