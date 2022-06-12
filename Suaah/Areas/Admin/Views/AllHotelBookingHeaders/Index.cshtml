@@ -7,8 +7,10 @@
     var headers = _context.HotelBookingHeader.ToList();
 }
 
+<div class="text-center  m-2 mt-5 p-5 h">
+    <h1>All Hotel Booking Headers</h1>
 
-<h1>Index</h1>
+</div>
 <form asp-action="index" method="get">
 
     <div class="row m-3">
@@ -24,11 +26,11 @@
             <select name="pay" class="form-control form-select" asp-items="@ViewBag.payment">
             </select>
         </div>
-         
-  <br /><br />
+
+        <br /><br />
     </div>
     <div class="row m-3">
-       <div class="col-5">
+        <div class="col-5">
             <label class="control-label">Booking Date {From}</label>
 
             <input name="bookingfrom" type="date" class="form-control" value="@ViewBag.bookingfrom" />
@@ -43,7 +45,7 @@
         <br />
     </div>
     <div class="row m-3">
-       <div class="col-5">
+        <div class="col-5">
             <label class="control-label">Payment Date {From}</label>
 
             <input name="paymentfrom" type="date" class="form-control" value="@ViewBag.paymentfrom" />
@@ -65,15 +67,15 @@
                     <option>@item.Id</option>
                 }
             </datalist>
-            
+
             <input type="search" list="name" name="name" value="@ViewData["name"]" placeholder="Customer Name" class="p-2" />
             <datalist id="name">
                 @foreach (var item in headers)
                 {
                     <option>@item.Name</option>
                 }
-            </datalist>   
-            
+            </datalist>
+
             <input type="search" list="price" name="price" value="@ViewData["price"]" placeholder="Total Price" class="p-2" />
             <datalist id="price">
                 @foreach (var item in headers)
@@ -82,99 +84,101 @@
                 }
             </datalist>
 
-            <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2"  style="margin-left:75px; width:40%"/>
+            <partial name="_Pagination" />
         </div>
-         
-        <br />
- 
     </div>
-   
 
+    <br />
+
+    <div>
+        <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2" style="width:100%" />
+    </div>
 </form>
 
 <div class="text-center">
-    <partial name="_Pagination" />
+
     <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
 </div>
 
-<table class="table">
+<table class="table table-hover table-striped text-center p-3">
+
     <thead>
         <tr>
             <th>
-                 <a asp-action="Index" 
+                <a asp-action="Index"
                    asp-route-id="@ViewBag.id" asp-route-name="@ViewBag.name" asp-route-price="@ViewBag.price"
                    asp-route-bookingfrom="@ViewBag.bookingfrom" asp-route-bookingto="@ViewBag.bookingto"
                    asp-route-paymentfrom="@ViewBag.paymentfrom" asp-route-paymentto="@ViewBag.paymentto"
                    asp-route-stat="@ViewBag.stat" asp-route-pay="@ViewBag.pay"
                    asp-route-pageNumber="@ViewBag.pageNumber" asp-route-pageSize="@ViewBag.pageSize"
                    asp-route-order="id" asp-route-ordersort="@ViewBag.ordersort">
-                Header Id
+                    Header Id
                 </a>
             </th>
             <th>
-                 <a asp-action="Index" 
+                <a asp-action="Index"
                    asp-route-id="@ViewBag.id" asp-route-name="@ViewBag.name" asp-route-price="@ViewBag.price"
                    asp-route-bookingfrom="@ViewBag.bookingfrom" asp-route-bookingto="@ViewBag.bookingto"
                    asp-route-paymentfrom="@ViewBag.paymentfrom" asp-route-paymentto="@ViewBag.paymentto"
                    asp-route-stat="@ViewBag.stat" asp-route-pay="@ViewBag.pay"
                    asp-route-pageNumber="@ViewBag.pageNumber" asp-route-pageSize="@ViewBag.pageSize"
                    asp-route-order="name" asp-route-ordersort="@ViewBag.ordersort">
-                Customer Name
+                    Customer Name
                 </a>
             </th>
             <th>
-                 <a asp-action="Index" 
+                <a asp-action="Index"
                    asp-route-id="@ViewBag.id" asp-route-name="@ViewBag.name" asp-route-price="@ViewBag.price"
                    asp-route-bookingfrom="@ViewBag.bookingfrom" asp-route-bookingto="@ViewBag.bookingto"
                    asp-route-paymentfrom="@ViewBag.paymentfrom" asp-route-paymentto="@ViewBag.paymentto"
                    asp-route-stat="@ViewBag.stat" asp-route-pay="@ViewBag.pay"
                    asp-route-pageNumber="@ViewBag.pageNumber" asp-route-pageSize="@ViewBag.pageSize"
                    asp-route-order="bdate" asp-route-ordersort="@ViewBag.ordersort">
-                @Html.DisplayNameFor(model => model.BookingDate)
+                    @Html.DisplayNameFor(model => model.BookingDate)
                 </a>
             </th>
             <th>
-                 <a asp-action="Index" 
+                <a asp-action="Index"
                    asp-route-id="@ViewBag.id" asp-route-name="@ViewBag.name" asp-route-price="@ViewBag.price"
                    asp-route-bookingfrom="@ViewBag.bookingfrom" asp-route-bookingto="@ViewBag.bookingto"
                    asp-route-paymentfrom="@ViewBag.paymentfrom" asp-route-paymentto="@ViewBag.paymentto"
                    asp-route-stat="@ViewBag.stat" asp-route-pay="@ViewBag.pay"
                    asp-route-pageNumber="@ViewBag.pageNumber" asp-route-pageSize="@ViewBag.pageSize"
                    asp-route-order="pdate" asp-route-ordersort="@ViewBag.ordersort">
-                @Html.DisplayNameFor(model => model.PaymentDate)
+                    @Html.DisplayNameFor(model => model.PaymentDate)
                 </a>
             </th>
             <th>
-                <a asp-action="Index" 
+                <a asp-action="Index"
                    asp-route-id="@ViewBag.id" asp-route-name="@ViewBag.name" asp-route-price="@ViewBag.price"
                    asp-route-bookingfrom="@ViewBag.bookingfrom" asp-route-bookingto="@ViewBag.bookingto"
                    asp-route-paymentfrom="@ViewBag.paymentfrom" asp-route-paymentto="@ViewBag.paymentto"
                    asp-route-stat="@ViewBag.stat" asp-route-pay="@ViewBag.pay"
                    asp-route-pageNumber="@ViewBag.pageNumber" asp-route-pageSize="@ViewBag.pageSize"
                    asp-route-order="price" asp-route-ordersort="@ViewBag.ordersort">
-                @Html.DisplayNameFor(model => model.TotalPrice)
+                    @Html.DisplayNameFor(model => model.TotalPrice)
                 </a>
             </th>
             <th>
-                <a asp-action="Index" 
+                <a asp-action="Index"
                    asp-route-id="@ViewBag.id" asp-route-name="@ViewBag.name" asp-route-price="@ViewBag.price"
                    asp-route-bookingfrom="@ViewBag.bookingfrom" asp-route-bookingto="@ViewBag.bookingto"
                    asp-route-paymentfrom="@ViewBag.paymentfrom" asp-route-paymentto="@ViewBag.paymentto"
                    asp-route-stat="@ViewBag.stat" asp-route-pay="@ViewBag.pay"
                    asp-route-pageNumber="@ViewBag.pageNumber" asp-route-pageSize="@ViewBag.pageSize"
                    asp-route-order="stat" asp-route-ordersort="@ViewBag.ordersort">
-                @Html.DisplayNameFor(model => model.Status)
+                    @Html.DisplayNameFor(model => model.Status)
                 </a>
             </th>
             <th>
-                 <a asp-action="Index" 
+                <a asp-action="Index"
                    asp-route-id="@ViewBag.id" asp-route-name="@ViewBag.name" asp-route-price="@ViewBag.price"
                    asp-route-bookingfrom="@ViewBag.bookingfrom" asp-route-bookingto="@ViewBag.bookingto"
                    asp-route-paymentfrom="@ViewBag.paymentfrom" asp-route-paymentto="@ViewBag.paymentto"
                    asp-route-stat="@ViewBag.stat" asp-route-pay="@ViewBag.pay"
                    asp-route-pageNumber="@ViewBag.pageNumber" asp-route-pageSize="@ViewBag.pageSize"
                    asp-route-order="pay" asp-route-ordersort="@ViewBag.ordersort">
-                @Html.DisplayNameFor(model => model.Payment)
+                    @Html.DisplayNameFor(model => model.Payment)
                 </a>
             </th>
             <th></th>
