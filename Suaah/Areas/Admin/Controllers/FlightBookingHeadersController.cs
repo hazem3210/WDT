@@ -266,16 +266,17 @@ namespace Suaah.Areas.Admin.Controllers
 
             var flightBookingHeader = await _context.FlightBookingHeader
                 .Include(f => f.Customer).ThenInclude(g=>g.IdentityUser)
-                .Include(f=>f.FlightBookings).ThenInclude(g=>g.Flight).ThenInclude(h=>h.Airline)
-                .Include(f => f.FlightBookings).ThenInclude(g => g.Flight).ThenInclude(h => h.FlightClasses)
-                .Include(f => f.FlightBookings).ThenInclude(g => g.Flight).ThenInclude(h => h.ArrivingAirport).ThenInclude(i=>i.Country)
-                .Include(f => f.FlightBookings).ThenInclude(g => g.Flight).ThenInclude(h => h.DepartingAirport).ThenInclude(i => i.Country)
-                .Include(f => f.FlightBookings).ThenInclude(g => g.FlightClass)
                 .FirstOrDefaultAsync(m => m.ID == id);
+            var flights=await _context.FlightBookingDetails.Include(g => g.Flight).ThenInclude(h => h.Airline)
+                .Include(g => g.Flight).ThenInclude(h => h.FlightClasses)
+                .Include(g => g.Flight).ThenInclude(h => h.ArrivingAirport).ThenInclude(i => i.Country)
+                .Include(g => g.Flight).ThenInclude(h => h.DepartingAirport).ThenInclude(i => i.Country)
+                .Include(g => g.FlightClass).Where(f=>f.OrderID==id).ToListAsync();
             if (flightBookingHeader == null)
             {
                 return NotFound();
             }
+            flightBookingHeader.FlightBookings = flights;
 
             return View(flightBookingHeader);
         }
@@ -388,10 +389,14 @@ namespace Suaah.Areas.Admin.Controllers
         {
          
                 FlightBookingHeader header = await _context.FlightBookingHeader
-                    .Include(f => f.FlightBookings).ThenInclude(g => g.Flight).ThenInclude(h => h.Airline)
-                    .Include(f => f.FlightBookings).ThenInclude(g => g.Flight).ThenInclude(h => h.ArrivingAirport).ThenInclude(i => i.Country)
-                    .Include(f => f.FlightBookings).ThenInclude(g => g.FlightClass)
-                    .FirstOrDefaultAsync(m => m.ID == id); 
+                .Include(f => f.Customer).ThenInclude(g => g.IdentityUser)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            var flights = await _context.FlightBookingDetails.Include(g => g.Flight).ThenInclude(h => h.Airline)
+                .Include(g => g.Flight).ThenInclude(h => h.FlightClasses)
+                .Include(g => g.Flight).ThenInclude(h => h.ArrivingAirport).ThenInclude(i => i.Country)
+                .Include(g => g.Flight).ThenInclude(h => h.DepartingAirport).ThenInclude(i => i.Country)
+                .Include(g => g.FlightClass).Where(f => f.OrderID == id).ToListAsync();
+            header.FlightBookings = flights;
             if (header.PaymentStatus == SD.Payment_Pending && header.PaymentDueDate > DateTime.Now) 
             {
                 string domain = "https://localhost:44310/";
@@ -450,6 +455,7 @@ namespace Suaah.Areas.Admin.Controllers
             {
                 header.OrderStatus = SD.Status_Approved;
                 header.PaymentStatus = SD.Payment_Approved;
+                header.PaymentDate = DateTime.Now;
                 _context.FlightBookingHeader.Update(header);
                 await _context.SaveChangesAsync();
             }

@@ -3,20 +3,22 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Index</h1>
-
+<div class="row">
+<h1 class="text-center bg-black m-2 p-2 text-white col-12">Flights</h1>
+</div>
 @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
 {
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
+<div class="row m-2">
+        <a class="btn btn-danger col-12" asp-action="Create">Create New Flight</a>
+
+</div>
+
 }
 <form method="get" asp-action="Index">
     <div class="row">
-        <div class="col-3"><h3>Search</h3></div>
-        <div class="col-3"><h3>Time</h3></div>
-        <div class="col-3"><h3>Country</h3></div>
+        <div class="col-3 m-2 text-center" ><h3>Search</h3></div>
+        <div class="col-3 m-2 text-center"><h3>Time</h3></div>
+        <div class="col-3 m-2 text-center"><h3>Country</h3></div>
 
     </div>
     <div class="row">
@@ -77,6 +79,9 @@
         <div class="col-1">
             <input type="submit" class="btn btn-secondary" onclick="go();" />
         </div>
+    </div>
+    <div class="row m-2">
+        <a class="btn btn-danger offset-5 col-2" asp-action="Index">Back to full list</a>
     </div>
 </form>
 <table class="table">

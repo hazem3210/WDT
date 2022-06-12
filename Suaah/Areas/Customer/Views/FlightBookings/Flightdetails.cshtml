@@ -8,7 +8,7 @@
         
         <form asp-action="FlightDetails">
            @{
-            if(User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Admin))
+            if(User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
             {
                 <div class="form-group" >
                 <label asp-for="CustomerId" class="control-label" ></label>

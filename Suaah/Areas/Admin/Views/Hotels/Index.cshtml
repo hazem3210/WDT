@@ -56,7 +56,7 @@
 
         <input type="search" list="Stars" name="hStars" value="@ViewData["hStars"]" placeholder="Hotel Stars" class="p-2" />
         <datalist id="Stars">
-            @foreach (var item in hotels)
+            @foreach (var item in hotels.DistinctBy(f=>f.Stars))
             {
                 <option>@item.Stars</option>
             }

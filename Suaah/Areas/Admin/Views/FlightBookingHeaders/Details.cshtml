@@ -131,8 +131,8 @@
                                             <div class="row container">
                                                 <div class="col-8">
                                                     <h6 class="my-0">@item.FlightClass.Class</h6>
-                                                    <small class="text-muted">Arriving Airport : @item.Flight.ArrivingAirport.Name ,City: @item.Flight.ArrivingAirport.Country ,@item.Flight.ArrivingAirport.Country.Name</small>
-                                                    <small class="text-muted">Departing Airport : @item.Flight.DepartingAirport.Name ,City: @item.Flight.DepartingAirport.Country ,@item.Flight.DepartingAirport.Country.Name</small>
+                                                    <small class="text-muted">Arriving Airport : @item.Flight.ArrivingAirport.Name ,City: @item.Flight.ArrivingAirport.City ,@item.Flight.ArrivingAirport.Country.Name</small>
+                                                    <small class="text-muted">Departing Airport : @item.Flight.DepartingAirport.Name ,City: @item.Flight.DepartingAirport.City ,@item.Flight.DepartingAirport.Country.Name</small>
                                                     <small class="text-muted">Airline: @item.Flight.Airline.Name</small>
                                                     <small class="text-muted">Price :@item.Flight.FlightClasses.FirstOrDefault(f=>f.FlightClassId== item.FlightClassId).Price.ToString("c")</small>
                                                     <small class="text-muted">Quantity : @item.NumberOfSeats</small>

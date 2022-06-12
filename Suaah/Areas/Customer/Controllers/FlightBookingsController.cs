@@ -15,7 +15,6 @@ using Suaah.Models;
 namespace Suaah.Areas.Customer.Controllers
 {
     [Area("Customer")]
-    [Authorize(Roles =SD.Role_Manager+","+SD.Role_Admin)]
     public class FlightBookingsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -33,7 +32,7 @@ namespace Suaah.Areas.Customer.Controllers
         {
             List<Flight> flights=null;
             List<string> names = await _context.Countries.Select(c => c.Name).ToListAsync();
-            names.AddRange(await _context.Airports.Select(f => f.City).ToListAsync());
+            names.AddRange(await _context.Airports.Select(f => f.City).Distinct().ToListAsync());
             ViewBag.names = names;
             List<FlightClass> classes = await _context.FlightClassss.ToListAsync();
             List<Airline> airlines = await _context.Airlines.ToListAsync();
@@ -259,7 +258,7 @@ namespace Suaah.Areas.Customer.Controllers
         }
 
         // GET: FlightBookings/Edit/5
-        [Authorize(SD.Role_Admin+","+SD.Role_Manager)]
+        [Authorize(Roles = SD.Role_Admin+","+SD.Role_Manager)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -281,7 +280,7 @@ namespace Suaah.Areas.Customer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(SD.Role_Admin + "," + SD.Role_Manager)]
+        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Manager)]
         public async Task<IActionResult> Edit(int id, [Bind("Id,NumberOfAdults,NumberOfChildren,NumberOfInfants,NumberOfSeats,TotalPrice,Date,FlightClassId,CustomerId")] FlightBooking flightBooking)
         {
             if (id != flightBooking.Booknum)
@@ -314,7 +313,7 @@ namespace Suaah.Areas.Customer.Controllers
         }
 
         // GET: FlightBookings/Delete/5
-        [Authorize(SD.Role_Admin+","+SD.Role_Manager)]
+        [Authorize(Roles = SD.Role_Admin+","+SD.Role_Manager)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -337,7 +336,7 @@ namespace Suaah.Areas.Customer.Controllers
         // POST: FlightBookings/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(SD.Role_Admin + "," + SD.Role_Manager)]
+        [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Manager)]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var flightBooking = await _context.FlightBookings.FindAsync(id);
@@ -353,7 +352,8 @@ namespace Suaah.Areas.Customer.Controllers
 
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = SD.Role_Customer + "," + SD.Role_Manager + "," + SD.Role_Admin)]
+
         public async Task<IActionResult> Flightdetails(int? id)
         {
             Flight flight = await _context.Flights.Include(f => f.Airline)
@@ -393,37 +393,41 @@ namespace Suaah.Areas.Customer.Controllers
             var customer = await _context.Customers.FirstOrDefaultAsync(f => f.Id == flightBooking.CustomerId);
             flightBooking.Flight = flight;
             flightBooking.FlightClass = flightclass;
-            flightBooking.Customer= customer;
-                if (ModelState.IsValid)
-                {
-                
+            flightBooking.Customer = customer;
+            if (ModelState.IsValid)
+            {
+
                 FlightBooking? booking = await _context.FlightBookings
                          .Where(f => f.FlightClassId == flightBooking.FlightClassId && f.FlightId == flightBooking.FlightId)
                          .Include(f => f.FlightClass).ThenInclude(e => e.Flights).FirstOrDefaultAsync();
-                    if (booking == null)
-                    {
-                        flightBooking.TotalPrice = flightBooking.NumberOfSeats * flightBooking.FlightClass.Flights
-                                               .FirstOrDefault(f => f.FlightId == flightBooking.FlightId).Price;
-                        await _context.FlightBookings.AddAsync(flightBooking);
-                    }
-                    else
-                    {
-                        booking.NumberOfSeats += flightBooking.NumberOfSeats;
-                        booking.TotalPrice = booking.NumberOfSeats * booking.FlightClass.Flights
-                            .FirstOrDefault(f => f.FlightId == booking.FlightId).Price;
-                        _context.FlightBookings.Update(booking);
-                    }
-                    await _context.SaveChangesAsync();
-                HttpContext.Session.SetInt32(SD.Session_FlightBooking, _context.FlightBookings.Where(u => u.CustomerId == flightBooking.CustomerId).ToList().Count);
+                if (booking == null)
+                {
+                    flightBooking.TotalPrice = flightBooking.NumberOfSeats * flightBooking.FlightClass.Flights
+                                           .FirstOrDefault(f => f.FlightId == flightBooking.FlightId).Price;
+                    await _context.FlightBookings.AddAsync(flightBooking);
+                }
+                else
+                {
+                    booking.NumberOfSeats += flightBooking.NumberOfSeats;
+                    booking.TotalPrice = booking.NumberOfSeats * booking.FlightClass.Flights
+                        .FirstOrDefault(f => f.FlightId == booking.FlightId).Price;
+                    _context.FlightBookings.Update(booking);
+                }
+                await _context.SaveChangesAsync();
+                var claimidentity = (ClaimsIdentity)User.Identity;
+                var claim = claimidentity.FindFirst(ClaimTypes.NameIdentifier);
+                var check = await _context.Customers.FirstOrDefaultAsync(f => f.Id == claim.Value);
+                if (check != null)
+                    HttpContext.Session.SetInt32(SD.Session_FlightBooking, _context.FlightBookings.Where(u => u.CustomerId == flightBooking.CustomerId).ToList().Count);
                 return RedirectToAction(nameof(Index));
 
-                }
+            }
 
             ViewBag.customers = new SelectList(await _context.Customers.ToListAsync(), "Id", "Name");
             return View(flightBooking);
         }
 
-
+        [Authorize(Roles = SD.Role_Customer+","+SD.Role_Manager+","+SD.Role_Admin)]
         public async Task<IActionResult> BookingList()
         {
             var claimidentity = (ClaimsIdentity)User.Identity;
@@ -438,7 +442,7 @@ namespace Suaah.Areas.Customer.Controllers
             return View(flightBookings);
         }
 
-
+        [Authorize(Roles = SD.Role_Customer + "," + SD.Role_Manager + "," + SD.Role_Admin)]
         public async Task<IActionResult> Plus(int id)
         {
             FlightBooking flight=await _context.FlightBookings
@@ -454,7 +458,7 @@ namespace Suaah.Areas.Customer.Controllers
 
         }
 
-
+        [Authorize(Roles = SD.Role_Customer + "," + SD.Role_Manager + "," + SD.Role_Admin)]
         public async Task<IActionResult> mins(int id)
         {
             FlightBooking flight = await _context.FlightBookings
@@ -477,7 +481,7 @@ namespace Suaah.Areas.Customer.Controllers
 
         }
 
-
+        [Authorize(Roles = SD.Role_Customer + "," + SD.Role_Manager + "," + SD.Role_Admin)]
         public async Task<IActionResult> remove(int id)
         {
             FlightBooking flight = await _context.FlightBookings
@@ -491,7 +495,7 @@ namespace Suaah.Areas.Customer.Controllers
 
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = SD.Role_Customer + "," + SD.Role_Manager + "," + SD.Role_Admin)]
         public async Task<IActionResult> FlightSummary()
         {
             var claimidentity = (ClaimsIdentity)User.Identity;
@@ -624,7 +628,7 @@ namespace Suaah.Areas.Customer.Controllers
         }
 
 
-        [Authorize]
+        [Authorize(Roles = SD.Role_Customer + "," + SD.Role_Manager + "," + SD.Role_Admin)]
         public async Task<IActionResult> OrderConfirm(int id)
         {
             FlightBookingHeader header=await _context.FlightBookingHeader.FirstOrDefaultAsync(f=>f.ID==id);
@@ -634,6 +638,7 @@ namespace Suaah.Areas.Customer.Controllers
             {
                 header.OrderStatus = SD.Status_Approved;
                 header.PaymentStatus = SD.Payment_Approved;
+                header.PaymentDate = DateTime.Now;
                 _context.FlightBookingHeader.Update(header);
                 await _context.SaveChangesAsync();
             }
