@@ -29,6 +29,7 @@
 
         <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden />
         <input name="order" value="@ViewBag.order" hidden />
+     <partial name="_Pagination" />
 
         <div class="col-1">
             <input type="submit" class="btn btn-secondary" onclick="go();" />
@@ -43,12 +44,12 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-order="name" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="name" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
                     @Html.DisplayNameFor(model => model.Name)
                 </a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-order="country" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="country" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
                     @Html.DisplayNameFor(model => model.Country)
                 </a>
             </th>

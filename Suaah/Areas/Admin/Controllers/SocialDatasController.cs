@@ -25,7 +25,7 @@ namespace Suaah.Areas.Admin.Controllers
 
         // GET: SocialDatas
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string? name, string? order)
+        public async Task<IActionResult> Index(string? name, string? order, int pageSize, int pageNumber)
         {
             List<SocialData> socialDatas;
             if (string.IsNullOrEmpty(name))
@@ -42,6 +42,14 @@ namespace Suaah.Areas.Admin.Controllers
             {
                 socialDatas = socialDatas.OrderBy(f => f.SocialName).ToList();
                 ViewBag.order = "desc";
+            }
+
+            if (pageSize > 0 && pageNumber > 0)
+            {
+                ViewBag.PageSize = pageSize;
+                ViewBag.PageNumber = pageNumber;
+
+                socialDatas = socialDatas.Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToList();
             }
 
             return View(socialDatas);

@@ -25,6 +25,7 @@
     </div>
     <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden/>
     <input name="order" value="@ViewBag.order" hidden/>
+     <partial name="_Pagination" />
 
     <div class="col-1">
         <input type="submit" class="btn btn-secondary" onclick="go();"/>
@@ -39,22 +40,22 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-order="name" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="name" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
                 @Html.DisplayNameFor(model => model.Name)
                 </a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-order="email" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="email" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
                 @Html.DisplayNameFor(model => model.IdentityUser.Email)
                 </a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-order="phone" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="phone" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
                 @Html.DisplayNameFor(model => model.IdentityUser.PhoneNumber)
                 </a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-order="passport" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="passport" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
                 @Html.DisplayNameFor(model => model.PassportNumber)
                 </a>
             </th>

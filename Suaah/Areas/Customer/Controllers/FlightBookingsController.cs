@@ -28,7 +28,7 @@ namespace Suaah.Areas.Customer.Controllers
 
         // GET: FlightBookings
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string? airline, string? order, string? ordersort, DateTime? timef, DateTime? timet, string? conf, string? cont,int? clas,double? min,double? max)
+        public async Task<IActionResult> Index(string? airline, string? order, string? ordersort, DateTime? timef, DateTime? timet, string? conf, string? cont,int? clas,double? min,double? max, int pageSize, int pageNumber)
         {
             List<Flight> flights=null;
             List<string> names = await _context.Countries.Select(c => c.Name).ToListAsync();
@@ -234,6 +234,16 @@ namespace Suaah.Areas.Customer.Controllers
                 ViewBag.ordersort = "asc";
             else
                 ViewBag.ordersort = "desc";
+
+            if (pageSize > 0 && pageNumber > 0)
+            {
+                ViewBag.PageSize = pageSize;
+                ViewBag.PageNumber = pageNumber;
+
+                flights = flights.Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToList();
+            }
+
+
             return View(flights);
         }
          [Authorize]

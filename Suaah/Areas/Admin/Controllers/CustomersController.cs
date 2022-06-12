@@ -25,7 +25,7 @@ namespace Suaah.Areas.Admin.Controllers
         }
 
         // GET: Customer/Customers
-        public async Task<IActionResult> Index(string? search, string? type, string? order, string? ordersort)
+        public async Task<IActionResult> Index(string? search, string? type, string? order, string? ordersort, int pageSize, int pageNumber)
         {
             List<Models.Customer> customers;
             List<string> types = new List<string>() { "Name", "Email","Phone","Passport Number" };
@@ -67,7 +67,14 @@ namespace Suaah.Areas.Admin.Controllers
             else
                 ViewBag.ordersort = "desc";
 
-             
+            if (pageSize > 0 && pageNumber > 0)
+            {
+                ViewBag.PageSize = pageSize;
+                ViewBag.PageNumber = pageNumber;
+
+                customers = customers.Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToList();
+            }
+
             return View(customers);
         }
 
@@ -210,7 +217,7 @@ namespace Suaah.Areas.Admin.Controllers
             return _context.Customers.Any(e => e.Id == id);
         }
 
-        public async Task<IActionResult> Users(string? search, string? type, string? order, string? ordersort,string? role)
+        public async Task<IActionResult> Users(string? search, string? type, string? order, string? ordersort,string? role, int pageSize, int pageNumber)
         {
             List<IdentityUser> users;
             List<string> types = new List<string>() { "User Name", "Email", "Phone"};
@@ -292,6 +299,15 @@ namespace Suaah.Areas.Admin.Controllers
                 ViewBag.ordersort = "asc";
             else
                 ViewBag.ordersort = "desc";
+
+            if (pageSize > 0 && pageNumber > 0)
+            {
+                ViewBag.PageSize = pageSize;
+                ViewBag.PageNumber = pageNumber;
+
+                users = users.Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToList();
+            }
+
             return View(users);
         } 
         

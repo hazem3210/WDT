@@ -25,7 +25,7 @@ namespace Suaah.Areas.Admin.Controllers
         }
 
         // GET: Admin/Countries
-        public async Task<IActionResult> Index(string? name,string? order)
+        public async Task<IActionResult> Index(string? name,string? order, int pageSize, int pageNumber)
         {
            
             List<Country> countries;
@@ -44,7 +44,15 @@ namespace Suaah.Areas.Admin.Controllers
                 countries = countries.OrderBy(f => f.Name).ToList();
                 ViewBag.order = "desc";
             }
-                
+
+            if (pageSize > 0 && pageNumber > 0)
+            {
+                ViewBag.PageSize = pageSize;
+                ViewBag.PageNumber = pageNumber;
+
+                countries = countries.Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToList();
+            }
+
             return View(countries);
         }
 

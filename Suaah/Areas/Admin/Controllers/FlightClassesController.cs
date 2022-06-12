@@ -24,7 +24,7 @@ namespace Suaah.Areas.Admin.Controllers
         }
 
         // GET: FlightClasses
-        public async Task<IActionResult> Index(string? name, string? order)
+        public async Task<IActionResult> Index(string? name, string? order, int pageSize, int pageNumber)
         {
             List<FlightClass> flightClasses;
             if (string.IsNullOrEmpty(name))
@@ -47,7 +47,15 @@ namespace Suaah.Areas.Admin.Controllers
                 flightClasses = flightClasses.OrderBy(f => f.Class).ToList();
                 ViewBag.order = "desc";
             }
-                
+
+            if (pageSize > 0 && pageNumber > 0)
+            {
+                ViewBag.PageSize = pageSize;
+                ViewBag.PageNumber = pageNumber;
+
+                flightClasses = flightClasses.Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToList();
+            }
+
             return View(flightClasses);
         }
 

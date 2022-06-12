@@ -21,7 +21,9 @@
             <input name="name" class="form-control" value="@ViewBag.name" />
         </div>
         <input name="order" id="ord" value="@ViewBag.order" hidden />
-        <div class="col-1">
+     <partial name="_Pagination" />
+
+        <div class="offset-1 col-1">
             <input type="submit" class="btn btn-secondary" onclick="go();" />
         </div>
 
@@ -34,7 +36,7 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-order="@ViewBag.order" asp-route-name="@ViewBag.name">
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="@ViewBag.order" asp-route-name="@ViewBag.name">
                     @Html.DisplayNameFor(model => model.SocialName)
                 </a>
             </th>

@@ -27,7 +27,7 @@ namespace Suaah.Areas.Admin.Controllers
 
         // GET: Airlines
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string? search, string? type, string? order, string? ordersort)
+        public async Task<IActionResult> Index(string? search, string? type, string? order, string? ordersort, int pageSize, int pageNumber)
         {
             List<Airline> airlines;
             List<string> types = new List<string>() { "name", "country" };
@@ -62,7 +62,15 @@ namespace Suaah.Areas.Admin.Controllers
                 ViewBag.ordersort = "asc";
             else
                 ViewBag.ordersort = "desc";
-            
+
+            if (pageSize > 0 && pageNumber > 0)
+            {
+                ViewBag.PageSize = pageSize;
+                ViewBag.PageNumber = pageNumber;
+
+                airlines = airlines.Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToList();
+            }
+
             return View(airlines);
         }
 
@@ -86,6 +94,7 @@ namespace Suaah.Areas.Admin.Controllers
                 .Include(f=>f.ArrivingAirport).ThenInclude(e=>e.Country)
                 .Include(f => f.DepartingAirport).ThenInclude(e => e.Country)
                 .ToListAsync();
+
             return View(airline);
         }
 
