@@ -32,6 +32,9 @@ namespace Suaah.Areas.Admin.Controllers
             ViewData["hEmail"] = hEmail;
             ViewData["hPhoneNumber"] = hPhoneNumber;
             ViewData["hStars"] = hStars;
+            ViewData["pageSize"] = pageSize;
+            ViewData["pageNumber"] = pageNumber;
+ 
 
             IQueryable<Hotel> hotels = _context.Hotels;    
 

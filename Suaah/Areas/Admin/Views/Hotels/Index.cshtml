@@ -61,16 +61,20 @@
                 <option>@item.Stars</option>
             }
         </datalist>
-
-        <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2" />
+        <partial name="_Pagination" />
         <br />
 
+
     </div>
+    <div>
+        <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2 " style="width:100%"/>
+    </div>
+    <br />
 </form>
 
- <div class="text-center">
-<partial name="_Pagination" />
-<a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
+<div class="text-center">
+
+    <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
 </div>
 
 <table class="table table-hover table-striped text-center p-3">
@@ -80,6 +84,8 @@
                 <a asp-action="Index" asp-route-nameOrder="@ViewData["NameSortParm"]"
                    asp-route-hName="@ViewData["hName"]" asp-route-hAddress="@ViewData["hAddress"]"
                    asp-route-hStars="@ViewData["hStars"]"
+                   asp-route-pageNumber="@ViewData["pageNumber"]"
+                   asp-route-pageSize="@ViewData["pageSize"]"
                    asp-route-order="name" asp-route-ordersort="@ViewBag.ordersort">
                     @Html.DisplayNameFor(model => model.Name)
                 </a>
@@ -88,6 +94,8 @@
                 <a asp-action="Index" asp-route-addOrder="@ViewData["AddSortParm"]"
                    asp-route-hName="@ViewData["hName"]" asp-route-hAddress="@ViewData["hAddress"]"
                    asp-route-hStars="@ViewData["hStars"]"
+                   asp-route-pageNumber="@ViewData["pageNumber"]"
+                   asp-route-pageSize="@ViewData["pageSize"]"
                    asp-route-order="add" asp-route-ordersort="@ViewBag.ordersort">
                     @Html.DisplayNameFor(model => model.Address)
                 </a>
@@ -102,6 +110,8 @@
                 <a asp-action="Index" asp-route-addOrder="@ViewData["AddSortParm"]"
                    asp-route-hName="@ViewData["hName"]" asp-route-hAddress="@ViewData["hAddress"]"
                    asp-route-hStars="@ViewData["hStars"]"
+                   asp-route-pageNumber="@ViewData["pageNumber"]"
+                   asp-route-pageSize="@ViewData["pageSize"]"
                    asp-route-order="stars" asp-route-ordersort="@ViewBag.ordersort">
                     @Html.DisplayNameFor(model => model.Stars)
                 </a>
