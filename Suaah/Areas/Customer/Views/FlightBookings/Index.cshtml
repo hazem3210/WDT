@@ -4,12 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Flights</h1>
+<div class="row">
+<h1 class="text-center bg-black m-2 p-4 text-white col-12">Flights</h1>
+</div>
 <form method="get" asp-action="Index">
     <div class="row">
-        <div class="col-3"><h3>Date</h3></div>
-        <div class="col-3"><h3>Country</h3></div>
-        <div class="col-3"><h3>Class</h3></div>
+        <div class="col-3 m-2 text-center"><h3>Date</h3></div>
+        <div class="col-3 m-2 text-center"><h3>Country</h3></div>
+        <div class="col-5 m-2 text-center"><h3>Class</h3></div>
 
     </div>
 <div class="row">
@@ -83,10 +85,13 @@
             <option value="">All</option>
         </select>
     </div>
-     <div class="offset-6 col-2">
+     <div class="offset-5 col-2">
         <input type="submit" class="btn btn-secondary" onclick="go();"/>
         </div>
 </div>
+    <div class="row m-2">
+        <a class="btn btn-danger offset-5 col-2" asp-action="Index">Back to full list</a>
+    </div>
 </form>
 <table class="table">
     <thead>

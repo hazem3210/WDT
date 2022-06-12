@@ -74,6 +74,9 @@
         <input type="submit" class="btn-secondary btn" onclick="go();" />
     </div>
 </div>
+    <div class="row m-2">
+        <a class="btn btn-danger offset-5 col-2" asp-action="Index">Back to full list</a>
+    </div>
     </form>
 
 
@@ -136,7 +139,11 @@
             </td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                @if (!User.IsInRole(SD.Role_Customer))
+                    {
                 <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                        
+                    }
             </td>
         </tr>
 }
