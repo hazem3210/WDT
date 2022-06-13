@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 <div class="row">
-<h1 class="text-center bg-black m-2 p-2 text-white col-12">Flights</h1>
+<h1 class="text-center bg-black m-2 p-3 text-white col-12">Flights</h1>
 </div>
 @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
 {
@@ -14,7 +14,7 @@
 </div>
 
 }
-<form method="get" asp-action="Index">
+<form method="get" asp-action="Index" class="m-1">
     <div class="row">
         <div class="col-3 m-2 text-center" ><h3>Search</h3></div>
         <div class="col-3 m-2 text-center"><h3>Time</h3></div>

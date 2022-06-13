@@ -4,16 +4,19 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
+<div class="row">
+<h1 class="text-center bg-black m-2 p-3 text-white col-12">Airports</h1>
+</div>
 @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
 {
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
+<div class="row m-2">
+        <a class="btn btn-danger col-12" asp-action="Create">Create New Airport</a>
+
+</div>
+
 }
 
-<form method="get" asp-action="Index">
+<form method="get" asp-action="Index" class="m-1">
     <div class="row m-4">
         <div class="col-1">
             <label class="control-label">Search</label>
