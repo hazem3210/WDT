@@ -1003,7 +1003,7 @@ namespace Suaah.Migrations
                         .IsRequired();
 
                     b.HasOne("Suaah.Models.HotelRoom", "HoteRoom")
-                        .WithMany()
+                        .WithMany("BookingDetails")
                         .HasForeignKey("HotelRoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1097,6 +1097,8 @@ namespace Suaah.Migrations
 
             modelBuilder.Entity("Suaah.Models.HotelRoom", b =>
                 {
+                    b.Navigation("BookingDetails");
+
                     b.Navigation("Services");
                 });
 

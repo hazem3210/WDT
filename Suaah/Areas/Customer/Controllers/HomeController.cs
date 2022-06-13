@@ -25,6 +25,7 @@ namespace Suaah.Areas.Customer.Controllers
             {
                 Airlines = _context.Airlines.Take(4),
                 Countries = _context.Countries.Take(4),
+                flightsCountries=_context.Countries.OrderBy( e=> ( _context.Airports.Where(c=>c.CountryId==e.ID).ToList().Count)).Take(4)
             };
             
             var claimIdentity = (ClaimsIdentity)User.Identity;
