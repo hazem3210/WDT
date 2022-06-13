@@ -1,42 +1,64 @@
 ﻿@model IEnumerable<Suaah.Models.SocialData>
-
+@using Suaah.Data
+@inject ApplicationDbContext _context
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Social Data";
+
+    var socialData = _context.SocialData.ToList();
 }
 
-<h1>Index</h1>
+
+<div class="text-center  m-2 mt-5 p-5 h">
+    <h1>Social Data</h1>
+</div>
+
 
 @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
 {
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
+    <div class="m-2 mb-5">
+        <a asp-action="Create" class="w-100 d-block btn btn-danger p-2">Create New Social Data</a>
+    </div>
 }
-<form method="get" asp-action="Index">
-    <div class="row">
-        <div class="col-1">
-            <label class="control-label">Search</label>
-        </div>
-        <div class="col-2">
-            <input name="name" class="form-control" value="@ViewBag.name" />
-        </div>
-        <input name="order" id="ord" value="@ViewBag.order" hidden />
-     <partial name="_Pagination" />
 
-        <div class="offset-1 col-1">
-            <input type="submit" class="btn btn-secondary" onclick="go();" />
-        </div>
+<form asp-action="Index" method="get">
+    <input name="order" id="ord" value="@ViewBag.order" hidden />
+ 
+
+    <div class="form-actions no-color text-center p-3">
+
+        <input type="search" list="name" name="name" value="@ViewBag.name" placeholder="social Name" class="p-2" />
+        <datalist id="name">
+            @foreach (var item in socialData)
+            {
+                <option>@item.SocialName</option>
+            }
+        </datalist>
+
+        <partial name="_Pagination" />
+        <br />
+
 
     </div>
-    <div class="row m-2">
-        <a class="btn btn-danger offset-5 col-2" asp-action="Index">Back to full list</a>
+    <div>
+        <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2 " style="width:100%" onclick="go();"/>
     </div>
+    <br />
 </form>
-<table class="table">
+
+<div class="text-center">
+
+    <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
+
+</div>
+
+<table class="table table-hover table-striped text-center p-3">
     <thead>
         <tr>
             <th>
-                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="@ViewBag.order" asp-route-name="@ViewBag.name">
+                <a asp-action="Index" 
+                   asp-route-pageSize="@ViewBag.PageSize" 
+                    asp-route-pageNumber="@ViewBag.PageNumber" 
+                    asp-route-order="@ViewBag.order" asp-route-name="@ViewBag.name">
                     @Html.DisplayNameFor(model => model.SocialName)
                 </a>
             </th>
@@ -60,9 +82,11 @@
                     @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
                     {
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> <span>|</span>
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a><span>|</span>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                        <span>|</span>
                     }
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    
                 </td>
             </tr>
         }
