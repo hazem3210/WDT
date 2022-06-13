@@ -21,6 +21,13 @@
                 <input asp-for="Name" class="form-control" placeholder="Name" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="CountryId" class="control-label"></label>
+                <select asp-for="CountryId" class="form-select" asp-items="@ViewBag.Countries">
+                    <option selected disabled>Select a Country...</option>
+                </select>
+                <span asp-validation-for="CountryId" class="text-danger"></span>
+            </div>
             <div class="form-group m-2">
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" placeholder="Address"/>

@@ -14,14 +14,18 @@ namespace Suaah.Models
         [Required]
         public string Name { get; set; }
 
-        [Required]
-        public string Country { get; set; }
+        [Display(Name = "Country")]
+        [Required(ErrorMessage = "You must choose a Country")]
+        public int CountryId { get; set; }
 
         [Required]
         public string Description { get; set; }
         [ValidateNever]
         [DisplayName("Image")]
         public string? ImageUrl { get; set; }
+
+        [ValidateNever]
+        public Country? Country { get; set; }
 
         [ValidateNever]
 

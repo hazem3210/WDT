@@ -5,6 +5,7 @@
     ViewData["Title"] = "Hotels";
 
     var hotels = _context.Hotels.ToList();
+    var countries = _context.Countries.ToList();
 }
 
 
@@ -61,6 +62,17 @@
                 <option>@item.Stars</option>
             }
         </datalist>
+
+         <input type="search" list="country" name="hCountry" value="@ViewData["hCountry"]" placeholder="Country" class="p-2" />
+        <datalist id="country">
+            @foreach (var item in countries)
+            {
+                <option>@item.Name</option>
+            }
+        </datalist>
+
+          <br />
+          <br />
         <partial name="_Pagination" />
         <br />
 
@@ -88,6 +100,16 @@
                    asp-route-pageSize="@ViewData["pageSize"]"
                    asp-route-order="name" asp-route-ordersort="@ViewBag.ordersort">
                     @Html.DisplayNameFor(model => model.Name)
+                </a>
+            </th>
+            <th>
+                <a asp-action="Index"  
+                   asp-route-hName="@ViewData["hName"]" asp-route-hAddress="@ViewData["hAddress"]"
+                   asp-route-hStars="@ViewData["hStars"]"
+                   asp-route-pageNumber="@ViewData["pageNumber"]"
+                   asp-route-pageSize="@ViewData["pageSize"]"
+                   asp-route-order="country" asp-route-ordersort="@ViewBag.ordersort">
+                    @Html.DisplayNameFor(model => model.CountryId)
                 </a>
             </th>
             <th>
@@ -125,6 +147,9 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Address)

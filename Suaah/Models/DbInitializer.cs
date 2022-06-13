@@ -140,43 +140,99 @@ namespace Suaah.Models
                 _context.SocialData.AddRange(social);
                 _context.SaveChanges();
 
+                var countries = new List<Country>()
+                {
+                    new Country()
+                    {
+                        Name ="Egypt",
+                        PhotoPath ="/img/Country/download.jpeg"
+                    },
+                    new Country()
+                    {
+                        Name ="China",
+                        PhotoPath ="/img/Country/download (2).jpg"
+                    },
+                    new Country()
+                    {
+                        Name ="Cuba",
+                        PhotoPath ="/img/Country/download (1).jpg"
+                    },
+                    new Country()
+                    {
+                        Name ="Australia",
+                        PhotoPath ="/img/Country/download (3).jpg"
+                    },
+                     new Country()
+                    {
+                        Name ="United States",
+                        PhotoPath ="/img/Country/download (4).jpg"
+                    },
+                      new Country()
+                    {
+                        Name ="España",
+                        PhotoPath ="/img/Country/download (6).jpg"
+                    },
+                      new Country()
+                    {
+                        Name ="France",
+                        PhotoPath ="/img/Country/download (7).jifif"
+                    },
+                    new Country()
+                    {
+                        Name ="Malaysia",
+                        PhotoPath ="/img/Country/Malaysia.svg.png"
+                    }
+                };
+
+                _context.Countries.AddRange(countries);
+                _context.SaveChanges();
+
+
                 var hotels = new List<Hotel>()
                 {
                     new Hotel()
                     {
                         Name="Rixos",
-                        Address ="Sharm El Sheikh, Egypt",
+                        CountryId = 1,
+                        Address ="Sharm El Sheikh",
                         Email = "RixosSharm@gmail.com",
                         PhoneNumber = "0123654789",
                         Description = "Property Location: Located in Sharm el Sheikh, Rixos Sharm El Sheikh - All Inclusive is by the sea, a 1-minute drive from Nabq Bay and 6 minutes from Rehana Beach. This 5-star resort is 4.2 mi (6.8 km) from Nabq Protected Area and 4.9 mi (7.8 km) from Shark's Bay.",
-                        Stars = "5"
+                        Stars = "5",
+                        ImageUrl=@"\img\hotel\Rixos.webp"
                     },
                      new Hotel()
                     {
                         Name="Conrad Cairo",
-                        Address ="Cairo, Egypt",
+                         CountryId = 1,
+                        Address ="Cairo",
                         Email = "ConradCairo@gmail.com",
                         PhoneNumber = "0113654789",
                         Description = "Property Location: With a stay at Conrad Cairo, you'll be centrally located in Cairo, within a 15-minute drive of Egyptian Museum and Tahrir Square. This 5-star hotel is 2.8 mi (4.5 km) from Khan el-Khalili and 4.8 mi (7.7 km) from Cairo Tower. ",
-                        Stars = "4"
+                        Stars = "4",
+                        ImageUrl=@"\img\hotel\Conrad Cairo.jpg"
                     },
                      new Hotel()
                     {
                         Name="Mercure Paris Saint Lazare Monceau",
-                        Address ="Paris, France",
+                         CountryId = 7,
+                        Address ="Paris",
                         Email = "Mercure@gmail.com",
                         PhoneNumber = "25631488",
                         Description = "Property Location: A stay at Mercure Paris Saint Lazare Monceau places you in the heart of Paris, within a 15-minute walk of Place de Clichy and Parc Monceau. This 4-star hotel is 0.7 mi (1.2 km) from Casino de Paris and 0.8 mi (1.3 km) from Moulin Rouge. ",
-                        Stars = "5"
+                        Stars = "5",
+                        ImageUrl=@"\img\hotel\Mercure Paris Saint Lazare Monceau.jpg"
                     },
                       new Hotel()
                     {
                         Name="Traders ",
+                        CountryId= 8,
                         Address ="Kuala Lumpur",
                         Email = "Traders@gmail.com",
                         PhoneNumber = "589214753",
                         Description = "Property Location: With a stay at Traders Hotel Kuala Lumpur, you'll be centrally located in Kuala Lumpur, steps from Aquaria KLCC and minutes from KLCC Park. This 5-star hotel is close to Kuala Lumpur Convention Centre and Pavilion Kuala Lumpur. ",
-                        Stars = "3"
+                        Stars = "3",
+                        ImageUrl=@"\img\hotel\Traders.jpg"
                     },
                 };
 
@@ -205,7 +261,8 @@ namespace Suaah.Models
                         Price = 300.0,
                         CancelBeforeHours=0,
                         Description = "Deluxe, 1 King Bed, Non Smoking, City View",
-                        HotelId=1
+                        HotelId=1,
+                        ImageUrl=@"\img\Rooms\1.jpg"
                     },
 
                     new HotelRoom()
@@ -213,78 +270,89 @@ namespace Suaah.Models
                         Price = 600.0,
                         CancelBeforeHours=0,
                         Description = "Room, 2 Twin Beds, Non Smoking",
-                        HotelId=1
+                        HotelId=1,
+                        ImageUrl=@"\img\Rooms\2.jpg"
                     },
                     
                     new HotelRoom()
                     {
-                        Price = 250.0,
+                        Price = 350.0,
                         CancelBeforeHours=0,
-                        Description = "Room, 2 Twin Beds, Non Smoking",
-                        HotelId=1
+                        Description = "Room, 2 Twin Beds",
+                        HotelId=1,
+                        ImageUrl=@"\img\Rooms\3.jpg"
                     }, 
                     new HotelRoom()
                     {
                         Price = 300.0,
                         CancelBeforeHours=0,
                         Description = "Room, 1 King Bed, Non Smoking ",
-                        HotelId=2
+                        HotelId=2,
+                        ImageUrl=@"\img\Rooms\4.jpg"
                     },
                     new HotelRoom()
                     {
                         Price = 700.0,
                         CancelBeforeHours=0,
                         Description = "Executive Room, 2 Twin Beds, Non Smoking, City View",
-                        HotelId=2
+                        HotelId=2,
+                        ImageUrl=@"\img\Rooms\5.jpg"
                     },
                     new HotelRoom()
                     {
                         Price = 800.0,
                         CancelBeforeHours=0,
                         Description = "Executive Room, 1 King Bed, Non Smoking, City View",
-                        HotelId=2
+                        HotelId=2,
+                        ImageUrl=@"\img\Rooms\6.jpg"
                     }, 
                     new HotelRoom()
                     {
                         Price = 650.0,
                         CancelBeforeHours=0,
                         Description = "Junior Suite, 1 King Bed, Non Smoking, City View",
-                        HotelId=3
+                        HotelId=3,
+                        ImageUrl=@"\img\Rooms\7.jpg"
                     }, 
                     new HotelRoom()
                     {
                         Price = 750.0,
                         CancelBeforeHours=0,
                         Description = "Suite, 1 Bedroom, Non Smoking, City View",
-                        HotelId=3
+                        HotelId=3,
+                        ImageUrl=@"\img\Rooms\8.jpg"
                     },
                     new HotelRoom()
                     {
                         Price = 800.0,
                         CancelBeforeHours=0,
                         Description = "Suite, 2 Bedrooms, City View ",
-                        HotelId=3
+                        HotelId=3,
+                        ImageUrl=@"\img\Rooms\9.jpg"
                     },
                     new HotelRoom()
                     {
                         Price = 500.0,
                         CancelBeforeHours=0,
                         Description = "Room Deluxe Canal View",
-                        HotelId=4
+                        HotelId=4,
+                        ImageUrl=@"\img\Rooms\10.jpg"
                     },
                     new HotelRoom()
                     {
                         Price = 800.0,
                         CancelBeforeHours=0,
                         Description = "Double Deluxe Canal View",
-                        HotelId=4
+                        HotelId=4,
+                        ImageUrl=@"\img\Rooms\11.jpg"
                     },
                     new HotelRoom()
                     {
                         Price = 1800.0,
                         CancelBeforeHours=0,
                         Description = "Twin Superior",
-                        HotelId=4
+                        HotelId=4,
+                        ImageUrl=@"\img\Rooms\12.jpg"
                     }
                 };
                 _context.HotelRooms.AddRange(hotelRooms);
@@ -416,81 +484,40 @@ namespace Suaah.Models
                 _context.FlightClassss.AddRange(flightClasses);
                 _context.SaveChanges();
 
-                var countries = new List<Country>()
-                {
-                    new Country()
-                    {
-                        Name ="Egypt",
-                        PhotoPath ="/img/Country/download.jpeg"
-                    },
-                    new Country()
-                    {
-                        Name ="China",
-                        PhotoPath ="/img/Country/download (2).jpg"
-                    },
-                    new Country()
-                    {
-                        Name ="Cuba",
-                        PhotoPath ="/img/Country/download (1).jpg"
-                    },
-                    new Country()
-                    {
-                        Name ="Australia",
-                        PhotoPath ="/img/Country/download (3).jpg"
-                    },
-                     new Country()
-                    {
-                        Name ="United States",
-                        PhotoPath ="/img/Country/download (4).jpg"
-                    },
-                      new Country()
-                    {
-                        Name ="España",
-                        PhotoPath ="/img/Country/download (6).jpg"
-                    },
-                      new Country()
-                    {
-                        Name ="France",
-                        PhotoPath ="/img/Country/download (7).jifif"
-                    }
-                };
-
-                _context.Countries.AddRange(countries);
-                _context.SaveChanges();
-
+               
                 var airlines = new List<Airline>()
                 {
                     new Airline()
                     {
                         Code = "RBG",
                         Name ="Air Arabia Egypt",
-                        Country = "Cairo, Egypt",
+                        CountryId = 1,
                         Description = "Air Arabia Egypt is an Alexandria-based Air Arabia Group company. The airline offers low-cost travel to a number of destinations across the region. The company focuses on booking online. Air Arabia Egypt also provides booking facilities through call centers, travel agents, appointed GSA's and sales shops.",
-                        ImageUrl=@"\img\airlines\download (7).png"
+                        ImageUrl=@"\img\airlines\Air Arabia Egypt.png"
                     },
                     new Airline()
                     {
                         Code = "MSC",
                         Name ="Air Cairo",
-                        Country = "Europe",
+                        CountryId = 1,
                         Description = "Air Cairo is a low-fare airline based in Cairo, Egypt.  The airline is part owned by Egyptair. Air Cairo operates scheduled flights to the Middle East and Europe and also operates charter flights to Egypt from Europe on behalf of tour operators. Its base is Cairo International Airport, Sharm El Sheikh International Airport and Hurghada International Airport with the company head office in the Sheraton Heliopolis Zone. ",
-                        ImageUrl=@"\img\airlines\download (7).png"
+                        ImageUrl=@"\img\airlines\Air Cairo.jpg"
                     },
                     new Airline()
                     {
                         Code = "KHH",
                         Name ="Alexandria Airlines",
-                        Country = "Cairo, Egypt",
+                        CountryId = 1,
                         Description = "The airline was established in 2006 and commenced its operations in March 2007.In April 2022, it was announced the airline would be resuming operations, from 23 April, from Alexandria to Amman and Kuwait.",
-                        ImageUrl=@"\img\airlines\download (7).png"
+                        ImageUrl=@"\img\airlines\Alexandria Airlines.jpg"
                     },
                     new Airline()
                     {
                         Code = "MSR",
                         Name ="EgyptAir",
-                        Country = "Cairo, Egypt",
+                         CountryId = 1,
                         Description = "Egyptair is the state-owned flag carrier of Egypt. The airline is headquartered at Cairo International Airport, its main hub, operating scheduled passenger and freight services to 70 destinations in the Middle East, Europe, Africa, Asia, and the Americas.",
-                        ImageUrl=@"\img\airlines\download (7).png"
+                        ImageUrl=@"\img\airlines\EgyptAir.png"
                     }
                 };
 
@@ -504,35 +531,32 @@ namespace Suaah.Models
                         Name = "Cairo International Airport",
                         City = "Cairo",
                         CountryId = 1,
-                        Description = "Cairo International Airport is the principal international airport of Cairo and the largest and busiest airport in Egypt and serves as the primary hub for EgyptAir and Nile Air as well as several other airlines. The airport is located in Heliopolis, to the northeast of Cairo around fifteen kilometres (eight nautical miles) from the business area of the city and has an area of approximately 37 km2 (14 sq mi). Since 2020, it is the busiest airport in Africa, in terms of total passengers."
+                        Description = "Cairo International Airport is the principal international airport of Cairo and the largest and busiest airport in Egypt and serves as the primary hub for EgyptAir and Nile Air as well as several other airlines. The airport is located in Heliopolis, to the northeast of Cairo around fifteen kilometres (eight nautical miles) from the business area of the city and has an area of approximately 37 km2 (14 sq mi). Since 2020, it is the busiest airport in Africa, in terms of total passengers.",
+                        ImageUrl=@"\img\airport\Cairo International Airport.jpeg"
                     },
                     new Airport()
                     {
                         Name = "Gran Canaria Airport",
                         City = "Gran Canaria",
                         CountryId = 6,
-                        Description = "Gran Canaria Airport, sometimes also known as Gando Airport (Spanish: Aeropuerto de Gran Canaria), is a passenger and freight airport on the island of Gran Canaria. It is an important airport within the Spanish air-transport network (owned and managed by a public enterprise, AENA), as it holds the sixth position in terms of passengers, and fifth in terms of operations and cargo transported. It also ranks first of the Canary Islands in all three categories, although the island of Tenerife has higher passenger numbers overall if statistics from the two airports located on the island are combined."
-                    },
-                    new Airport()
-                    {
-                        Name = "Gran Canaria Airport",
-                        City = "Gran Canaria",
-                        CountryId = 6,
-                        Description = "Gran Canaria Airport, sometimes also known as Gando Airport (Spanish: Aeropuerto de Gran Canaria), is a passenger and freight airport on the island of Gran Canaria. It is an important airport within the Spanish air-transport network (owned and managed by a public enterprise, AENA), as it holds the sixth position in terms of passengers, and fifth in terms of operations and cargo transported. It also ranks first of the Canary Islands in all three categories, although the island of Tenerife has higher passenger numbers overall if statistics from the two airports located on the island are combined."
+                        Description = "Gran Canaria Airport, sometimes also known as Gando Airport (Spanish: Aeropuerto de Gran Canaria), is a passenger and freight airport on the island of Gran Canaria. It is an important airport within the Spanish air-transport network (owned and managed by a public enterprise, AENA), as it holds the sixth position in terms of passengers, and fifth in terms of operations and cargo transported. It also ranks first of the Canary Islands in all three categories, although the island of Tenerife has higher passenger numbers overall if statistics from the two airports located on the island are combined.",
+                        ImageUrl=@"\img\airport\Gran Canaria Airport.jpg"
                     },
                     new Airport()
                     {
                         Name = "Hurghada International Airport",
                         City = "Hurghada",
                         CountryId = 1,
-                        Description = "Hurghada International Airport is the international airport of Hurghada in Egypt. It is located inland, 5 km (3.1 mi) southwest of El Dahar, the downtown of Hurghada. It is the second busiest airport in Egypt after Cairo International Airport and an important destination for leisure flights mainly from Europe."
+                        Description = "Hurghada International Airport is the international airport of Hurghada in Egypt. It is located inland, 5 km (3.1 mi) southwest of El Dahar, the downtown of Hurghada. It is the second busiest airport in Egypt after Cairo International Airport and an important destination for leisure flights mainly from Europe.",
+                        ImageUrl=@"\img\airport\Hurghada International Airport.jpg"
                     }, 
                     new Airport()
                     {
                         Name = "Roland Garros Airport",
                         City = "Sainte-Marie",
                         CountryId = 7,
-                        Description = "Hurghada International Airport is the international airport of Hurghada in Egypt. It is located inland, 5 km (3.1 mi) southwest of El Dahar, the downtown of Hurghada. It is the second busiest airport in Egypt after Cairo International Airport and an important destination for leisure flights mainly from Europe."
+                        Description = "Hurghada International Airport is the international airport of Hurghada in Egypt. It is located inland, 5 km (3.1 mi) southwest of El Dahar, the downtown of Hurghada. It is the second busiest airport in Egypt after Cairo International Airport and an important destination for leisure flights mainly from Europe.",
+                        ImageUrl=@"\img\airport\Roland Garros Airport.jpg"
                     },
                 };
 
@@ -583,7 +607,7 @@ namespace Suaah.Models
                         LeaveTime = new DateTime(2022,6,16,19,30,0),
                         AirlineCode = "MSR",
                         DepartingAirportId = 3,
-                        ArrivingAirportId=5
+                        ArrivingAirportId=4
 
                     }
                 };

@@ -15,6 +15,10 @@ namespace Suaah.Models
         [Required]
         public string Stars { get; set; }
 
+        [Display(Name = "Country")]
+        [Required(ErrorMessage = "You must choose a Country")]
+        public int CountryId { get; set; }
+
         [Required]
         public string Address { get; set; }
 
@@ -33,8 +37,12 @@ namespace Suaah.Models
         [Required]
         public string Description { get; set; }
 
+        
+
         [ValidateNever]
-        public ICollection<HotelRoom> HotelRooms { get; set; }
-       
+        public Country? Country { get; set; }
+
+        [ValidateNever]
+        public ICollection<HotelRoom> HotelRooms { get; set; }       
     }
 }
