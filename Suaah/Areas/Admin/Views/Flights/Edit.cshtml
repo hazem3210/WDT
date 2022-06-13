@@ -60,7 +60,7 @@
                 <select multiple="multiple" asp-for="Classes" class ="form-select form-control form-select-sm" id="sel" onload="load();" onchange="setprices();" asp-items="@selects"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Update" class="btn btn-primary" />
             </div>
         
      </div>
@@ -71,7 +71,7 @@
                     int i = 0;
                     //TempData["0"] = true;
                     if (Model != null )
-                        if(Model.Classes!=null)
+                        if(Model.Classes!=null && Model.Classes.Count>0)
                         foreach (int item in selects.SelectedValues)
                         {
                  <div class="form-group">

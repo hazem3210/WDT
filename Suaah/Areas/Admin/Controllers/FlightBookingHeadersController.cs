@@ -158,15 +158,15 @@ namespace Suaah.Areas.Admin.Controllers
                     {
                         applicationDbContext = await _context.FlightBookingHeader.Where(f => f.CustomerID == claim.Value && f.OrderTotal < prit).Include(f => f.Customer).ToListAsync();
                     }
-                    else if (!string.IsNullOrEmpty(stats) && !string.IsNullOrEmpty(pstats))
+                    else if (stats != "All" && pstats != "All")
                     {
                         applicationDbContext = await _context.FlightBookingHeader.Where(f => f.CustomerID == claim.Value && f.OrderStatus.Contains(stats) && f.PaymentStatus.Contains(pstats)).Include(f => f.Customer).ToListAsync();
                     }
-                    else if (string.IsNullOrEmpty(stats) && !string.IsNullOrEmpty(pstats))
+                    else if (stats == "All" && pstats != "All")
                     {
                         applicationDbContext = await _context.FlightBookingHeader.Where(f => f.CustomerID == claim.Value && f.PaymentStatus.Contains(pstats)).Include(f => f.Customer).ToListAsync();
                     }
-                    else if (!string.IsNullOrEmpty(stats) && string.IsNullOrEmpty(pstats))
+                    else if (stats != "All" && pstats == "All")
                     {
                         applicationDbContext = await _context.FlightBookingHeader.Where(f => f.CustomerID == claim.Value && f.OrderStatus.Contains(stats)).Include(f => f.Customer).ToListAsync();
                     }
@@ -198,15 +198,15 @@ namespace Suaah.Areas.Admin.Controllers
                 {
                     applicationDbContext = applicationDbContext.Where(f => f.OrderTotal < prit).ToList();
                 }
-                 if (!string.IsNullOrEmpty(stats) && !string.IsNullOrEmpty(pstats))
+                 if (stats != "All" && pstats != "All")
                 {
                     applicationDbContext = applicationDbContext.Where(f => f.OrderStatus.Contains(stats) && f.PaymentStatus.Contains(pstats)).ToList();
                 }
-                else if (string.IsNullOrEmpty(stats) && !string.IsNullOrEmpty(pstats))
+                else if (stats == "All" && pstats != "All")
                 {
                     applicationDbContext = applicationDbContext.Where(f => f.PaymentStatus.Contains(pstats)).ToList();
                 }
-                else if (!string.IsNullOrEmpty(stats) && string.IsNullOrEmpty(pstats))
+                else if (stats != "All" && pstats == "All")
                 {
                     applicationDbContext = applicationDbContext.Where(f => f.OrderStatus.Contains(stats)).ToList();
                 }
