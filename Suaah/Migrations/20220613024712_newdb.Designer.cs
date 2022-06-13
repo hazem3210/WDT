@@ -12,8 +12,8 @@ using Suaah.Data;
 namespace Suaah.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220612232505_vvm")]
-    partial class vvm
+    [Migration("20220613024712_newdb")]
+    partial class newdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1024,7 +1024,7 @@ namespace Suaah.Migrations
             modelBuilder.Entity("Suaah.Models.HotelBookingHeader", b =>
                 {
                     b.HasOne("Suaah.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("HotelBookingHeaders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1077,6 +1077,8 @@ namespace Suaah.Migrations
             modelBuilder.Entity("Suaah.Models.Customer", b =>
                 {
                     b.Navigation("FlightBookings");
+
+                    b.Navigation("HotelBookingHeaders");
 
                     b.Navigation("HotelBookings");
                 });

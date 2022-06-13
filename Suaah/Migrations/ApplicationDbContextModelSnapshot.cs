@@ -1022,7 +1022,7 @@ namespace Suaah.Migrations
             modelBuilder.Entity("Suaah.Models.HotelBookingHeader", b =>
                 {
                     b.HasOne("Suaah.Models.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("HotelBookingHeaders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1075,6 +1075,8 @@ namespace Suaah.Migrations
             modelBuilder.Entity("Suaah.Models.Customer", b =>
                 {
                     b.Navigation("FlightBookings");
+
+                    b.Navigation("HotelBookingHeaders");
 
                     b.Navigation("HotelBookings");
                 });
