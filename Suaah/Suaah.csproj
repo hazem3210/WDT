@@ -51,7 +51,6 @@
     <None Include="Areas\Admin\Views\Hotels\Index.cshtml" />
     <None Include="Areas\Admin\Views\Services\Create.cshtml" />
     <None Include="Areas\Admin\Views\Services\Delete.cshtml" />
-    <None Include="Areas\Admin\Views\Services\Details.cshtml" />
     <None Include="Areas\Admin\Views\Services\Edit.cshtml" />
     <None Include="Areas\Admin\Views\Services\Index.cshtml" />
     <None Include="Areas\Customer\Views\FlightBookings\BookingManage.cshtml" />
@@ -67,6 +66,11 @@
     <None Include="Areas\Customer\Views\HotelBookings\Index.cshtml" />
     <None Include="Areas\Customer\Views\HotelBookings\PendingReservation.cshtml" />
     <None Include="Areas\Customer\Views\HotelBookings\Summary.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\img\airport\" />
+    <Folder Include="wwwroot\img\hotel\" />
   </ItemGroup>
 
 </Project>

@@ -17,10 +17,12 @@ namespace Suaah.Areas.Admin.Controllers
     public class AirportsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHost;
 
-        public AirportsController(ApplicationDbContext context)
+        public AirportsController(ApplicationDbContext context, IWebHostEnvironment webHost)
         {
             _context = context;
+            _webHost = webHost;
         }
 
         // GET: Airports
@@ -108,10 +110,12 @@ namespace Suaah.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( Airport airport)
+        public async Task<IActionResult> Create( Airport airport, IFormFile image)
         {
             if (ModelState.IsValid)
             {
+                CreateFiles(airport, image);
+
                 await _context.AddAsync(airport);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -119,7 +123,22 @@ namespace Suaah.Areas.Admin.Controllers
             ViewBag.Countries = new SelectList(await _context.Countries.ToListAsync(), "ID", "Name",airport.CountryId);
             return View(airport);
         }
+        protected void CreateFiles(Airport airport, IFormFile image = null)
+        {
+            if (image != null)
+            {
+                string fileName = Guid.NewGuid().ToString();
+                var uploads = Path.Combine(_webHost.WebRootPath, @"img\airport");
+                var extension = Path.GetExtension(image.FileName);
 
+                using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                {
+                    image.CopyTo(fileStreams);
+                }
+
+                airport.ImageUrl = @"\img\airport\" + fileName + extension;
+            }
+        }
         // GET: Airports/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -142,7 +161,7 @@ namespace Suaah.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Country,Governorate,City,Description")] Airport airport)
+        public async Task<IActionResult> Edit(int id, Airport airport, IFormFile image)
         {
             if (id != airport.Id)
             {
@@ -153,6 +172,20 @@ namespace Suaah.Areas.Admin.Controllers
             {
                 try
                 {
+                    if (image != null)
+                    {
+                        if (airport.ImageUrl != null)
+                        {
+                            var oldPath = Path.Combine(_webHost.WebRootPath, airport.ImageUrl.TrimStart('\\'));
+                            if (System.IO.File.Exists(oldPath))
+                            {
+                                System.IO.File.Delete(oldPath);
+                            }
+                        }
+
+                        CreateFiles(airport, image);
+                    }
+
                     _context.Update(airport);
                     await _context.SaveChangesAsync();
                 }
@@ -209,6 +242,16 @@ namespace Suaah.Areas.Admin.Controllers
                 _context.Flights.Remove(flight);
             }
             await _context.SaveChangesAsync();
+
+            if (airport.ImageUrl != null)
+            {
+                var oldPath = Path.Combine(_webHost.WebRootPath, airport.ImageUrl.TrimStart('\\'));
+                if (System.IO.File.Exists(oldPath))
+                {
+                    System.IO.File.Delete(oldPath);
+                }
+            }
+
             _context.Airports.Remove(airport);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

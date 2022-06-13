@@ -81,7 +81,7 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-nameOrder="@ViewData["NameSortParm"]"
+                <a asp-action="Index"  
                    asp-route-hName="@ViewData["hName"]" asp-route-hAddress="@ViewData["hAddress"]"
                    asp-route-hStars="@ViewData["hStars"]"
                    asp-route-pageNumber="@ViewData["pageNumber"]"
@@ -91,7 +91,7 @@
                 </a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-addOrder="@ViewData["AddSortParm"]"
+                <a asp-action="Index"  
                    asp-route-hName="@ViewData["hName"]" asp-route-hAddress="@ViewData["hAddress"]"
                    asp-route-hStars="@ViewData["hStars"]"
                    asp-route-pageNumber="@ViewData["pageNumber"]"
@@ -107,7 +107,7 @@
                 @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
             <th>
-                <a asp-action="Index" asp-route-addOrder="@ViewData["AddSortParm"]"
+                <a asp-action="Index" 
                    asp-route-hName="@ViewData["hName"]" asp-route-hAddress="@ViewData["hAddress"]"
                    asp-route-hStars="@ViewData["hStars"]"
                    asp-route-pageNumber="@ViewData["pageNumber"]"

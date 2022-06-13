@@ -24,9 +24,40 @@ namespace Suaah.Areas.Admin.Controllers
         }
 
         // GET: Admin/Services
-        public async Task<IActionResult> Index()
+        public IActionResult Index(string sName, string order, string ordersort, int pageSize, int pageNumber)
         {
-            return View(await _context.Services.ToListAsync());
+            ViewData["sName"] = sName;
+            ViewData["pageSize"] = pageSize;
+            ViewData["pageNumber"] = pageNumber;
+
+            IQueryable<Services> services = _context.Services;
+
+            if (!String.IsNullOrWhiteSpace(sName))
+            {
+                sName = sName.Trim();
+                services = services.Where(h => h.Name.Contains(sName));
+            }
+
+            if (order == "serv" && ordersort == "desc")
+                services = services.OrderBy(h => h.Name);
+            else if (order == "serv")
+                services = services.OrderByDescending(h => h.Name);
+
+            if (ordersort == "desc")
+                ViewBag.ordersort = "asc";
+            else
+                ViewBag.ordersort = "desc";
+
+            if (pageSize > 0 && pageNumber > 0)
+            {
+                ViewBag.PageSize = pageSize;
+                ViewBag.PageNumber = pageNumber;
+
+                services = services.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+            }
+
+
+            return View(services.ToList());
         }
 
         // GET: Admin/Services/Details/5
