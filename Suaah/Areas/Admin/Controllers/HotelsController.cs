@@ -139,6 +139,7 @@ namespace Suaah.Areas.Admin.Controllers
         // GET: Hotels/Create
         public IActionResult Create()
         {
+            ViewBag.Countries = new SelectList( _context.Countries.ToList(), "ID", "Name");
             return View();
         }
 
@@ -157,6 +158,7 @@ namespace Suaah.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Countries = new SelectList( _context.Countries.ToList(), "ID", "Name");
             return View(hotel);
         }
 
@@ -189,6 +191,7 @@ namespace Suaah.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Countries = new SelectList(await _context.Countries.ToListAsync(), "ID", "Name", hotel.CountryId);
             return View(hotel);
         }
 
@@ -238,6 +241,7 @@ namespace Suaah.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Countries = new SelectList(await _context.Countries.ToListAsync(), "ID", "Name", hotel.CountryId);
             return View(hotel);
         }
 

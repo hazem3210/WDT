@@ -27,7 +27,7 @@ namespace Suaah.Areas.Admin.Controllers
 
         // GET: Airlines
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string? search, string? type, string? order, string? ordersort, int pageSize, int pageNumber)
+        public async Task<IActionResult> Index(string? search,string hCountry, string? type, string? order, string? ordersort, int pageSize, int pageNumber)
         {
             List<Airline> airlines;
             List<string> types = new List<string>() { "name", "country" };
@@ -43,20 +43,20 @@ namespace Suaah.Areas.Admin.Controllers
                 ViewBag.order = order;
            
             if (string.IsNullOrEmpty(search))
-                airlines = await _context.Airlines.ToListAsync();
+                airlines = await _context.Airlines.Include(c => c.Country).ToListAsync();
             else if (!string.IsNullOrEmpty(search) && type == "name")
-                airlines = await _context.Airlines.Where(f => f.Name.ToLower().Contains(search.Trim().ToLower())).ToListAsync();
+                airlines = await _context.Airlines.Where(f => f.Name.ToLower().Contains(search.Trim().ToLower())).Include(c => c.Country).ToListAsync();
             else 
-                airlines = await _context.Airlines.Where(f => f.Country.ToLower().Contains(search.Trim().ToLower())).ToListAsync();
+                airlines = await _context.Airlines.Where(f => f.Country.Name.ToLower().Contains(search.Trim().ToLower())).Include(c => c.Country).ToListAsync();
            
             if (order == "name" && ordersort == "desc")
                 airlines = airlines.OrderBy(f => f.Name).ToList();
             else if (order == "country" && ordersort == "desc")
-                airlines = airlines.OrderBy(f => f.Country).ToList();
+                airlines = airlines.OrderBy(f => f.Country.Name).ToList();
             else if (order == "name")
                 airlines = airlines.OrderByDescending(f => f.Name).ToList();
             else if (order == "country")
-                airlines = airlines.OrderByDescending(f => f.Country).ToList();
+                airlines = airlines.OrderByDescending(f => f.Country.Name).ToList();
            
             if (ordersort == "desc")
                 ViewBag.ordersort = "asc";
@@ -101,6 +101,7 @@ namespace Suaah.Areas.Admin.Controllers
         // GET: Airlines/Create
         public IActionResult Create()
         {
+            ViewBag.Countries = new SelectList(_context.Countries.ToList(), "ID", "Name");
             return View();
         }
 
@@ -119,6 +120,7 @@ namespace Suaah.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Countries = new SelectList(_context.Countries.ToList(), "ID", "Name");
             return View(airline);
         }
         protected void CreateFiles(Airline airline, IFormFile image = null)
@@ -150,6 +152,7 @@ namespace Suaah.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Countries = new SelectList(await _context.Countries.ToListAsync(), "ID", "Name", airline.CountryId);
             return View(airline);
         }
 
@@ -199,6 +202,7 @@ namespace Suaah.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Countries = new SelectList(await _context.Countries.ToListAsync(), "ID", "Name", airline.CountryId);
             return View(airline);
         }
 

@@ -23,9 +23,11 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Country" class="control-label"></label>
-                <input asp-for="Country" class="form-control" />
-                <span asp-validation-for="Country" class="text-danger"></span>
+                <label asp-for="CountryId" class="control-label"></label>
+                <select asp-for="CountryId" class="form-select" asp-items="@ViewBag.Countries">
+                    <option selected disabled>Select a Country...</option>
+                </select>
+                <span asp-validation-for="CountryId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>

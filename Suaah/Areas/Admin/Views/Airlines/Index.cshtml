@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<Suaah.Models.Airline>
-
+@using Suaah.Data
+@inject ApplicationDbContext _context
 @{
     ViewData["Title"] = "Index";
+    var countries = _context.Countries.ToList();
 }
 
 <div class="row">
@@ -32,6 +34,8 @@
 
         <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden />
         <input name="order" value="@ViewBag.order" hidden />
+
+          
      <partial name="_Pag" />
     </div>
     <div class="row m-2">
@@ -52,7 +56,7 @@
             </th>
             <th>
                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="country" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
-                    @Html.DisplayNameFor(model => model.Country)
+                    @Html.DisplayNameFor(model => model.CountryId)
                 </a>
             </th>
             <th></th>
@@ -66,7 +70,7 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Country)
+                    @Html.DisplayFor(modelItem => item.Country.Name)
                 </td>
                 
                 <td>

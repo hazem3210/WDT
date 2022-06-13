@@ -491,7 +491,7 @@ namespace Suaah.Models
                     {
                         Code = "RBG",
                         Name ="Air Arabia Egypt",
-                        Country = "Cairo, Egypt",
+                        CountryId = 1,
                         Description = "Air Arabia Egypt is an Alexandria-based Air Arabia Group company. The airline offers low-cost travel to a number of destinations across the region. The company focuses on booking online. Air Arabia Egypt also provides booking facilities through call centers, travel agents, appointed GSA's and sales shops.",
                         ImageUrl=@"\img\airlines\Air Arabia Egypt.png"
                     },
@@ -499,7 +499,7 @@ namespace Suaah.Models
                     {
                         Code = "MSC",
                         Name ="Air Cairo",
-                        Country = "Europe",
+                        CountryId = 1,
                         Description = "Air Cairo is a low-fare airline based in Cairo, Egypt.  The airline is part owned by Egyptair. Air Cairo operates scheduled flights to the Middle East and Europe and also operates charter flights to Egypt from Europe on behalf of tour operators. Its base is Cairo International Airport, Sharm El Sheikh International Airport and Hurghada International Airport with the company head office in the Sheraton Heliopolis Zone. ",
                         ImageUrl=@"\img\airlines\Air Cairo.jpg"
                     },
@@ -507,7 +507,7 @@ namespace Suaah.Models
                     {
                         Code = "KHH",
                         Name ="Alexandria Airlines",
-                        Country = "Cairo, Egypt",
+                        CountryId = 1,
                         Description = "The airline was established in 2006 and commenced its operations in March 2007.In April 2022, it was announced the airline would be resuming operations, from 23 April, from Alexandria to Amman and Kuwait.",
                         ImageUrl=@"\img\airlines\Alexandria Airlines.jpg"
                     },
@@ -515,7 +515,7 @@ namespace Suaah.Models
                     {
                         Code = "MSR",
                         Name ="EgyptAir",
-                        Country = "Cairo, Egypt",
+                         CountryId = 1,
                         Description = "Egyptair is the state-owned flag carrier of Egypt. The airline is headquartered at Cairo International Airport, its main hub, operating scheduled passenger and freight services to 70 destinations in the Middle East, Europe, Africa, Asia, and the Americas.",
                         ImageUrl=@"\img\airlines\EgyptAir.png"
                     }

@@ -12,8 +12,8 @@ using Suaah.Data;
 namespace Suaah.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220613143811_newDB__")]
-    partial class newDB__
+    [Migration("20220613152459_newDB__2")]
+    partial class newDB__2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -227,9 +227,8 @@ namespace Suaah.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -243,6 +242,8 @@ namespace Suaah.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Code");
+
+                    b.HasIndex("CountryId");
 
                     b.ToTable("Airline", (string)null);
                 });
@@ -847,6 +848,17 @@ namespace Suaah.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Suaah.Models.Airline", b =>
+                {
+                    b.HasOne("Suaah.Models.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("Suaah.Models.Airport", b =>
