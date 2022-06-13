@@ -4,59 +4,75 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a id="register" asp-area="Identity" asp-page="/Account/Register">Create New</a>
-</p>
-<form method="get" asp-action="Index">
-<div class="row">
-    <div class="col-1">
-        <label class="control-label">Search</label>
-    </div>
-    <div class="col-2">
-        <input name="search" class="form-control" value="@ViewBag.search" />
-    </div>
-    <div class="col-1">
-        <label class="control-label">Type of Search</label>
-    </div>
-    <div class="col-2">
-        <select name="type" class="form-control form-select" asp-items="@ViewBag.types" ></select>
-    </div>
-    <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden/>
-    <input name="order" value="@ViewBag.order" hidden/>
-     <partial name="_Pagination" />
-
-    <div class="col-1">
-        <input type="submit" class="btn btn-secondary" onclick="go();"/>
-        </div>
-    
+<div class="text-center  m-2 mt-5 p-5 h">
+    <h1>Customers</h1>
 </div>
-    <div class="row m-2">
-        <a class="btn btn-danger offset-5 col-2" asp-action="Index">Back to full list</a>
+<hr />
+
+@if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+{
+    <div class="m-2 mb-5">
+        <a id="register" asp-area="Identity" asp-page="/Account/Register" class="w-100 d-block btn btn-danger p-2">
+            Create New Customer
+        </a>
     </div>
+}
+
+<form method="get" asp-action="Index">
+    <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden />
+    <input name="order" value="@ViewBag.order" hidden />
+
+    <div class="row m-3">
+
+        <div class="col-5">
+            <label class="control-label">Search</label>
+            <input name="search" class="form-control" value="@ViewBag.search" />
+        </div>
+        <div class="col-5">
+            <label class="control-label">Type of Search</label>
+            <select name="type" class="form-select" asp-items="@ViewBag.types"></select>
+        </div>
+
+
+    </div>
+    <br />
+    <div class="col-8">
+        <partial name="_Pagination" />
+    </div>
+    <br />
+    <div>
+        <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2" style="width:100%" onclick="go();"/>
+    </div>
+    
+    
 </form>
-<table class="table">
+
+<div class="text-center">
+
+    <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
+</div>
+
+<table class="table table-hover table-striped text-center p-3">
     <thead>
         <tr>
             <th>
                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="name" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
-                @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.Name)
                 </a>
             </th>
             <th>
                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="email" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
-                @Html.DisplayNameFor(model => model.IdentityUser.Email)
+                    @Html.DisplayNameFor(model => model.IdentityUser.Email)
                 </a>
             </th>
             <th>
                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="phone" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
-                @Html.DisplayNameFor(model => model.IdentityUser.PhoneNumber)
+                    @Html.DisplayNameFor(model => model.IdentityUser.PhoneNumber)
                 </a>
             </th>
             <th>
                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="passport" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
-                @Html.DisplayNameFor(model => model.PassportNumber)
+                    @Html.DisplayNameFor(model => model.PassportNumber)
                 </a>
             </th>
 
@@ -90,12 +106,12 @@
 </table>
 @section Scripts{
     <script>
-function go() {
-    if (document.getElementById("ord").value == "desc") {
-        document.getElementById("ord").value = "asc";
-    }
-    else
-        document.getElementById("ord").value = "desc";
-}
+        function go() {
+            if (document.getElementById("ord").value == "desc") {
+                document.getElementById("ord").value = "asc";
+            }
+            else
+                document.getElementById("ord").value = "desc";
+        }
     </script>
 }
