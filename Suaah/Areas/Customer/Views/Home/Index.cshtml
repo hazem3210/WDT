@@ -8,6 +8,60 @@
 <div class="text-center">
     <h1 class="display-4 m-4">Enjoy With Us</h1>
 
+     <h4 class="display-4 m-2" style="text-align:center">The most visited Locations in Our Website</h4>
+<div class="row text-center">
+    @foreach (var item in Model.flightsCountries)
+    {
+        
+        <div class="card m-auto" style="width: 18rem;">
+            <img src="@item.PhotoPath" class="card-img-top" alt="@item.Name" style="height:200px">
+            <div class="card-body">
+                <h5 class="card-title">@item.Name</h5>
+                <a asp-area="Customer" asp-controller="FlightBookings" asp-action="Index" asp-route-cont="@item.Name" class="btn btn-primary">Flights to @item.Name</a>
+            </div>
+        </div>
+        
+    }
+    <a asp-area="Customer" asp-controller="FlightBookings" asp-action="Index" class="w-100 d-block btn btn-danger m-3 p-2">Browse All The Flights</a>
+    <br /> 
+    <br /> 
+    </div>
+
+ <h4 class="display-4 m-2" style="text-align:left">Airlines</h4>
+<div class="row text-center">
+    @foreach (var item in Model.Airlines)
+    {
+        
+        <div class="card m-auto" style="width: 18rem;">
+            <img src="@item.ImageUrl" class="card-img-top" alt="@item.Name" style="height:200px">
+            <div class="card-body">
+                <h5 class="card-title">@item.Name</h5>
+                <a asp-area="Admin" asp-controller="Airlines" asp-action="Details" asp-route-id="@item.Code" class="btn btn-primary">Details</a>
+            </div>
+        </div>
+        
+    }
+    <a asp-area="Admin" asp-controller="Airlines" asp-action="Index" class="w-100 d-block btn btn-danger m-3 p-2">All Airlines</a>
+    <br /> 
+    <br /> 
+    </div>
+    
+ <h4 class="display-4 m-2" style="text-align:left">Countries</h4>
+<div class="row text-center">
+    @foreach (var item in Model.Countries)
+    {
+        
+        <div class="card m-auto" style="width: 18rem;">
+            <img src="@item.PhotoPath" class="card-img-top" alt="@item.Name" style="height:200px">
+            <div class="card-body">
+                <h5 class="card-title">@item.Name</h5>
+                <a asp-area="Admin" asp-controller="Countries" asp-action="Details" asp-route-id="@item.ID" class="btn btn-primary">Details</a>
+            </div>
+        </div>
+        
+    }
+    <a asp-area="Admin" asp-controller="Countries" asp-action="Index" class="w-100 d-block btn btn-danger m-3 p-2">All Countries</a>
+</div>
     <h4 class="display-4 m-2" style="text-align:left">Airlines</h4>
     <div class="row text-center">
         @foreach (var item in Model.Airlines)
