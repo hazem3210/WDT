@@ -68,9 +68,4 @@
     <None Include="Areas\Customer\Views\HotelBookings\Summary.cshtml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\img\airport\" />
-    <Folder Include="wwwroot\img\hotel\" />
-  </ItemGroup>
-
 </Project>

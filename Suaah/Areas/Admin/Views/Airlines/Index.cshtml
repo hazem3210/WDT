@@ -55,9 +55,6 @@
                     @Html.DisplayNameFor(model => model.Country)
                 </a>
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -71,9 +68,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Country)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
+                
                 <td>
                     @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
                     {

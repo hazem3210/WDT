@@ -70,10 +70,6 @@
                 </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
-                </a>
-            </th>
-            <th>
                 <a asp-action="Index" asp-route-order="city"
                    asp-route-ordersort="@ViewBag.ordersort"
                    asp-route-search="@ViewBag.search"
@@ -95,9 +91,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Country.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.City)
