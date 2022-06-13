@@ -59,7 +59,7 @@
 </div>
 <div class="row">
     <div class="col-1">
-        <label class="control-label">To</label>
+        <label class="control-label">Search</label>
     </div>
     <div class="col-2">
         <input name="search" class="form-control" value="@ViewBag.search" />
@@ -70,11 +70,12 @@
         <div class="col-2" >
     <select name="type" class="form-control form-select" asp-items="@ViewBag.type"  >
     </select></div>
-     <partial name="_Pagination" />
+</div>
+<div class="row m-1">
+      <partial name="_Pag" />
 
-    <div class="col-1">
-        <input type="submit" class="btn-secondary btn" onclick="go();" />
-    </div>
+
+        <input type="submit" class="btn-secondary btn col-2 offset-1" onclick="go();" />
 </div>
     <div class="row m-2">
         <a class="btn btn-danger offset-5 col-2" asp-action="Index">Back to full list</a>

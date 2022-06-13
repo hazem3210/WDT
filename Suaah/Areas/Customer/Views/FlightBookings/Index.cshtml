@@ -76,20 +76,20 @@
     </div>
 
 </div>
-<div class="row">
+<div class="row m-1">
             <div class="col-1">
         <label class="control-label">Airline</label>
     </div>
-    <div class="col-3">
+    <div class="col-2">
         <select name="airline" class="form-control form-select" asp-items="@ViewBag.airlines" >
             <option value="">All</option>
         </select>
     </div>
-     <partial name="_Pagination" />
+     <partial name="_Pag" />
 
-     <div class="offset-1 col-2">
-        <input type="submit" class="btn btn-secondary" onclick="go();"/>
-        </div>
+
+        <input type="submit" class="btn btn-secondary offset-1 col-2" onclick="go();"/>
+
 </div>
     <div class="row m-2">
         <a class="btn btn-danger offset-5 col-2" asp-action="Index">Back to full list</a>

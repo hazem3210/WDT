@@ -75,11 +75,12 @@
         <div class="col-2">
             <input name="cont" class="form-control" list="names" value="@ViewBag.cont" />
         </div>
-     <partial name="_Pagination" />
+     
+    </div>
+    <div class="row m-1">
+        <partial name="_Pag" />
 
-        <div class="offset-1 col-1">
-            <input type="submit" class="btn btn-secondary" onclick="go();" />
-        </div>
+            <input type="submit" class="btn btn-secondary col-2 offset-1" onclick="go();" />
     </div>
     <div class="row m-2">
         <a class="btn btn-danger offset-5 col-2" asp-action="Index">Back to full list</a>
