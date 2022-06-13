@@ -552,13 +552,18 @@ namespace Suaah.Areas.Customer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> FlightSummary(FlightBookingHeader header)
         {
-            IEnumerable<FlightBooking> flightBookings = await _context.FlightBookings
+            List<FlightBooking> flightBookings = await _context.FlightBookings
                                                       .Where(f => f.CustomerId == header.CustomerID)
                                                       .Include(f => f.FlightClass).ThenInclude(e => e.Flights)
                                                       .Include(f => f.Flight).ThenInclude(e => e.Airline)
                                                       .Include(f => f.Flight).ThenInclude(e => e.ArrivingAirport).ThenInclude(s => s.Country)
                                                       .Include(f => f.Flight).ThenInclude(e => e.DepartingAirport).ThenInclude(s => s.Country)
                                                       .ToListAsync();
+            if(!(flightBookings.Count>0))
+            {
+                TempData["check"]="There is no Flights to Book";
+                 return RedirectToAction("Index", "Home");
+            }
             List<FlightBookingDetails> bookingDetails = new List<FlightBookingDetails>();
             foreach (var flight in flightBookings)
             {
