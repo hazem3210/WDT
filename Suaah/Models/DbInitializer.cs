@@ -543,10 +543,10 @@ namespace Suaah.Models
                 {
                     new Flight()
                     {
-                        DepartingGate = "G10",
-                        ArriveGate = "G2",
+                        DepartingGate = "G100",
+                        ArriveGate = "G205",
                         NumberOfStops = "0",
-                        LeaveTime = new DateTime(2022,6,5,5,40,10),
+                        LeaveTime = new DateTime(2022,7,5,5,0,0),
                         AirlineCode = "MSR",
                         DepartingAirportId = 1,
                         ArrivingAirportId=2
@@ -554,10 +554,10 @@ namespace Suaah.Models
                     },
                      new Flight()
                     {
-                        DepartingGate = "G5",
-                        ArriveGate = "G3",
+                        DepartingGate = "G517",
+                        ArriveGate = "G143",
                         NumberOfStops = "0",
-                        LeaveTime = new DateTime(2022,6,5,5,40,10),
+                        LeaveTime = new DateTime(2022,6,30,10,30,0),
                         AirlineCode = "KHH",
                         DepartingAirportId = 2,
                         ArrivingAirportId=1
@@ -566,10 +566,10 @@ namespace Suaah.Models
 
                      new Flight()
                     {
-                        DepartingGate = "G14",
+                        DepartingGate = "G921",
                         ArriveGate = "G12",
                         NumberOfStops = "5",
-                        LeaveTime = new DateTime(2022,6,5,6,40,10),
+                        LeaveTime = new DateTime(2022,8,1,13,0,0),
                         AirlineCode = "KHH",
                         DepartingAirportId = 1,
                         ArrivingAirportId=2
@@ -580,7 +580,7 @@ namespace Suaah.Models
                         DepartingGate = "G10",
                         ArriveGate = "G2",
                         NumberOfStops = "3",
-                        LeaveTime = new DateTime(2022,6,5,6,40,10),
+                        LeaveTime = new DateTime(2022,6,16,19,30,0),
                         AirlineCode = "MSR",
                         DepartingAirportId = 3,
                         ArrivingAirportId=5

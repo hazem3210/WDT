@@ -9,12 +9,12 @@ namespace Suaah.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "You must enter the Departing Gate.")]
-        [MinLength(4,ErrorMessage = "The Departing Gate should be bigger than 4 chars.")]
+        [MinLength(2,ErrorMessage = "The Departing Gate should be bigger than 4 chars.")]
         [Display(Name = "Departing Gate")]
         public string DepartingGate { get; set; }
 
         [Required(ErrorMessage = "You must enter the Arrive Gate.")]
-        [MinLength(4, ErrorMessage = "The Arrive Gate should be bigger than 4 chars.")]
+        [MinLength(2, ErrorMessage = "The Arrive Gate should be bigger than 4 chars.")]
         [Display(Name = "Arrive Gate")]
         public string ArriveGate { get; set; }
 
