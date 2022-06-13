@@ -140,12 +140,61 @@ namespace Suaah.Models
                 _context.SocialData.AddRange(social);
                 _context.SaveChanges();
 
+                var countries = new List<Country>()
+                {
+                    new Country()
+                    {
+                        Name ="Egypt",
+                        PhotoPath ="/img/Country/download.jpeg"
+                    },
+                    new Country()
+                    {
+                        Name ="China",
+                        PhotoPath ="/img/Country/download (2).jpg"
+                    },
+                    new Country()
+                    {
+                        Name ="Cuba",
+                        PhotoPath ="/img/Country/download (1).jpg"
+                    },
+                    new Country()
+                    {
+                        Name ="Australia",
+                        PhotoPath ="/img/Country/download (3).jpg"
+                    },
+                     new Country()
+                    {
+                        Name ="United States",
+                        PhotoPath ="/img/Country/download (4).jpg"
+                    },
+                      new Country()
+                    {
+                        Name ="España",
+                        PhotoPath ="/img/Country/download (6).jpg"
+                    },
+                      new Country()
+                    {
+                        Name ="France",
+                        PhotoPath ="/img/Country/download (7).jifif"
+                    },
+                    new Country()
+                    {
+                        Name ="Malaysia",
+                        PhotoPath ="/img/Country/Malaysia.svg.png"
+                    }
+                };
+
+                _context.Countries.AddRange(countries);
+                _context.SaveChanges();
+
+
                 var hotels = new List<Hotel>()
                 {
                     new Hotel()
                     {
                         Name="Rixos",
-                        Address ="Sharm El Sheikh, Egypt",
+                        CountryId = 1,
+                        Address ="Sharm El Sheikh",
                         Email = "RixosSharm@gmail.com",
                         PhoneNumber = "0123654789",
                         Description = "Property Location: Located in Sharm el Sheikh, Rixos Sharm El Sheikh - All Inclusive is by the sea, a 1-minute drive from Nabq Bay and 6 minutes from Rehana Beach. This 5-star resort is 4.2 mi (6.8 km) from Nabq Protected Area and 4.9 mi (7.8 km) from Shark's Bay.",
@@ -155,7 +204,8 @@ namespace Suaah.Models
                      new Hotel()
                     {
                         Name="Conrad Cairo",
-                        Address ="Cairo, Egypt",
+                         CountryId = 1,
+                        Address ="Cairo",
                         Email = "ConradCairo@gmail.com",
                         PhoneNumber = "0113654789",
                         Description = "Property Location: With a stay at Conrad Cairo, you'll be centrally located in Cairo, within a 15-minute drive of Egyptian Museum and Tahrir Square. This 5-star hotel is 2.8 mi (4.5 km) from Khan el-Khalili and 4.8 mi (7.7 km) from Cairo Tower. ",
@@ -165,7 +215,8 @@ namespace Suaah.Models
                      new Hotel()
                     {
                         Name="Mercure Paris Saint Lazare Monceau",
-                        Address ="Paris, France",
+                         CountryId = 7,
+                        Address ="Paris",
                         Email = "Mercure@gmail.com",
                         PhoneNumber = "25631488",
                         Description = "Property Location: A stay at Mercure Paris Saint Lazare Monceau places you in the heart of Paris, within a 15-minute walk of Place de Clichy and Parc Monceau. This 4-star hotel is 0.7 mi (1.2 km) from Casino de Paris and 0.8 mi (1.3 km) from Moulin Rouge. ",
@@ -175,6 +226,7 @@ namespace Suaah.Models
                       new Hotel()
                     {
                         Name="Traders ",
+                        CountryId= 8,
                         Address ="Kuala Lumpur",
                         Email = "Traders@gmail.com",
                         PhoneNumber = "589214753",
@@ -432,48 +484,7 @@ namespace Suaah.Models
                 _context.FlightClassss.AddRange(flightClasses);
                 _context.SaveChanges();
 
-                var countries = new List<Country>()
-                {
-                    new Country()
-                    {
-                        Name ="Egypt",
-                        PhotoPath ="/img/Country/download.jpeg"
-                    },
-                    new Country()
-                    {
-                        Name ="China",
-                        PhotoPath ="/img/Country/download (2).jpg"
-                    },
-                    new Country()
-                    {
-                        Name ="Cuba",
-                        PhotoPath ="/img/Country/download (1).jpg"
-                    },
-                    new Country()
-                    {
-                        Name ="Australia",
-                        PhotoPath ="/img/Country/download (3).jpg"
-                    },
-                     new Country()
-                    {
-                        Name ="United States",
-                        PhotoPath ="/img/Country/download (4).jpg"
-                    },
-                      new Country()
-                    {
-                        Name ="España",
-                        PhotoPath ="/img/Country/download (6).jpg"
-                    },
-                      new Country()
-                    {
-                        Name ="France",
-                        PhotoPath ="/img/Country/download (7).jifif"
-                    }
-                };
-
-                _context.Countries.AddRange(countries);
-                _context.SaveChanges();
-
+               
                 var airlines = new List<Airline>()
                 {
                     new Airline()

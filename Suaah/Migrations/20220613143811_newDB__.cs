@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Suaah.Migrations
 {
-    public partial class newdb : Migration
+    public partial class newDB__ : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -88,25 +88,6 @@ namespace Suaah.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FlightClass", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Hotel",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Stars = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Hotel", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -288,25 +269,28 @@ namespace Suaah.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HotelRoom",
+                name: "Hotel",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Price = table.Column<double>(type: "float", nullable: false),
-                    CancelBeforeHours = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    HotelId = table.Column<int>(type: "int", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Stars = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CountryId = table.Column<int>(type: "int", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HotelRoom", x => x.Id);
+                    table.PrimaryKey("PK_Hotel", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HotelRoom_Hotel_HotelId",
-                        column: x => x.HotelId,
-                        principalTable: "Hotel",
-                        principalColumn: "Id",
+                        name: "FK_Hotel_Country_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Country",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -403,86 +387,24 @@ namespace Suaah.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HotelBooking",
+                name: "HotelRoom",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NoOfDays = table.Column<int>(type: "int", nullable: false),
-                    NoOfRooms = table.Column<int>(type: "int", nullable: false),
-                    TotalPrice = table.Column<double>(type: "float", nullable: false),
-                    NotCustomerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Flag = table.Column<int>(type: "int", nullable: false),
-                    HotelRoomId = table.Column<int>(type: "int", nullable: false),
-                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    CancelBeforeHours = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HotelId = table.Column<int>(type: "int", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HotelBooking", x => x.Id);
+                    table.PrimaryKey("PK_HotelRoom", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HotelBooking_Customer_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customer",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_HotelBooking_HotelRoom_HotelRoomId",
-                        column: x => x.HotelRoomId,
-                        principalTable: "HotelRoom",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "HotelRoomServices",
-                columns: table => new
-                {
-                    HotelRoomId = table.Column<int>(type: "int", nullable: false),
-                    ServicesId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HotelRoomServices", x => new { x.HotelRoomId, x.ServicesId });
-                    table.ForeignKey(
-                        name: "FK_HotelRoomServices_HotelRoom_HotelRoomId",
-                        column: x => x.HotelRoomId,
-                        principalTable: "HotelRoom",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_HotelRoomServices_Services_ServicesId",
-                        column: x => x.ServicesId,
-                        principalTable: "Services",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "HotelBookingDetails",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CheckInDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NoOfDays = table.Column<int>(type: "int", nullable: false),
-                    NoOfRooms = table.Column<int>(type: "int", nullable: false),
-                    PriceForDay = table.Column<double>(type: "float", nullable: false),
-                    HotelBookingHeaderId = table.Column<int>(type: "int", nullable: false),
-                    HotelRoomId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_HotelBookingDetails", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_HotelBookingDetails_HotelBookingHeader_HotelBookingHeaderId",
-                        column: x => x.HotelBookingHeaderId,
-                        principalTable: "HotelBookingHeader",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_HotelBookingDetails_HotelRoom_HotelRoomId",
-                        column: x => x.HotelRoomId,
-                        principalTable: "HotelRoom",
+                        name: "FK_HotelRoom_Hotel_HotelId",
+                        column: x => x.HotelId,
+                        principalTable: "Hotel",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -588,6 +510,91 @@ namespace Suaah.Migrations
                         column: x => x.FlightClassId,
                         principalTable: "FlightClass",
                         principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HotelBooking",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NoOfDays = table.Column<int>(type: "int", nullable: false),
+                    NoOfRooms = table.Column<int>(type: "int", nullable: false),
+                    TotalPrice = table.Column<double>(type: "float", nullable: false),
+                    NotCustomerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Flag = table.Column<int>(type: "int", nullable: false),
+                    HotelRoomId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HotelBooking", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HotelBooking_Customer_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customer",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_HotelBooking_HotelRoom_HotelRoomId",
+                        column: x => x.HotelRoomId,
+                        principalTable: "HotelRoom",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HotelBookingDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CheckInDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NoOfDays = table.Column<int>(type: "int", nullable: false),
+                    NoOfRooms = table.Column<int>(type: "int", nullable: false),
+                    PriceForDay = table.Column<double>(type: "float", nullable: false),
+                    HotelBookingHeaderId = table.Column<int>(type: "int", nullable: false),
+                    HotelRoomId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HotelBookingDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HotelBookingDetails_HotelBookingHeader_HotelBookingHeaderId",
+                        column: x => x.HotelBookingHeaderId,
+                        principalTable: "HotelBookingHeader",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HotelBookingDetails_HotelRoom_HotelRoomId",
+                        column: x => x.HotelRoomId,
+                        principalTable: "HotelRoom",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HotelRoomServices",
+                columns: table => new
+                {
+                    HotelRoomId = table.Column<int>(type: "int", nullable: false),
+                    ServicesId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HotelRoomServices", x => new { x.HotelRoomId, x.ServicesId });
+                    table.ForeignKey(
+                        name: "FK_HotelRoomServices_HotelRoom_HotelRoomId",
+                        column: x => x.HotelRoomId,
+                        principalTable: "HotelRoom",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HotelRoomServices_Services_ServicesId",
+                        column: x => x.ServicesId,
+                        principalTable: "Services",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -701,6 +708,11 @@ namespace Suaah.Migrations
                 column: "FlightId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Hotel_CountryId",
+                table: "Hotel",
+                column: "CountryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_HotelBooking_CustomerId",
                 table: "HotelBooking",
                 column: "CustomerId");
@@ -808,10 +820,10 @@ namespace Suaah.Migrations
                 name: "Hotel");
 
             migrationBuilder.DropTable(
-                name: "Country");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Country");
         }
     }
 }

@@ -27,18 +27,19 @@ namespace Suaah.Areas.Admin.Controllers
 
         // GET: Hotels
         [AllowAnonymous]
-        public IActionResult Index(string hName, string hAddress, string hEmail, string hPhoneNumber,string hStars, string order, string ordersort, int pageSize, int pageNumber)
+        public IActionResult Index(string hName,string hCountry, string hAddress, string hEmail, string hPhoneNumber,string hStars, string order, string ordersort, int pageSize, int pageNumber)
         {
             ViewData["hName"] = hName;
             ViewData["hAddress"] = hAddress;
             ViewData["hEmail"] = hEmail;
             ViewData["hPhoneNumber"] = hPhoneNumber;
             ViewData["hStars"] = hStars;
+            ViewData["hCountry"] = hCountry;
             ViewData["pageSize"] = pageSize;
             ViewData["pageNumber"] = pageNumber;
  
 
-            IQueryable<Hotel> hotels = _context.Hotels;    
+            IQueryable<Hotel> hotels = _context.Hotels.Include(c=>c.Country);    
 
             if (!String.IsNullOrWhiteSpace(hName))
             {
@@ -50,6 +51,12 @@ namespace Suaah.Areas.Admin.Controllers
             {
                 hAddress = hAddress.Trim();
                 hotels = hotels.Where(h => h.Address.Contains(hAddress));
+            }
+            
+            if(!String.IsNullOrWhiteSpace(hCountry))
+            {
+                hCountry = hCountry.Trim();
+                hotels = hotels.Where(h => h.Country.Name.Contains(hCountry));
             }
 
             if (!String.IsNullOrWhiteSpace(hEmail))
@@ -78,6 +85,8 @@ namespace Suaah.Areas.Admin.Controllers
                 hotels = hotels.OrderBy(h => h.Address); 
             else if (order == "stars" && ordersort == "desc")
                 hotels = hotels.OrderBy(h => h.Stars);
+            else if (order == "country" && ordersort == "desc")
+                hotels = hotels.OrderBy(h => h.Country.Name);
 
             else if (order == "name")
                 hotels = hotels.OrderByDescending(h => h.Name);
@@ -86,6 +95,8 @@ namespace Suaah.Areas.Admin.Controllers
                 hotels = hotels.OrderByDescending(h => h.Address); 
             else if (order == "stars")
                 hotels = hotels.OrderByDescending(h => h.Stars);
+            else if (order == "country")
+                hotels = hotels.OrderByDescending(h => h.Country.Name);
 
             if (ordersort == "desc")
                 ViewBag.ordersort = "asc";
@@ -105,7 +116,7 @@ namespace Suaah.Areas.Admin.Controllers
 
         // GET: Hotels/Details/5
         [AllowAnonymous]
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -114,6 +125,7 @@ namespace Suaah.Areas.Admin.Controllers
 
             var hotel =  _context.Hotels
                 .Where(m => m.Id == id)
+                .Include(c=>c.Country)
                 .Include(r=>r.HotelRooms).ThenInclude(s=>s.Services).ThenInclude(ss=>ss.Services).Single();
 
             if (hotel == null)

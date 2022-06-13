@@ -546,6 +546,9 @@ namespace Suaah.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -570,6 +573,8 @@ namespace Suaah.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
 
                     b.ToTable("Hotel", (string)null);
                 });
@@ -981,6 +986,17 @@ namespace Suaah.Migrations
                     b.Navigation("Flight");
 
                     b.Navigation("FlightClass");
+                });
+
+            modelBuilder.Entity("Suaah.Models.Hotel", b =>
+                {
+                    b.HasOne("Suaah.Models.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
                 });
 
             modelBuilder.Entity("Suaah.Models.HotelBooking", b =>

@@ -23,5 +23,9 @@ namespace Suaah.Models
         [ValidateNever]
         public virtual ICollection<Airport> Airports { get; set; }
 
+        [NotMapped]
+        [ValidateNever]
+        public virtual ICollection<Hotel> Hotels { get; set; }
+
     }
 }
