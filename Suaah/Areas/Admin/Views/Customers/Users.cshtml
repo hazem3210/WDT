@@ -6,68 +6,76 @@
     ViewData["Title"] = "Users";
 }
 
-<h1>Users</h1>
+<div class="text-center  m-2 mt-5 p-5 h">
+    <h1>Users</h1>
 
-
-<p>
-    <a id="register" asp-area="Identity" asp-page="/Account/Register">Create New</a>
-</p>
-<form method="get" asp-action="Users">
-<div class="row">
-    <div class="col-1">
-        <label class="control-label">Search</label>
-    </div>
-    <div class="col-2">
-        <input name="search" class="form-control" value="@ViewBag.search" />
-    </div>
-    <div class="col-1">
-        <label class="control-label">Type of Search</label>
-    </div>
-    <div class="col-2">
-        <select name="type" class="form-control form-select" asp-items="@ViewBag.types" ></select>
-    </div>
-    <div class="col-1">
-        <label class="control-label">Role</label>
-    </div>
-    <div class="col-2">
-        <select name="role" class="form-control form-select" asp-items="@ViewBag.roles" >
-            <option value="">Select All</option>
-        </select>
-    </div>
-    <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden/>
-    <input name="order" value="@ViewBag.order" hidden/>
-     <partial name="_Pagination" />
-
-    <div class="offset-1 col-1">
-        <input type="submit" class="btn btn-secondary" onclick="go();"/>
-        </div>
-    
 </div>
-<div class="row m-2">
-        <a class="btn btn-danger offset-5 col-2" asp-action="Users">Back to full list</a>
+
+@if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+{
+    <div class="m-2 mb-5">
+        <a asp-area="Identity" asp-page="/Account/Register" class="w-100 d-block btn btn-danger p-2" id="register">Create New User</a>
     </div>
+}
+
+<form method="get" asp-action="Users">
+    <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden />
+    <input name="order" value="@ViewBag.order" hidden />
+
+    <div class="row m-3">
+        <div class="col-3">
+            <label class="control-label">Search</label>
+            <input name="search" class="form-control" value="@ViewBag.search" />
+        </div>
+        <div class="col-3">
+            <label class="control-label">Type of Search</label>
+            <select name="type" class="form-control form-select" asp-items="@ViewBag.types"></select>
+        </div>
+        <div class="col-3">
+            <label class="control-label">Role</label>
+            <select name="role" class="form-control form-select" asp-items="@ViewBag.roles">
+                <option value="">Select All</option>
+            </select>
+        </div>
+
+        <div class="row m-3">
+            <div class="col-5">
+                <partial name="_Pagination" />
+            </div>
+        </div>
+<div>
+        <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2" style="width:100%" onclick="go();"/>
+    </div>
+        
+    </div>
+   
 </form>
-<table class="table">
+
+<div class="text-center">
+    <a asp-action="Users" class="btn btn-outline-info my-4">Back to Full List</a>
+</div>
+
+<table class="table table-hover table-striped text-center p-3">
     <thead>
         <tr>
             <th>
-                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Users" asp-route-order="name" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue" asp-route-role="@ViewBag.roles.SelectedValue">
-                @Html.DisplayNameFor(model => model.UserName)
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Users" asp-route-order="name" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue" asp-route-role="@ViewBag.roles.SelectedValue">
+                    @Html.DisplayNameFor(model => model.UserName)
                 </a>
             </th>
             <th>
-                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Users" asp-route-order="email" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue" asp-route-role="@ViewBag.roles.SelectedValue">
-                @Html.DisplayNameFor(model => model.Email)
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Users" asp-route-order="email" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue" asp-route-role="@ViewBag.roles.SelectedValue">
+                    @Html.DisplayNameFor(model => model.Email)
                 </a>
             </th>
             <th>
-                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Users" asp-route-order="phone" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue" asp-route-role="@ViewBag.roles.SelectedValue">
-                @Html.DisplayNameFor(model => model.PhoneNumber)
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Users" asp-route-order="phone" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue" asp-route-role="@ViewBag.roles.SelectedValue">
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
                 </a>
             </th>
             <th>
-                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Users" asp-route-order="role" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue" asp-route-role="@ViewBag.roles.SelectedValue">
-                Role
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Users" asp-route-order="role" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue" asp-route-role="@ViewBag.roles.SelectedValue">
+                    Role
                 </a>
             </th>
 
@@ -96,7 +104,7 @@
                     @role
                 </td>
                 <td>
-                   
+
                     @{
                         if (User.IsInRole(SD.Role_Manager))
                         {
@@ -108,7 +116,7 @@
                         }
                         else
                         {
-                             <input type="submit"  value="Edit" disabled /> <span>|</span>
+                            <input type="submit" value="Edit" disabled /> <span>|</span>
                         }
 
                         if (role == "Customer")
@@ -117,23 +125,23 @@
                         }
                         else
                         {
-                            <input type="submit"  value="Details" disabled /> <span>|</span>
-                        } 
-                        
-                        if (role == "Customer")
+                            <input type="submit" value="Details" disabled /> <span>|</span>
+                        }
+
+                        if (role == "Customer" || (role == "Admin" && User.IsInRole(SD.Role_Manager)))
                         {
                             <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         }
-                        else if(role == "Admin" && User.IsInRole(SD.Role_Manager))
-                        {
-                             <a asp-action="DeleteAdmin" asp-route-id="@item.Id">Delete</a>
-                        }
+                        //else if (role == "Admin" && User.IsInRole(SD.Role_Manager))
+                        //{
+                        //    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        //}
                         else
                         {
-                             <input type="submit"  value="Delete" disabled />  
+                            <input type="submit" value="Delete" disabled />
                         }
                     }
-                   
+
                 </td>
             </tr>
         }

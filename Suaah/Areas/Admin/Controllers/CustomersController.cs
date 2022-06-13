@@ -74,7 +74,7 @@ namespace Suaah.Areas.Admin.Controllers
         }
 
         // GET: Customer/Customers/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(string id, int? details)
         {
             if (id == null)
             {
@@ -83,7 +83,16 @@ namespace Suaah.Areas.Admin.Controllers
 
             var customer = await _context.Customers
                 .Include(c => c.IdentityUser)
+                .Include(h=>h.HotelBookingHeaders)
+                    .ThenInclude(r=>r.HotelBookingDetails)
+                    .ThenInclude(rr=>rr.HoteRoom)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            if (details != null)
+            {
+                ViewBag.details = details;
+            }
+
+
             if (customer == null)
             {
                 return NotFound();
@@ -96,6 +105,7 @@ namespace Suaah.Areas.Admin.Controllers
                 .Include(f => f.Flight).ThenInclude(e => e.ArrivingAirport).ThenInclude(d => d.Country)
                 .Include(f => f.Flight).ThenInclude(e => e.DepartingAirport).ThenInclude(d => d.Country)
                 .ToListAsync();
+
             return View(customer);
         }
 
@@ -185,15 +195,14 @@ namespace Suaah.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
-                .Include(c => c.IdentityUser)
+            var user = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(user);
         }
 
         // POST: Customer/Customers/Delete/5
@@ -201,10 +210,11 @@ namespace Suaah.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var customer = await _context.Customers.Include(c => c.IdentityUser).FirstOrDefaultAsync(m => m.Id == id);
-            _context.Users.Remove(customer.IdentityUser);
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Id == id);
+
+            _context.Users.Remove(user);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Users));
         }
 
         private bool CustomerExists(string id)
@@ -306,22 +316,6 @@ namespace Suaah.Areas.Admin.Controllers
             return View(users);
         } 
         
-        public IActionResult DeleteAdmin(string id)
-        {            
-            var user = _context.Users.Find(id);
-           
-            return View(user);
-        }
 
-        // POST: Customer/Customers/Delete/5
-        [HttpPost, ActionName("DeleteAdmin")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteAdminConfirmed(string id)
-        {
-            var User = await _context.Users.FindAsync(id);
-            _context.Users.Remove(User);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
     }
 }

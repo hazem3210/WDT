@@ -31,7 +31,9 @@ namespace Suaah.Models
         public DateTime BirthDate { get; set; }
 
         [ValidateNever]
-        public ICollection<HotelBooking> HotelBookings { get; set; }
+        public ICollection<HotelBooking> HotelBookings { get; set; } 
+        [ValidateNever]
+        public ICollection<HotelBookingHeader> HotelBookingHeaders { get; set; }
         [ValidateNever]
         public ICollection<FlightBooking> FlightBookings { get; set; }
 

@@ -5,139 +5,230 @@
     List<FlightBookingDetails> flights = ViewBag.flights;
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Customer</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IdentityUser.UserName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdentityUser.UserName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IdentityUser.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdentityUser.Email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IdentityUser.PhoneNumber)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdentityUser.PhoneNumber)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PassportNumber)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PassportNumber)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CitizenshipCountry)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CitizenshipCountry)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ResidenceCountry)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ResidenceCountry)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BirthDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BirthDate)
-        </dd>
-
-    </dl>
-</div>
-    <h1 style="text-align:center; margin-top:20px;">Flights Booked</h1>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-
-            </th>
-            <th>
-                From
-            </th>
-            <th>
-               To
-            </th>
-            <th>
-                Total Price
-            </th>
-            <th>
-                Class
-            </th>
-            <th>
-                Number of Seats
-            </th>
-             <th>
-                Airline
-            </th>
-            <th>
-                LeaveTime
-            </th>
-            <th>
-                Order number
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in flights) {
-        <tr>
-            <td style="width:12%">
-               <img src="@item.Flight.ArrivingAirport.Country.PhotoPath" class="img-fluid img-thumbnail">
-            </td>
-            <td>
-                @item.Flight.DepartingAirport.Name ,@item.Flight.DepartingAirport.City ,@item.Flight.DepartingAirport.Country.Name
-            </td>
-             <td>
-               @item.Flight.ArrivingAirport.Name ,@item.Flight.ArrivingAirport.City ,@item.Flight.ArrivingAirport.Country.Name
-            </td>
-            <td>
-                @item.TotalPrice
-            </td>
-            <td>
-                <p>@item.FlightClass.Class</p>
-                <p>Price:@item.Flight.FlightClasses.FirstOrDefault(f=>f.FlightClassId==item.FlightClassId).Price $</p>
-            </td>
-            <td>
-                @item.Flight.Airline.Name
-            </td>
-            <td>
-                @item.Flight.LeaveTime
-            </td>
-            <td>
-                @item.OrderID
-            </td>
-
-        </tr>
-}
-    </tbody>
-</table>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+<br />
+<div class="m-4 text-end">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-danger">Edit</a> |
 
     @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
     {
-         <a asp-action="Index">Back to List</a>
+        <a asp-action="Index" class="btn btn-outline-primary">Back to Customer List</a>
+        <a asp-action="Users" class="btn btn-outline-primary">Back to Users List</a>
     }
     else if (User.IsInRole(SD.Role_Customer))
     {
-        <a asp-area="Customer" asp-controller="Home" asp-action="Index">Back to Home</a>
+        <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-primary">Back to Home</a>
     }
 </div>
+
+
+<div class="card m-4 p-2 " style="width: 100%;">
+    <div class="card-body">
+        <h1 class="text-center m-2">Details of  @Html.DisplayFor(model => model.Name)</h1>
+        <div class="container rounded p-2">
+            <div class="row">
+                <div class="col-12 col-lg-6 pb-4">
+
+                    <div class="row my-1">
+                        <div class="col-5">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">UserName:</h4>
+                        </div>
+                        <div class="col-6">
+                            <p class="card-text d-inline f">@Html.DisplayFor(model => model.IdentityUser.UserName)</p><br /><br />
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-5">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">Name:</h4>
+                        </div>
+                        <div class="col-6">
+                            <p class="card-text d-inline f"> @Html.DisplayFor(model => model.Name)</p> <br /><br />
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-5">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">Email:</h4>
+                        </div>
+                        <div class="col-6">
+                            <p class="card-text d-inline f">@Html.DisplayFor(model => model.IdentityUser.Email)</p> <br /><br />
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-5">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">PhoneNumber:</h4>
+                        </div>
+                        <div class="col-6">
+                            <p class="card-text d-inline f">@Html.DisplayFor(model => model.IdentityUser.PhoneNumber)</p> <br /><br />
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-5">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">PassportNumber:</h4>
+                        </div>
+                        <div class="col-6">
+                            <p class="card-text d-inline f">@Html.DisplayFor(model => model.PassportNumber)</p> <br /><br />
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-5">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">Citizenship Country:</h4>
+                        </div>
+                        <div class="col-6">
+                            <p class="card-text d-inline f">@Html.DisplayFor(model => model.CitizenshipCountry)</p> <br /><br />
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-5">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">Residence Country:</h4>
+                        </div>
+                        <div class="col-6">
+                            <p class="card-text d-inline f">@Html.DisplayFor(model => model.ResidenceCountry)</p> <br /><br />
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-5">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">BirthDate:</h4>
+                        </div>
+                        <div class="col-6">
+                            <p class="card-text d-inline f">@Html.DisplayFor(model => model.BirthDate)</p> <br /><br />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+
+<br />
+
+@if (flights.Count > 0)
+{
+    <h1 style="text-align:center; margin-top:20px;">Flights Booked</h1>
+
+    <table class="table table-hover table-striped text-center p-3">
+        <thead>
+            <tr>
+                @*<th></th>*@
+                <th> From</th>
+                <th>To</th>
+                <th>Total Price</th>
+                <th>Class</th>
+                <th>Number of Seats </th>
+                <th>Airline     </th>
+                <th>LeaveTime  </th>
+                <th>Order number  </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in flights)
+            {
+                <tr>
+                    @* <td style="width:12%">
+            <img src="@item.Flight.ArrivingAirport.Country.PhotoPath" class="img-fluid img-thumbnail">
+            </td>*@
+                    <td>
+                        @item.Flight.DepartingAirport.Name ,@item.Flight.DepartingAirport.City ,@item.Flight.DepartingAirport.Country.Name
+                    </td>
+                    <td>
+                        @item.Flight.ArrivingAirport.Name ,@item.Flight.ArrivingAirport.City ,@item.Flight.ArrivingAirport.Country.Name
+                    </td>
+                    <td>
+                        @item.TotalPrice
+                    </td>
+                    <td>
+                        <p>@item.FlightClass.Class</p>
+                        <p>Price:@item.Flight.FlightClasses.FirstOrDefault(f=>f.FlightClassId==item.FlightClassId).Price $</p>
+                    </td>
+                    <td>
+                        @item.Flight.Airline.Name
+                    </td>
+                    <td>
+                        @item.Flight.LeaveTime
+                    </td>
+                    <td>
+                        @item.OrderID
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<br />
+<br />
+@if (Model.HotelBookingHeaders.Count > 0)
+{
+
+    <h1 style="text-align:center; margin-top:20px;">Hotels Booked</h1>
+
+    <table class="table table-hover table-striped text-center p-3">
+        <thead>
+            <tr>
+                <th> Id</th>
+                <th>Booking Date</th>
+                <th>Payment Date</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Payment </th>
+                <th>Operations </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.HotelBookingHeaders)
+            {
+                string selectedRow = "";
+                if (item.Id == ViewBag.details)
+                {
+                    selectedRow = "table-dark";
+                }
+
+                <tr class="@selectedRow">
+                    <td> @item.Id </td>
+                    <td> @item.BookingDate </td>
+                    <td> @item.PaymentDate </td>
+                    <td> @item.TotalPrice </td>
+                    <td> @item.Status </td>
+                    <td> @item.Payment </td>
+                    <td> <a asp-action="Details" asp-route-details="@item.Id" style="color:red">Select</a> </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<br />
+<br />
+@if (ViewBag.details != null)
+{
+    <h3>Hotel Booking Details</h3>
+    <table class="table table-hover table-striped text-center p-3">
+        <tr>
+            <th>Id</th>
+            <th>Room</th>
+            <th>Price For Day</th>
+            <th>Check In Date</th>
+            <th>No. Of Days</th>
+            <th>No. Of Rooms</th>
+        </tr>
+        @{
+            var d = Model.HotelBookingHeaders.Where(dd => dd.Id == ViewBag.details).Single();
+        }
+        @foreach (var item in d.HotelBookingDetails)
+        {
+
+            <tr>
+                <td>@item.Id </td>
+                <td>@item.HoteRoom.Description </td>
+                <td>@item.PriceForDay </td>
+                <td>@item.CheckInDate </td>
+                <td>@item.NumberOfDays </td>
+                <td>@item.NumberOfRooms </td>
+            </tr>
+        }
+
+    </table>
+}
