@@ -70,7 +70,9 @@ namespace Suaah.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewBag.airports = await _context.Airports.Where(f => f.CountryId == id).Include(f => f.Country).ToListAsync();
+            ViewBag.airports = await _context.Airports.Where(f => f.CountryId == id).ToListAsync();
+            ViewBag.airlines = await _context.Airlines.Where(f => f.CountryId == id).ToListAsync();
+            ViewBag.hotels = await _context.Hotels.Where(f => f.CountryId == id).ToListAsync();
             return View(country);
         }
 
