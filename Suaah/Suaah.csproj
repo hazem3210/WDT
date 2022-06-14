@@ -60,7 +60,6 @@
     <None Include="Areas\Customer\Views\HotelBookings\Create.cshtml" />
     <None Include="Areas\Customer\Views\HotelBookings\CustomerBooking.cshtml" />
     <None Include="Areas\Customer\Views\HotelBookings\Delete.cshtml" />
-    <None Include="Areas\Customer\Views\HotelBookings\Details.cshtml" />
     <None Include="Areas\Customer\Views\HotelBookings\Edit.cshtml" />
     <None Include="Areas\Customer\Views\HotelBookings\EndBooking.cshtml" />
     <None Include="Areas\Customer\Views\HotelBookings\Index.cshtml" />

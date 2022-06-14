@@ -211,6 +211,8 @@ namespace Suaah.Areas.Customer.Controllers
             {
                 return NotFound();
             }
+            ViewData["customerId"] = new SelectList(_context.Customers, "Id", "Name");
+
             return View(hotelBooking);
         }
 
@@ -246,6 +248,8 @@ namespace Suaah.Areas.Customer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["customerId"] = new SelectList(_context.Customers, "Id", "Name");
+
             return View(hotelBooking);
         }
 
