@@ -301,7 +301,7 @@ namespace Suaah.Areas.Customer.Controllers
                 }
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(PendingReservation));
         }
 
         private bool HotelBookingExists(int id)
@@ -525,8 +525,8 @@ namespace Suaah.Areas.Customer.Controllers
             if (bookingd != null)
             {
                 HBHAD.HotelBookingHeaders = HBHAD.HotelBookingHeaders.Where(d => d.BookingDate.Date == bookingd).ToList();
-            } 
-            
+            }
+
             if (payment != null)
             {
                 HBHAD.HotelBookingHeaders = HBHAD.HotelBookingHeaders.Where(d => d.PaymentDate.Date == payment).ToList();

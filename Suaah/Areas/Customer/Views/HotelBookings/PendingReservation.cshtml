@@ -2,6 +2,9 @@
 
 @{
     double tPrice = 0;
+
+    var x = false;
+    var y = "hidden";
 }
 
 <form method="post">
@@ -22,11 +25,25 @@
             <div class="card-body">
                 @foreach (var item in Model)
                 {
+                    TimeSpan timeSpan = item.Date - DateTime.Now;
+                    if (timeSpan.Hours < 5)
+                    {
+                        x = true;
+                        y = "";
+
+                    }
+                    else
+                    {
+                         @*x = false;*@
+                         y = "hidden";
+                    }
                     <div class="row">
                         <div class="col-12 col-lg-6 pt-md-3">
                             <h5 class="d-inline">Hotel Name:</h5><strong class="mx-5">@item.HoteRoom.Hotel.Name</strong> <br>
-                            <h5 class="d-inline"> Room Description: </h5> <strong class="mx-5"> @item.HoteRoom.Description
-                                </strong> <br>
+                            <h5 class="d-inline">Check In:</h5><strong class="mx-5">@item.Date</strong> <span @y class="text-danger">---Time Out--- </span><br>
+                            <h5 class="d-inline"> Room Description: </h5> <strong class="mx-5">
+                                @item.HoteRoom.Description
+                            </strong> <br>
                             <h5 class="d-inline" title="You Can Cancel Booking Before ... Hours"> Cancel Before: </h5> <strong class="mx-4"> @item.HoteRoom.CancelBeforeHours h</strong> <br>
                             <h5 class="d-inline"> Description: </h5>
                             <div class="col-9">
@@ -49,16 +66,16 @@
                             </div>
                         </div>
                     </div>
-                   
+
                     <div class="col-12 col-lg-6 pt-md-3">
-                         <h5 class="d-inline">Services:</h5>
-                           @foreach (var item2 in item.HoteRoom.Services)
-                           {
-                                <h6 class="my-0 text-danger">> @item2.Services.Name</h6>                        
-                           }
+                        <h5 class="d-inline">Services:</h5>
+                        @foreach (var item2 in item.HoteRoom.Services)
+                        {
+                            <h6 class="my-0 text-danger">> @item2.Services.Name</h6>
+                        }
 
                     </div>
-                     <hr />
+                    <hr />
                     tPrice += item.TotalPrice;
                 }
                 <div class="row">
@@ -76,9 +93,18 @@
 
             <div class="card-footer">
                 <div class="card-footer row">
-      
-                        <a class="btn btn-success form-control" asp-action="Summary">Summary</a>
-               
+
+                    @if (x)
+                    {
+                        <a class="btn btn-success form-control disabled" asp-action="Summary" >Summary</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-success form-control" asp-action="Summary" >Summary</a>
+                    }
+
+
+
                 </div>
             </div>
         </div>

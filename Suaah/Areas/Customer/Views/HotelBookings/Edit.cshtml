@@ -14,11 +14,18 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="HotelRoomId" />
-            <input type="hidden" asp-for="NotCustomerId" />
             <input type="hidden" asp-for="TotalPrice" />
 
+            @if (!User.IsInRole(SD.Role_Customer))
+            {
+                <input type="hidden" asp-for="NotCustomerId" />
+            }
+            
+            @if (User.IsInRole(SD.Role_Customer))
+            {
+                 <input hidden asp-for="CustomerId" />
+            }
 
-            <input hidden asp-for="CustomerId" />
             <div class="form-group">
                 <label asp-for="NumberOfRooms" class="control-label"></label>
                 <input asp-for="NumberOfRooms" class="form-control" />
@@ -42,14 +49,14 @@
                     <span asp-validation-for="CustomerId" class="text-danger"></span>
                 </div>
             }
-             <div class="form-group m-3 p-3">
+            <div class="form-group m-3 p-3">
                 <input type="submit" value="Save" class="btn btn-primary" /> ||  <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
- 
+
 
 @section Scripts {
     @{
