@@ -4,72 +4,140 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<Airport> airports = ViewBag.airports;
+    List<Airline> airlines = ViewBag.airlines;
+    List<Hotel> hotels = ViewBag.hotels;
 
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Country</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FlagPhoto)
-        </dt>
-        <dd class = "col-sm-10">
-            <img src="@Model.FlagPath" class="img-fluid img-thumbnail"/>
-        </dd>
-    </dl>
+<div class="m-4 text-end">
+    @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.ID" class="btn btn-danger">Edit</a>
+    }
+    <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
 </div>
-@if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+
+<div class="card m-4 p-2 overflow-hidden" style="width: 100%;">
+    <div class="card-body">
+        <h1 class="text-center m-2">Details of  @Html.DisplayFor(model => model.Name) Country</h1>
+        <div class="container rounded p-2">
+            <div class="row">
+                <div class="col-12 col-lg-6 pb-4">
+
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">Name:</h4>
+
+                        </div>
+                        <div class="col-9">
+                            <p class="card-text f mx-3">@Html.DisplayFor(model => model.Name)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 col-lg-5 offset-lg-1 text-left position-relative">
+                    <img src="@Model.PhotoPath" style="width:80%; height:auto; position:absolute" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br /><br /><br /><br />
+    <br /><br /><br /><br />
+    <br /><br />
+</div>
+<br />
+<br />
+<br />
+@if (airports.Count > 0)
 {
-    <h1 style="text-align:center; margin-top:20px; ">Airports</h1>
-    <table class="table">
+
+    <h1 style="text-align:left; margin-top:20px;">Airports</h1>
+
+    <table class="table table-hover table-striped text-center p-3">
         <thead>
             <tr>
-                <th>
-                        Name
-                </th>
-                <th>
-                        Country
-                </th>
-                <th>
-                   Description
-    </th>
-    <th>
-            City
-    </th>
-    </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in airports)
-        {
-            <tr>
-                <td>
-                    @item.Name
-                </td>
-                <td>
-                    @item.Country.Name
-                </td>
-                <td>
-                    @item.Description
-                </td>
-                <td>
-                    @item.City
-                </td>
-                
+                <th>Name</th>
+                <th>City</th>
+                <th>Operations </th>
             </tr>
-        }
-    </tbody>
+        </thead>
+        <tbody>
+            @foreach (var item in airports)
+            {
+                <tr>
+                    <td> @item.Name </td>
+                    <td> @item.City </td>
+                    <td> <a asp-controller="Airports" asp-action="Details" asp-route-id="@item.Id">Details</a> </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+ 
+}
+
+<br />
+<br />
+<br />
+@if (airlines.Count > 0)
+{
+
+    <h1 style="text-align:left; margin-top:20px;">Airlines</h1>
+
+    <table class="table table-hover table-striped text-center p-3">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Operations </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in airlines)
+            {
+                <tr>
+                    <td> @item.Code </td>
+                    <td> @item.Name </td>
+                    <td> <a asp-controller="Airlines" asp-action="Details" asp-route-id="@item.Code">Details</a> </td>
+                </tr>
+            }
+        </tbody>
     </table>
 }
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<br />
+<br />
+<br />
+@if (hotels.Count > 0)
+{
+
+    <h1 style="text-align:left; margin-top:20px;">Hotels</h1>
+
+    <table class="table table-hover table-striped text-center p-3">
+        <thead>
+            <tr>
+                <th>Name</th>
+                 <th>Address</th>
+                 <th>Stars</th>
+                <th>Operations </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in hotels)
+            {
+                <tr>
+                    <td> @item.Name </td>
+                    <td> @item.Address </td>
+                    <td> @item.Stars </td>
+                    <td> <a asp-controller="Hotels" asp-action="Details" asp-route-id="@item.Id">Details</a> </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br />
+    <br />
+
+}

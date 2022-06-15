@@ -211,6 +211,8 @@ namespace Suaah.Areas.Customer.Controllers
             {
                 return NotFound();
             }
+            ViewData["customerId"] = new SelectList(_context.Customers, "Id", "Name");
+
             return View(hotelBooking);
         }
 
@@ -246,6 +248,8 @@ namespace Suaah.Areas.Customer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["customerId"] = new SelectList(_context.Customers, "Id", "Name");
+
             return View(hotelBooking);
         }
 
@@ -297,7 +301,7 @@ namespace Suaah.Areas.Customer.Controllers
                 }
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(PendingReservation));
         }
 
         private bool HotelBookingExists(int id)
@@ -521,8 +525,8 @@ namespace Suaah.Areas.Customer.Controllers
             if (bookingd != null)
             {
                 HBHAD.HotelBookingHeaders = HBHAD.HotelBookingHeaders.Where(d => d.BookingDate.Date == bookingd).ToList();
-            } 
-            
+            }
+
             if (payment != null)
             {
                 HBHAD.HotelBookingHeaders = HBHAD.HotelBookingHeaders.Where(d => d.PaymentDate.Date == payment).ToList();

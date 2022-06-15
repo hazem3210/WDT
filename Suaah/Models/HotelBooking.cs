@@ -34,6 +34,8 @@ namespace Suaah.Models
         [ValidateNever]
         public HotelRoom HoteRoom { get; set; }
 
+        [Display(Name = "Customer")]
+
         public string? CustomerId { get; set; }
         [ValidateNever]
         public Customer Customer { get; set; }

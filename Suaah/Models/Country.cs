@@ -33,6 +33,10 @@ namespace Suaah.Models
         [NotMapped]
         [ValidateNever]
         public virtual ICollection<Hotel> Hotels { get; set; }
+        
+        [NotMapped]
+        [ValidateNever]
+        public virtual ICollection<Airline> Airlines { get; set; }
 
     }
 }

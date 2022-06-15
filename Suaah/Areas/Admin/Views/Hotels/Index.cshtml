@@ -21,6 +21,9 @@
 }
 
 <form asp-action="Index" method="get">
+    <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden /> @*////////////*@
+    <input name="order" value="@ViewBag.order" hidden />@*////////////*@
+
     <div class="form-actions no-color text-center p-3">
 
         <input type="search" list="nName" name="hName" value="@ViewData["hName"]" placeholder="Hotel Name" class="p-2" />
@@ -57,13 +60,13 @@
 
         <input type="search" list="Stars" name="hStars" value="@ViewData["hStars"]" placeholder="Hotel Stars" class="p-2" />
         <datalist id="Stars">
-            @foreach (var item in hotels.DistinctBy(f=>f.Stars))
+            @foreach (var item in hotels.DistinctBy(f => f.Stars))
             {
                 <option>@item.Stars</option>
             }
         </datalist>
 
-         <input type="search" list="country" name="hCountry" value="@ViewData["hCountry"]" placeholder="Country" class="p-2" />
+        <input type="search" list="country" name="hCountry" value="@ViewData["hCountry"]" placeholder="Country" class="p-2" />
         <datalist id="country">
             @foreach (var item in countries)
             {
@@ -71,21 +74,20 @@
             }
         </datalist>
 
-          <br />
-          <br />
+        <br />
+        <br />
         <partial name="_Pagination" />
         <br />
 
 
     </div>
     <div>
-        <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2 " style="width:100%"/>
+        <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2 " style="width:100%" onclick="go();"/>@*////////////*@
     </div>
     <br />
 </form>
 
 <div class="text-center">
-
     <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
 </div>
 
@@ -93,7 +95,7 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index"  
+                <a asp-action="Index"
                    asp-route-hName="@ViewData["hName"]" asp-route-hAddress="@ViewData["hAddress"]"
                    asp-route-hStars="@ViewData["hStars"]"
                    asp-route-pageNumber="@ViewData["pageNumber"]"
@@ -103,7 +105,7 @@
                 </a>
             </th>
             <th>
-                <a asp-action="Index"  
+                <a asp-action="Index"
                    asp-route-hName="@ViewData["hName"]" asp-route-hAddress="@ViewData["hAddress"]"
                    asp-route-hStars="@ViewData["hStars"]"
                    asp-route-pageNumber="@ViewData["pageNumber"]"
@@ -113,7 +115,7 @@
                 </a>
             </th>
             <th>
-                <a asp-action="Index"  
+                <a asp-action="Index"
                    asp-route-hName="@ViewData["hName"]" asp-route-hAddress="@ViewData["hAddress"]"
                    asp-route-hStars="@ViewData["hStars"]"
                    asp-route-pageNumber="@ViewData["pageNumber"]"
@@ -129,7 +131,7 @@
                 @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
             <th>
-                <a asp-action="Index" 
+                <a asp-action="Index"
                    asp-route-hName="@ViewData["hName"]" asp-route-hAddress="@ViewData["hAddress"]"
                    asp-route-hStars="@ViewData["hStars"]"
                    asp-route-pageNumber="@ViewData["pageNumber"]"
@@ -177,3 +179,12 @@
         }
     </tbody>
 </table>
+<script>
+function go() {
+    if (document.getElementById("ord").value == "desc") {
+        document.getElementById("ord").value = "asc";
+    }
+    else
+        document.getElementById("ord").value = "desc";
+}
+</script>

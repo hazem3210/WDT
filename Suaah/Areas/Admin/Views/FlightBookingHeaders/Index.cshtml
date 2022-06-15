@@ -5,165 +5,152 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
-<h1 class="text-center bg-black m-2 p-3 text-white col-12">Flights Booked</h1>
+<div class="text-center  m-2 mt-5 p-5 h">
+    <h1>Flights Booked</h1>
 </div>
+<hr />
 
 <form asp-action="index" method="get" class="m-1">
-    <div class="row">
-        <div class="col-3"><h3>Stauts</h3></div>
+    <div class="row text-center">
+        <div class="col-3 "><h3>Stauts</h3></div>
         <div class="col-3"><h3>Time</h3></div>
         <div class="col-3"><h3>Price</h3></div>
     </div>
-<div class="row">
+    <div class="form-actions no-color text-center p-3 row">
 
-        <div class="col-1" >
-        <label class="control-label" >Status</label>
+        <div class="col-3">
+            <label class="control-label">Status</label>
+            <select name="stats" class="form-control form-select" asp-items="@ViewBag.stats">
+            </select>
         </div>
-        <div class="col-2" >
-    <select name="stats" class="form-control form-select" asp-items="@ViewBag.stats"  >
-        
-    </select></div>
-     <div class="col-1">
-        <label class="control-label">From</label>
-    </div>
-    <div class="col-2">
-        <input name="timef" type="datetime-local" class="form-control" value="@ViewBag.timef" format-value="yyyy-MM-ddThh:mm" />
-    </div>
-    <div class="col-1">
-        <label class="control-label">From</label>
-    </div>
-    <div class="col-2">
-        <input name="prif" class="form-control" value="@ViewBag.prif" />
-    </div>
-</div>
-<div class="row">
-
-        <div class="col-1" >
-        <label class="control-label">Payment Status</label>
+        <div class="col-3">
+            <label class="control-label">From</label>
+            <input name="timef" type="datetime-local" class="form-control" value="@ViewBag.timef" format-value="yyyy-MM-ddThh:mm" />
         </div>
-        <div class="col-2" >
-    <select name="pstats" class="form-control form-select" asp-items="@ViewBag.pstats"  >
-    </select></div>
-    <div class="col-1">
-        <label class="control-label">To</label>
-    </div>
-    <div class="col-2">
-        <input name="timet" type="datetime-local" class="form-control" value="@ViewBag.timet" format-value="yyyy-MM-ddThh:mm" />
-    </div>
-    <div class="col-1">
-        <label class="control-label">To</label>
-    </div>
-    <div class="col-2">
-        <input name="prit" class="form-control" value="@ViewBag.prit" />
-    </div>
-    <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden/>
-    <input name="order" value="@ViewBag.order" hidden/>
-</div>
-<div class="row">
-    <div class="col-1">
-        <label class="control-label">Search</label>
-    </div>
-    <div class="col-2">
-        <input name="search" class="form-control" value="@ViewBag.search" />
-    </div>
-    <div class="col-1" >
-        <label class="control-label">Search Type</label>
+        <div class="col-3">
+            <label class="control-label">From</label>
+            <input name="prif" class="form-control" value="@ViewBag.prif" />
         </div>
-        <div class="col-2" >
-    <select name="type" class="form-control form-select" asp-items="@ViewBag.type"  >
-    </select></div>
-</div>
-<div class="row m-1">
-      <partial name="_Pag" />
-
-
-        <input type="submit" class="btn-secondary btn col-2 offset-1" onclick="go();" />
-</div>
-    <div class="row m-2">
-        <a class="btn btn-danger offset-5 col-2" asp-action="Index">Back to full list</a>
     </div>
-    </form>
+    <div class="row form-actions no-color text-center p-3">
 
+        <div class="col-3">
+            <label class="control-label">Payment Status</label>
+            <select name="pstats" class="form-control form-select" asp-items="@ViewBag.pstats">
+            </select>
+        </div>
+        <div class="col-3">
+            <label class="control-label">To</label>
+            <input name="timet" type="datetime-local" class="form-control" value="@ViewBag.timet" format-value="yyyy-MM-ddThh:mm" />
+        </div>
+        <div class="col-3">
+            <label class="control-label">To</label>
+            <input name="prit" class="form-control" value="@ViewBag.prit" />
+        </div>
+        <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden />
+        <input name="order" value="@ViewBag.order" hidden />
+    </div>
+    <div class="row form-actions no-color text-center p-3">
+        <div class="col-3">
+            <label class="control-label">Search</label>
+            <input name="search" class="form-control" value="@ViewBag.search" />
+        </div>
+        <div class="col-3">
+            <label class="control-label">Search Type</label>
+            <select name="type" class="form-control form-select" asp-items="@ViewBag.type">
+            </select>
+        </div>
+    </div> 
+    <partial name="_Pagination" />
+        <br />
+        <br />
+     <input type="submit" class="btn btn-outline-danger p-2  btn" style="width:100%" onclick="go();" />
+  
+</form>
+  
+<div class="text-center">
+    <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
+</div>
 
 <table class="table">
     <thead>
         <tr>
             <th>
                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="ID" asp-route-ordersort="@ViewBag.ordersort" asp-route-stats="@ViewBag.stats.SelectedValue" asp-route-pstats="@ViewBag.pstats.SelectedValue" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-prif="@ViewBag.prif" asp-route-prit="@ViewBag.prit" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.type">
-                @Html.DisplayNameFor(model=>model.ID)
+                    @Html.DisplayNameFor(model=>model.ID)
                 </a>
             </th>
             <th>
                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="Customer" asp-route-ordersort="@ViewBag.ordersort" asp-route-stats="@ViewBag.stats.SelectedValue" asp-route-pstats="@ViewBag.pstats.SelectedValue" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-prif="@ViewBag.prif" asp-route-prit="@ViewBag.prit" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.type">
-                @Html.DisplayNameFor(model => model.Customer)
+                    @Html.DisplayNameFor(model => model.Customer)
                 </a>
             </th>
             <th>
                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="OrderDate" asp-route-ordersort="@ViewBag.ordersort" asp-route-stats="@ViewBag.stats.SelectedValue" asp-route-pstats="@ViewBag.pstats.SelectedValue" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-prif="@ViewBag.prif" asp-route-prit="@ViewBag.prit" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.type">
-                @Html.DisplayNameFor(model => model.OrderDate)
+                    @Html.DisplayNameFor(model => model.OrderDate)
                 </a>
             </th>
             <th>
                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="OrderTotal" asp-route-ordersort="@ViewBag.ordersort" asp-route-stats="@ViewBag.stats.SelectedValue" asp-route-pstats="@ViewBag.pstats.SelectedValue" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-prif="@ViewBag.prif" asp-route-prit="@ViewBag.prit" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.type">
-                @Html.DisplayNameFor(model => model.OrderTotal)
+                    @Html.DisplayNameFor(model => model.OrderTotal)
                 </a>
             </th>
             <th>
                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="OrderStatus" asp-route-ordersort="@ViewBag.ordersort" asp-route-stats="@ViewBag.stats.SelectedValue" asp-route-pstats="@ViewBag.pstats.SelectedValue" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-prif="@ViewBag.prif" asp-route-prit="@ViewBag.prit" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.type">
-                @Html.DisplayNameFor(model => model.OrderStatus)
+                    @Html.DisplayNameFor(model => model.OrderStatus)
                 </a>
             </th>
             <th>
                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="PaymentStatus" asp-route-ordersort="@ViewBag.ordersort" asp-route-stats="@ViewBag.stats.SelectedValue" asp-route-pstats="@ViewBag.pstats.SelectedValue" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-prif="@ViewBag.prif" asp-route-prit="@ViewBag.prit" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.type">
-                @Html.DisplayNameFor(model => model.PaymentStatus)
+                    @Html.DisplayNameFor(model => model.PaymentStatus)
                 </a>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderTotal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaymentStatus)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                @if (!User.IsInRole(SD.Role_Customer))
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentStatus)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    @if (!User.IsInRole(SD.Role_Customer))
                     {
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                        
+                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+
                     }
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 <script>
-function a() {
-    document.getElementById("btn").click();
-}
-function go() {
-    if (document.getElementById("ord").value == "desc") {
-        document.getElementById("ord").value = "asc";
+    function a() {
+        document.getElementById("btn").click();
     }
-    else
-        document.getElementById("ord").value = "desc";
-}
+    function go() {
+        if (document.getElementById("ord").value == "desc") {
+            document.getElementById("ord").value = "asc";
+        }
+        else
+            document.getElementById("ord").value = "desc";
+    }
 </script>
