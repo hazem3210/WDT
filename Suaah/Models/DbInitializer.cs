@@ -175,7 +175,7 @@ namespace Suaah.Models
                       new Country()
                     {
                         Name ="France",
-                        PhotoPath ="/img/Country/download (7).jfif"
+                        PhotoPath ="/img/Country/download (7).jpg"
                     },
                     new Country()
                     {

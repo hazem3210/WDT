@@ -5,9 +5,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
-<h1 class="text-center bg-black m-2 p-3 text-white col-12">Countries</h1>
+<div class="text-center  m-2 mt-5 p-5 h">
+    <h1>Countries</h1>
 </div>
+ 
 @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
 {
 <div class="row m-2">
@@ -17,24 +18,30 @@
 
 }
 <form method="get" asp-action="Index" class="m-1">
-    <div class="row">
-        <div class="col-1">
+    <div class="row text-center">
+        <div class="col-2 m-2">
             <label class="control-label">Search</label>
-        </div>
-        <div class="col-2">
             <input name="name" class="form-control" value="@ViewBag.name" />
         </div>
+
         <input name="order" id="ord" value="@ViewBag.order" hidden />
-     <partial name="_Pag" />
 
-            <input type="submit" class="btn btn-secondary col-2 " onclick="go();" />
+      <div class="col-6 m-4">
+             <partial name="_Pagination" />
+        </div>
+
+      <br />
+    <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2  btn" style="width:100%" onclick="go();" />
 
     </div>
-    <div class="row m-2">
-        <a class="btn btn-danger offset-5 col-2" asp-action="Index">Back to full list</a>
-    </div>
+    
 </form>
-<table class="table">
+
+<div class="text-center">
+    <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
+</div>
+
+<table class="table table-hover table-striped text-center p-3">
     <thead>
         <tr>
             <th>
@@ -42,7 +49,7 @@
                     @Html.DisplayNameFor(model => model.Name)
                 </a>
             </th>
-            <th></th>
+            <th>Operations</th>
         </tr>
     </thead>
     <tbody>

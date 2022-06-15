@@ -5,35 +5,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
-
-<h4>Country</h4>
+<div class="text-center  m-2 mt-5 p-5 h">
+    <h1>Edit Country</h1>
+</div>
 <hr />
+
+ 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8 m-auto">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ID" />
+
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <<div class="form-group">
+            <div class="form-group">
                 <label asp-for="PhotoPath" class="control-label"></label>
                 <input asp-for="Photo" type="file" accept="image/png, image/jpeg, image/ico, image/tiff, image/svg" class="form-control" />
                 <span asp-validation-for="Photo" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="form-group m-3 p-3">
+                <input type="submit" value="Save" class="btn btn-primary" /> || <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+ 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
