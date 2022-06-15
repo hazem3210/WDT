@@ -12,8 +12,8 @@ using Suaah.Data;
 namespace Suaah.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220613152459_newDB__2")]
-    partial class newDB__2
+    [Migration("20220615170359_db")]
+    partial class db
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -288,6 +288,9 @@ namespace Suaah.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<string>("FlagPath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()

@@ -146,7 +146,7 @@ namespace Suaah.Models
                     {
                         Name ="Egypt",
                         PhotoPath ="/img/Country/download.jpeg",
-                        FlagPath="/img/Country/Egypt.webp"
+                        FlagPath="/img/Country/Egypt.png"
                     },
                     new Country()
                     {
@@ -176,13 +176,13 @@ namespace Suaah.Models
                     {
                         Name ="España",
                         PhotoPath ="/img/Country/download (6).jpg",
-                        FlagPath="/img/Country/Spain.webp"
+                        FlagPath="/img/Country/Spain.png"
                     },
                       new Country()
                     {
                         Name ="France",
-                        PhotoPath ="/img/Country/download (7).jfif",
-                        FlagPath="/img/Country/France.webp"
+                        PhotoPath ="/img/Country/download (7).png",
+                        FlagPath="/img/Country/France.png"
                     },
                     new Country()
                     {
