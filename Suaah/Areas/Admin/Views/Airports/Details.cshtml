@@ -5,42 +5,70 @@
     List<Flight> flights = ViewBag.flights;
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Airport</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CountryId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Country.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.City)
-        </dd>
-    </dl>
+<div class="m-4 text-end">
+    @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-danger">Edit</a>
+    }
+    <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
 </div>
-@if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+
+
+<div class="card m-4 p-2 " style="width: 100%;">
+    <div class="card-body overflow-hidden">
+        <h1 class="text-center m-2">Details of  @Html.DisplayFor(model => model.Name)</h1>
+        <div class="container rounded p-2">
+            <div class="row">
+                <div class="col-12 col-lg-6 pb-4">
+
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">Name:</h4>
+                        </div>
+                        <div class="col-9">
+                            <p class="card-text f">@Html.DisplayFor(model => model.Name)</p> 
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">Country:</h4>
+                        </div>
+                        <div class="col-9">
+                            <p class="card-text d-inline f"> @Html.DisplayFor(model => model.Country.Name)</p>  
+                        </div>
+                    </div>
+
+                    <div class="row my-1">
+                        <div class="col-3">
+                            <h4 class="card-subtitle mb-2 text-muted d-inline">City:</h4>
+                        </div>
+                        <div class="col-9">
+                            <p class="card-text d-inline f"> @Html.DisplayFor(model => model.City)</p> <br /><br />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8 col-lg-5 offset-lg-1 text-left position-relative">
+                    <img src="@Model.ImageUrl" style="width:80%; height:auto; position:absolute" />
+                </div>
+            </div>
+        </div>
+    </div>
+<br />
+
+</div>
+<br />
+<br />
+
+<br />
+
+
+
+
+
+@if (flights.Count > 0)
 {
     <h1 style="text-align:center; margin-top:20px;">Flights</h1>
-    <table class="table">
+    <table class="table table-hover table-striped text-center p-3">
         <thead>
             <tr>
                 <th>
@@ -107,7 +135,3 @@
         </tbody>
     </table>
 }
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>

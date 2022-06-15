@@ -16,7 +16,7 @@
 
 
 <div class="card m-4 p-2 " style="width: 100%;">
-    <div class="card-body">
+    <div class="card-body overflow-hidden">
         <h1 class="text-center m-2">Details of  @Html.DisplayFor(model => model.Name)</h1>
         <div class="container rounded p-2">
             <div class="row">
@@ -35,7 +35,7 @@
                             <h4 class="card-subtitle mb-2 text-muted d-inline">Country:</h4>
                         </div>
                         <div class="col-9">
-                            <p class="card-text d-inline f"> @Html.DisplayFor(model => model.Country.Name)</p> <br /><br />
+                            <p class="card-text d-inline f"> @Html.DisplayFor(model => model.Country.Name)</p>  
                         </div>
                     </div>
                     <div class="row my-1">
