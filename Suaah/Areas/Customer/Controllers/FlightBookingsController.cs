@@ -243,6 +243,13 @@ namespace Suaah.Areas.Customer.Controllers
                 flights = flights.Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToList();
             }
 
+            var claimIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim != null && User.IsInRole(SD.Role_Customer))
+            {
+                HttpContext.Session.SetInt32(SD.Session_FlightBooking, _context.FlightBookings.Where(u => u.CustomerId == claim.Value).ToList().Count);
+            }
 
             return View(flights);
         }
@@ -442,6 +449,10 @@ namespace Suaah.Areas.Customer.Controllers
         {
             var claimidentity = (ClaimsIdentity)User.Identity;
             var claim = claimidentity.FindFirst(ClaimTypes.NameIdentifier);
+            if (claim != null && User.IsInRole(SD.Role_Customer))
+            {
+                HttpContext.Session.SetInt32(SD.Session_FlightBooking, _context.FlightBookings.Where(u => u.CustomerId == claim.Value).ToList().Count);
+            }
             IEnumerable<FlightBooking> flightBookings=await _context.FlightBookings.Where(f=>f.CustomerId==claim.Value)
                                                       .Include(f=>f.FlightClass).ThenInclude(e=>e.Flights)
                                                       .Include(f=>f.Flight).ThenInclude(e=>e.Airline)
@@ -650,6 +661,7 @@ namespace Suaah.Areas.Customer.Controllers
             header.PaymentDueDate = duedate;
             header.PaymentId = session.PaymentIntentId;
             _context.FlightBookingHeader.Update(header);
+            _context.FlightBookings.RemoveRange(flightBookings);
             await _context.SaveChangesAsync();  
 
             Response.Headers.Add("Location", session.Url);
@@ -677,6 +689,13 @@ namespace Suaah.Areas.Customer.Controllers
                                                       .ToListAsync();
             _context.FlightBookings.RemoveRange(flightBookings);
             await _context.SaveChangesAsync();
+            var claimIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim != null && User.IsInRole(SD.Role_Customer))
+            {
+                HttpContext.Session.SetInt32(SD.Session_FlightBooking, _context.FlightBookings.Where(u => u.CustomerId == claim.Value).ToList().Count);
+            }
             return View(id);
         }
     }

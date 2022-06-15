@@ -14,18 +14,23 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Suaah.Models;
+using Suaah.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Suaah.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly ApplicationDbContext _context;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger,ApplicationDbContext context)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _context = context; 
         }
 
         /// <summary>
@@ -115,6 +120,8 @@ namespace Suaah.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    HttpContext.Session.SetInt32(SD.Session_HotelBooking, (await _context.HotelBookings.Where(u => u.CustomerId == _context.Customers.FirstOrDefault(f => f.IdentityUser.Email == Input.Email).Id).ToListAsync()).Count);
+                    HttpContext.Session.SetInt32(SD.Session_FlightBooking,(await _context.FlightBookings.Where(u => u.CustomerId == _context.Customers.FirstOrDefault(f=>f.IdentityUser.Email==Input.Email).Id).ToListAsync()).Count);
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
