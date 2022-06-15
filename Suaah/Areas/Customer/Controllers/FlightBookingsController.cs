@@ -510,13 +510,25 @@ namespace Suaah.Areas.Customer.Controllers
         {
             var claimidentity = (ClaimsIdentity)User.Identity;
             var claim = claimidentity.FindFirst(ClaimTypes.NameIdentifier);
-            IEnumerable<FlightBooking> flightBookings = await _context.FlightBookings
+            List<FlightBooking> flightBookings = await _context.FlightBookings
                                                       .Where(f => f.CustomerId == claim.Value)
                                                       .Include(f => f.FlightClass).ThenInclude(e => e.Flights)
                                                       .Include(f => f.Flight).ThenInclude(e => e.Airline)
                                                       .Include(f => f.Flight).ThenInclude(e => e.ArrivingAirport).ThenInclude(s => s.Country)
                                                       .Include(f => f.Flight).ThenInclude(e => e.DepartingAirport).ThenInclude(s => s.Country)
                                                       .ToListAsync();
+            if((flightBookings.Where(f=>f.Flight.LeaveTime<DateTime.Now).ToList().Count)>0)
+            {
+                _context.FlightBookings.RemoveRange(flightBookings);
+                await _context.SaveChangesAsync();
+                TempData["check"] = "You can not Book a Flight have been left!";
+                return RedirectToAction("Index", "Home");
+            }
+            if (!(flightBookings.Count > 0))
+            {
+                TempData["check"] = "There is no Flights to Book";
+                return RedirectToAction("Index", "Home");
+            }
             List<FlightBookingDetails> bookingDetails = new List<FlightBookingDetails>();
             foreach (var flight in flightBookings)
             {
@@ -559,11 +571,13 @@ namespace Suaah.Areas.Customer.Controllers
                                                       .Include(f => f.Flight).ThenInclude(e => e.ArrivingAirport).ThenInclude(s => s.Country)
                                                       .Include(f => f.Flight).ThenInclude(e => e.DepartingAirport).ThenInclude(s => s.Country)
                                                       .ToListAsync();
+            
             if(!(flightBookings.Count>0))
             {
                 TempData["check"]="There is no Flights to Book";
                  return RedirectToAction("Index", "Home");
             }
+            DateTime duedate=flightBookings.OrderByDescending(f=>f.Flight.LeaveTime).FirstOrDefault().Flight.LeaveTime.AddDays(-1);
             List<FlightBookingDetails> bookingDetails = new List<FlightBookingDetails>();
             foreach (var flight in flightBookings)
             {
@@ -633,6 +647,7 @@ namespace Suaah.Areas.Customer.Controllers
             var service = new SessionService();
             Session session = service.Create(options);
             header.SessionId = session.Id;
+            header.PaymentDueDate = duedate;
             header.PaymentId = session.PaymentIntentId;
             _context.FlightBookingHeader.Update(header);
             await _context.SaveChangesAsync();  
