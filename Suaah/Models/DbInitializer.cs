@@ -181,7 +181,7 @@ namespace Suaah.Models
                       new Country()
                     {
                         Name ="France",
-                        PhotoPath ="/img/Country/download (7).png",
+                        PhotoPath ="/img/Country/download (7).jpg",
                         FlagPath="/img/Country/France.png"
                     },
                     new Country()
