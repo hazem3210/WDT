@@ -6,47 +6,47 @@
     var countries = _context.Countries.ToList();
 }
 
-<div class="row">
-<h1 class="text-center bg-black m-2 p-3 text-white col-12">Airlines</h1>
+<div class="text-center  m-2 mt-5 p-5 h">
+    <h1>Airlines</h1>
 </div>
+<hr />
+
 @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
 {
-<div class="row m-2">
+    <div class="row m-2">
         <a class="btn btn-danger col-12" asp-action="Create">Create New Airline</a>
-
-</div>
+    </div>
 
 }
 <form method="get" asp-action="Index" class="m-1">
-    <div class="row">
-        <div class="col-1">
+    <div class="row text-center">
+        <div class="col-2 m-2">
             <label class="control-label">Search</label>
-        </div>
-        <div class="col-2">
             <input name="search" class="form-control" value="@ViewBag.search" />
         </div>
-        <div class="col-1">
+        <div class="col-2 m-1">
             <label class="control-label">Type of Search</label>
-        </div>
-        <div class="col-2">
             <select name="type" class="form-control form-select" asp-items="@ViewBag.types"></select>
+        </div>  
+        <div class="col-6 m-4">
+             <partial name="_Pagination" />
         </div>
 
         <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden />
         <input name="order" value="@ViewBag.order" hidden />
 
-          
-     <partial name="_Pag" />
     </div>
-    <div class="row m-2">
-            <input type="submit" class="btn btn-secondary offset-5 col-2" onclick="go();" />
 
-    </div>
-    <div class="row m-2">
-        <a class="btn btn-danger offset-5 col-2" asp-action="Index">Back to full list</a>
-    </div>
+    <br />
+    <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2  btn" style="width:100%" onclick="go();" />
+
 </form>
-<table class="table">
+
+
+<div class="text-center">
+    <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
+</div>
+<table class="table table-hover table-striped text-center p-3">
     <thead>
         <tr>
             <th>
@@ -72,7 +72,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Country.Name)
                 </td>
-                
+
                 <td>
                     @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
                     {
