@@ -52,7 +52,7 @@ namespace Suaah.Areas.Admin.Controllers
             if (!string.IsNullOrEmpty(stats))
                 ViewBag.stats = new SelectList(stat, stats);
             else
-                ViewBag.stats = new SelectList(stat);
+                ViewBag.stats = new SelectList(stat,"All");
             if (!string.IsNullOrEmpty(pstats))
                 ViewBag.pstats = new SelectList(pstat, pstats);
             else
@@ -76,8 +76,8 @@ namespace Suaah.Areas.Admin.Controllers
                 }
                 else
                 {
-                    var claimsId = (ClaimsIdentity)User.Identity;
-                    var claim = claimsId.FindFirst(ClaimTypes.NameIdentifier);
+                    var claimIdentity = (ClaimsIdentity)User.Identity;
+                    var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
                     if (type == "ID")
                     {
                         
@@ -158,15 +158,15 @@ namespace Suaah.Areas.Admin.Controllers
                     {
                         applicationDbContext = await _context.FlightBookingHeader.Where(f => f.CustomerID == claim.Value && f.OrderTotal < prit).Include(f => f.Customer).ToListAsync();
                     }
-                    else if (stats != "All" && pstats != "All")
+                    else if ((stats != "All" && stats!=null) && (pstats != "All" && pstats != null))
                     {
                         applicationDbContext = await _context.FlightBookingHeader.Where(f => f.CustomerID == claim.Value && f.OrderStatus.Contains(stats) && f.PaymentStatus.Contains(pstats)).Include(f => f.Customer).ToListAsync();
                     }
-                    else if (stats == "All" && pstats != "All")
+                    else if (stats == "All" && pstats != "All" && pstats != null && stats != null)
                     {
                         applicationDbContext = await _context.FlightBookingHeader.Where(f => f.CustomerID == claim.Value && f.PaymentStatus.Contains(pstats)).Include(f => f.Customer).ToListAsync();
                     }
-                    else if (stats != "All" && pstats == "All")
+                    else if (stats != "All" && pstats == "All" && pstats != null && stats != null)
                     {
                         applicationDbContext = await _context.FlightBookingHeader.Where(f => f.CustomerID == claim.Value && f.OrderStatus.Contains(stats)).Include(f => f.Customer).ToListAsync();
                     }
@@ -198,15 +198,15 @@ namespace Suaah.Areas.Admin.Controllers
                 {
                     applicationDbContext = applicationDbContext.Where(f => f.OrderTotal < prit).ToList();
                 }
-                 if (stats != "All" && pstats != "All")
+                 if (stats != "All" && pstats != "All" && pstats != null && stats != null)
                 {
                     applicationDbContext = applicationDbContext.Where(f => f.OrderStatus.Contains(stats) && f.PaymentStatus.Contains(pstats)).ToList();
                 }
-                else if (stats == "All" && pstats != "All")
+                else if (stats == "All" && pstats != "All" && pstats != null && stats != null)
                 {
                     applicationDbContext = applicationDbContext.Where(f => f.PaymentStatus.Contains(pstats)).ToList();
                 }
-                else if (stats != "All" && pstats == "All")
+                else if (stats != "All" && pstats == "All" && pstats != null && stats != null)
                 {
                     applicationDbContext = applicationDbContext.Where(f => f.OrderStatus.Contains(stats)).ToList();
                 }
@@ -215,21 +215,22 @@ namespace Suaah.Areas.Admin.Controllers
             {
                 if(!User.IsInRole(SD.Role_Customer))
                 {
-                    applicationDbContext = await _context.FlightBookingHeader.ToListAsync();
+                    applicationDbContext = await _context.FlightBookingHeader.Include(f => f.Customer).ToListAsync();
                 }
                 else
                 {
                     var claimsId = (ClaimsIdentity)User.Identity;
                     var claim = claimsId.FindFirst(ClaimTypes.NameIdentifier);
-                    applicationDbContext = await _context.FlightBookingHeader.Where(f=>f.CustomerID==claim.Value).ToListAsync();
+                    applicationDbContext = await _context.FlightBookingHeader.Where(f=>f.CustomerID==claim.Value).Include(f => f.Customer).ToListAsync();
                 }
 
             }
+            applicationDbContext = applicationDbContext.OrderByDescending(f => f.OrderDate).ToList();
             if (order == "ID" && ordersort == "desc")
                 applicationDbContext = applicationDbContext.OrderBy(f => f.ID).ToList();
             else if (order == "Customer" && ordersort == "desc")
                 applicationDbContext = applicationDbContext.OrderBy(f => f.Customer.Name).ToList();
-            else if (order == "OrderDate" && ordersort == "desc")
+            else if (order == "OrderDate" && ordersort == "desc") 
                 applicationDbContext = applicationDbContext.OrderBy(f => f.OrderDate).ToList();
             else if (order == "OrderTotal" && ordersort == "desc")
                 applicationDbContext = applicationDbContext.OrderBy(f => f.OrderTotal).ToList();
