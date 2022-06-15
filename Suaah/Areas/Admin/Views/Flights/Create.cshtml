@@ -5,25 +5,25 @@
     List<FlightClass> flightClasses = ViewBag.Classes;
     MultiSelectList selects = new MultiSelectList(ViewBag.Classes, "ID", "Class");
     if (Model != null)
-      if(Model.Classes!=null)
-        if (Model.Classes.Count > 0)
-            selects = new MultiSelectList(ViewBag.Classes, "ID", "Class", Model.Classes);
+        if (Model.Classes != null)
+            if (Model.Classes.Count > 0)
+                selects = new MultiSelectList(ViewBag.Classes, "ID", "Class", Model.Classes);
 
 }
 
-<h1>Create</h1>
-
-<h4>Flight</h4>
+<div class="text-center  m-2 mt-5 p-5 h">
+    <h1>Create Flight</h1>
+</div>
 <hr />
-   
- <form asp-action="Create" >
- <div class="row"> 
-     <div class="col-md-4">
+
+<form asp-action="Create">
+    <div class="row">
+        <div class="col-md-5 m-2">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Flight.DepartingGate" class="control-label"></label>
-                <input asp-for="Flight.DepartingGate"  class="form-control" />
+                <input asp-for="Flight.DepartingGate" class="form-control" />
                 <span asp-validation-for="Flight.DepartingGate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -43,83 +43,81 @@
             </div>
             <div class="form-group">
                 <label asp-for="Flight.AirlineCode" class="control-label"></label>
-                <select asp-for="Flight.AirlineCode" class ="form-select"  asp-items="ViewBag.AirlineCode"></select>
+                <select asp-for="Flight.AirlineCode" class="form-select" asp-items="ViewBag.AirlineCode"></select>
                 <span asp-validation-for="Flight.AirlineCode" class="text-danger"></span>
 
             </div>
             <div class="form-group">
                 <label asp-for="Flight.DepartingAirportId" class="control-label"></label>
-                <select asp-for="Flight.DepartingAirportId" class ="form-select"  asp-items="ViewBag.DepartingAirportId"></select>
+                <select asp-for="Flight.DepartingAirportId" class="form-select" asp-items="ViewBag.DepartingAirportId"></select>
                 <span asp-validation-for="Flight.DepartingAirportId" class="text-danger"></span>
 
             </div>
             <div class="form-group">
                 <label asp-for="Flight.ArrivingAirportId" class="control-label"></label>
-                <select asp-for="Flight.ArrivingAirportId" class ="form-select"  asp-items="ViewBag.ArrivingAirportId"></select>
+                <select asp-for="Flight.ArrivingAirportId" class="form-select" asp-items="ViewBag.ArrivingAirportId"></select>
                 <span asp-validation-for="Flight.ArrivingAirportId" class="text-danger"></span>
 
             </div>
             <div class="form-group">
                 <label asp-for="Flight.FlightClasses" class="control-label"></label>
-                <select multiple="multiple" asp-for="Classes" class ="form-select form-control form-select-sm" id="sel" onfocus="load();" onchange="setprices();" asp-items="@selects"></select>
+                <select multiple="multiple" asp-for="Classes" class="form-select form-control form-select-sm" id="sel" onfocus="load();" onchange="setprices();" asp-items="@selects"></select>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group m-3 p-3">
+                <input type="submit" value="Create" class="btn btn-primary" /> ||  <a asp-action="Index" class="btn btn-outline-primary">Back to List</a>
             </div>
-        
-     </div>
-    <div class="col-md-4 offset-md-2" id="classes">
-    <span asp-validation-for="Prices" class="text-danger"></span>
-           @{
-                 
-                    int i = 0;
-                    //TempData["0"] = true;
-                    if (Model != null )
-                        if(Model.Classes!=null)
+
+        </div>
+        <div class="col-md-4 offset-md-2" id="classes">
+            <span asp-validation-for="Prices" class="text-danger"></span>
+            @{
+
+                int i = 0;
+                //TempData["0"] = true;
+                if (Model != null)
+                    if (Model.Classes != null)
                         foreach (int item in selects.SelectedValues)
                         {
- <div class="form-group">
-<label class="control-label">Price for @flightClasses.FirstOrDefault(e=>e.ID==item).Class </label>
-<input asp-for="Prices[i]"  class="form-control" />
-<span asp-validation-for="Prices[i]" class="text-danger"></span>
- </div>
+                            <div class="form-group offset-sm-2">
+                                <label class="control-label">Price for @flightClasses.FirstOrDefault(e=>e.ID==item).Class </label>
+                                <input asp-for="Prices[i]" class="form-control" />
+                                <span asp-validation-for="Prices[i]" class="text-danger"></span>
+                            </div>
                             i++;
 
                         }
             }
-    
-     </div>
-  </div>
-</form>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+        </div>
+    </div>
+</form>
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-   <script type="text/javascript">
-var go = 0;
-function load() {
-    this.go++;
-}
-function setprices() {
-    if (this.go > 0) {
-        var selectedtxt = [];
-        for (var option of document.getElementById('sel').options) {
-            if (option.selected) {
-                selectedtxt.push(option.text);
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        var go = 0;
+        function load() {
+            this.go++;
+        }
+        function setprices() {
+            if (this.go > 0) {
+                var selectedtxt = [];
+                for (var option of document.getElementById('sel').options) {
+                    if (option.selected) {
+                        selectedtxt.push(option.text);
+                    }
+                }
+                var htm = '<span data-valmsg-for="Prices" class="text-danger" data-valmsg-replace="true"></span>\n';
+                for (var i = 0; i < selectedtxt.length; i++) {
+                    htm += '<div class="form-group">\n' + '<label class="control-label">Price for ' + selectedtxt[i] + '</label>\n';
+                    htm += '<input name="Prices[' + i + ']"  class="form-control"  data-val="true" id="Prices_' + i + '_" data-val-required="You must enter the Price" data-val-number="The field must be a number." value/>\n';
+                    htm += '<span data-valmsg-for="Prices[' + i + ']" class="text-danger" data-valmsg-replace="true"></span>\n </div>';
+                }
+                document.getElementById("classes").innerHTML = htm;
             }
         }
-        var htm = '<span data-valmsg-for="Prices" class="text-danger" data-valmsg-replace="true"></span>\n';
-        for (var i = 0; i < selectedtxt.length; i++) {
-            htm += '<div class="form-group">\n' + '<label class="control-label">Price for ' + selectedtxt[i] + '</label>\n';
-            htm += '<input name="Prices[' + i + ']"  class="form-control"  data-val="true" id="Prices_'+i+'_" data-val-required="You must enter the Price" data-val-number="The field must be a number." value/>\n';
-            htm += '<span data-valmsg-for="Prices['+i+']" class="text-danger" data-valmsg-replace="true"></span>\n </div>';
-        }
-        document.getElementById("classes").innerHTML = htm;
-    }
-}
-</script>
+    </script>
 }

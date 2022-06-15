@@ -31,12 +31,14 @@ namespace Suaah.Areas.Customer.Controllers
 
         // GET: HotelBookings
         [AllowAnonymous]
-        public IActionResult Index(string rdesc, float? rprice, string rhotel, string rservice)
+        public IActionResult Index(string rdesc, float? rprice, string rhotel, string rservice, int pageSize, int pageNumber)
         {
             ViewData["rdesc"] = rdesc;
             ViewData["rprice"] = rprice;
             ViewData["rhotel"] = rhotel;
             ViewData["rservice"] = rservice;
+            ViewData["pageSize"] = pageSize;
+            ViewData["pageNumber"] = pageNumber;
 
             IQueryable<HotelRoom> hotelsRooms = _context.HotelRooms
               .Include(h => h.Hotel)
@@ -45,6 +47,7 @@ namespace Suaah.Areas.Customer.Controllers
 
             var claimIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
             if (User.IsInRole(SD.Role_Customer))
             {
                 HttpContext.Session.SetInt32(SD.Session_HotelBooking, _context.HotelBookings.Where(u => u.CustomerId == claim.Value).ToList().Count);
@@ -94,6 +97,13 @@ namespace Suaah.Areas.Customer.Controllers
                 hotelsRooms = hotelsRooms.Where(r => r.Price == rprice);
             }
 
+            if (pageSize > 0 && pageNumber > 0)
+            {
+                ViewBag.PageSize = pageSize;
+                ViewBag.PageNumber = pageNumber;
+
+                hotelsRooms = hotelsRooms.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+            }
             return View(hotelsRooms.ToList());
         }
 
