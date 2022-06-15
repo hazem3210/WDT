@@ -1,11 +1,6 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -60,14 +55,12 @@ namespace Suaah.Areas.Customer.Controllers
             if (!String.IsNullOrWhiteSpace(rdesc))
             {
                 rdesc = rdesc.Trim();
-
                 hotelsRooms = hotelsRooms.Where(r => r.Description.Contains(rdesc));
             }
             
             if (!String.IsNullOrWhiteSpace(rhotel))
             {
                 rhotel = rhotel.Trim();
-
                 hotelsRooms = hotelsRooms.Where(r => r.Hotel.Name.Contains(rhotel));
             } 
             
@@ -146,7 +139,6 @@ namespace Suaah.Areas.Customer.Controllers
                 }
                 catch (Exception)
                 {
-
                     goto s;
                 }
             }
@@ -323,6 +315,7 @@ namespace Suaah.Areas.Customer.Controllers
         {
             var claimIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
             IQueryable<HotelBooking> applicationDbContext = default;
 
             if (User.IsInRole(SD.Role_Manager) || User.IsInRole(SD.Role_Admin))
@@ -420,7 +413,7 @@ namespace Suaah.Areas.Customer.Controllers
                         Currency = "usd",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
-                            Name = /*item.HoteRoom.Type*/item.HoteRoom.Description + ", " + item.HoteRoom.Hotel.Name,
+                            Name = item.HoteRoom.Description + ", " + item.HoteRoom.Hotel.Name,
                         },
 
                     },
@@ -445,7 +438,9 @@ namespace Suaah.Areas.Customer.Controllers
         {
             var claimIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
             IQueryable<HotelBooking> HotelBookings = default;
+
             if ((User.IsInRole(SD.Role_Manager) || User.IsInRole(SD.Role_Admin)) && HttpContext.Session.GetInt32(SD.Session_HotelBooking).Value != 0)
             {
                 HotelBookings = _context.HotelBookings
