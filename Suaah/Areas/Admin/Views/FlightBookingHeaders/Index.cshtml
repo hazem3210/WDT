@@ -61,9 +61,10 @@
             </select>
         </div>
     </div> 
-    <partial name="_Pagination" />
-        <br />
-        <br />
+    <div class="col-6 m-4">
+             <partial name="_Pagination" />
+        </div>
+      
      <input type="submit" class="btn btn-outline-danger p-2  btn" style="width:100%" onclick="go();" />
   
 </form>
@@ -71,8 +72,7 @@
 <div class="text-center">
     <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
 </div>
-
-<table class="table">
+<table class="table table-hover table-striped text-center p-3">
     <thead>
         <tr>
             <th>
