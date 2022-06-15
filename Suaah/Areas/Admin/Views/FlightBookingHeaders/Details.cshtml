@@ -1,7 +1,7 @@
 ﻿@model Suaah.Models.FlightBookingHeader
 @{
     bool cancel = true;
-    DateTime canceltime = Model.FlightBookings.OrderByDescending(f => f.Flight.LeaveTime).First().Flight.LeaveTime.Subtract(TimeSpan.FromDays(2));
+    DateTime canceltime = Model.FlightBookings.OrderByDescending(f => f.Flight.LeaveTime).First().Flight.LeaveTime.AddDays(-2);
     if (DateTime.Now.Millisecond > canceltime.Millisecond)
         cancel = false;
 }

@@ -22,7 +22,7 @@
     <div class="row text-center">
         <div class="col-2 m-2">
             <label class="control-label">Search</label>
-            <input name="search" class="form-control" value="@ViewBag.search" />
+            <input name="search" list="list" class="form-control" value="@ViewBag.search" />
         </div>
         <div class="col-2 m-1">
             <label class="control-label">Type of Search</label>
@@ -36,7 +36,9 @@
         <input name="order" value="@ViewBag.order" hidden />
 
     </div>
+    <datalist id="list">
 
+    </datalist>
     <br />
     <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2  btn" style="width:100%" onclick="go();" />
 

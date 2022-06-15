@@ -30,7 +30,7 @@ namespace Suaah.Areas.Admin.Controllers
         public async Task<IActionResult> Index(string? search,string hCountry, string? type, string? order, string? ordersort, int pageSize, int pageNumber)
         {
             List<Airline> airlines;
-            List<string> types = new List<string>() { "name", "country" };
+            List<string> types = new List<string>() { "Name", "Country" };
 
             ViewBag.search = search;
 
@@ -44,7 +44,7 @@ namespace Suaah.Areas.Admin.Controllers
            
             if (string.IsNullOrEmpty(search))
                 airlines = await _context.Airlines.Include(c => c.Country).ToListAsync();
-            else if (!string.IsNullOrEmpty(search) && type == "name")
+            else if (!string.IsNullOrEmpty(search) && type == "Name")
                 airlines = await _context.Airlines.Where(f => f.Name.ToLower().Contains(search.Trim().ToLower())).Include(c => c.Country).ToListAsync();
             else 
                 airlines = await _context.Airlines.Where(f => f.Country.Name.ToLower().Contains(search.Trim().ToLower())).Include(c => c.Country).ToListAsync();
