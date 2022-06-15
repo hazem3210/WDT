@@ -145,42 +145,50 @@ namespace Suaah.Models
                     new Country()
                     {
                         Name ="Egypt",
-                        PhotoPath ="/img/Country/download.jpeg"
+                        PhotoPath ="/img/Country/download.jpeg",
+                        FlagPath="/img/Country/Egypt.webp"
                     },
                     new Country()
                     {
                         Name ="China",
-                        PhotoPath ="/img/Country/download (2).jpg"
+                        PhotoPath ="/img/Country/download (2).jpg",
+                        FlagPath="/img/Country/Cuba.svgChina.png"
                     },
                     new Country()
                     {
                         Name ="Cuba",
-                        PhotoPath ="/img/Country/download (1).jpg"
+                        PhotoPath ="/img/Country/download (1).jpg",
+                        FlagPath="/img/Country/Cuba.svg"
                     },
                     new Country()
                     {
                         Name ="Australia",
-                        PhotoPath ="/img/Country/download (3).jpg"
+                        PhotoPath ="/img/Country/download (3).jpg",
+                        FlagPath="/img/Country/Australia.png"
                     },
                      new Country()
                     {
                         Name ="United States",
-                        PhotoPath ="/img/Country/download (4).jpg"
+                        PhotoPath ="/img/Country/download (4).jpg",
+                        FlagPath="/img/Country/America.png"
                     },
                       new Country()
                     {
                         Name ="España",
-                        PhotoPath ="/img/Country/download (6).jpg"
+                        PhotoPath ="/img/Country/download (6).jpg",
+                        FlagPath="/img/Country/Spain.webp"
                     },
                       new Country()
                     {
                         Name ="France",
-                        PhotoPath ="/img/Country/download (7).jfif"
+                        PhotoPath ="/img/Country/download (7).jfif",
+                        FlagPath="/img/Country/France.webp"
                     },
                     new Country()
                     {
                         Name ="Malaysia",
-                        PhotoPath ="/img/Country/Malaysia.svg.png"
+                        PhotoPath ="/img/Country/Malaysia.svg.png",
+                        FlagPath="/img/Country/Malaysia.svg.png"
                     }
                 };
 

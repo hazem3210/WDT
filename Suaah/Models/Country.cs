@@ -12,12 +12,19 @@ namespace Suaah.Models
         [Required(ErrorMessage ="You must enter the name")]
         public string Name { get; set; }
 
-        [Display(Name ="Photo")]
+        [Display(Name ="Photo of a famous Place in The Country")]
         public string? PhotoPath { get; set; }
 
         [NotMapped]
         [ValidateNever]
         public IFormFile? Photo { get; set; }
+
+        [Display(Name = "Flag Photo")]
+        public string? FlagPath { get; set; }
+
+        [NotMapped]
+        [ValidateNever]
+        public IFormFile? FlagPhoto { get; set; }
 
         [NotMapped]
         [ValidateNever]

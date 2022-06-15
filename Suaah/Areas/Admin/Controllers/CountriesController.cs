@@ -94,14 +94,26 @@ namespace Suaah.Areas.Admin.Controllers
                     ModelState.AddModelError("Photo","You have to Enter a Photo");
                     return View(country);
                 }
+                if (country.FlagPhoto == null)
+                {
+                    ModelState.AddModelError("FlagPhoto", "You have to Enter The Country Flag");
+                    return View(country);
+                }
                 string webpath = _hostEnvi.WebRootPath;
-                Guid guid= Guid.NewGuid();
-                string exe=Path.GetExtension(country.Photo.FileName);
-                string filename=guid+exe;
-                FileStream stream = System.IO.File.Create(webpath+"\\img\\Country\\"+filename);
-                country.Photo.CopyTo(stream);
-                await stream.DisposeAsync();
-                country.PhotoPath = "\\img\\Country\\" + filename;
+                Guid guid1= Guid.NewGuid();
+                string exe1=Path.GetExtension(country.Photo.FileName);
+                string filename1=guid1+exe1;
+                FileStream stream1 = System.IO.File.Create(webpath+"\\img\\Country\\"+filename1);
+                country.Photo.CopyTo(stream1);
+                await stream1.DisposeAsync();
+                country.PhotoPath = "\\img\\Country\\" + filename1;
+                Guid guid2 = Guid.NewGuid();
+                string exe2 = Path.GetExtension(country.FlagPhoto.FileName);
+                string filename2 = guid2 + exe2;
+                FileStream stream2 = System.IO.File.Create(webpath + "\\img\\Country\\" + filename2);
+                country.Photo.CopyTo(stream2);
+                await stream2.DisposeAsync();
+                country.FlagPath = "\\img\\Country\\" + filename2;
 
                 await _context.AddAsync(country);
                 await _context.SaveChangesAsync();
@@ -140,10 +152,10 @@ namespace Suaah.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                string webpath = _hostEnvi.WebRootPath;
                 if (country.Photo != null)
                 {
                     
-                    string webpath = _hostEnvi.WebRootPath;
                     System.IO.File.Delete(webpath+ country.PhotoPath);
                     Guid guid = Guid.NewGuid();
                     string exe = Path.GetExtension(country.Photo.FileName);
@@ -153,6 +165,17 @@ namespace Suaah.Areas.Admin.Controllers
                     await stream.DisposeAsync();
                     country.PhotoPath = "\\img\\Country\\" + filename;
 
+                }
+                if(country.FlagPhoto != null)
+                {
+                    System.IO.File.Delete(webpath + country.FlagPath);
+                    Guid guid = Guid.NewGuid();
+                    string exe = Path.GetExtension(country.FlagPhoto.FileName);
+                    string filename = guid + exe;
+                    FileStream stream = System.IO.File.Create(webpath + "\\img\\Country\\" + filename);
+                    country.FlagPhoto.CopyTo(stream);
+                    await stream.DisposeAsync();
+                    country.FlagPath = "\\img\\Country\\" + filename;
                 }
                 else
                 {
@@ -206,6 +229,7 @@ namespace Suaah.Areas.Admin.Controllers
             var country = await _context.Countries.FindAsync(id);
             string webpath = _hostEnvi.WebRootPath;
             System.IO.File.Delete(webpath + country.PhotoPath);
+            System.IO.File.Delete(webpath + country.FlagPath);
             _context.Countries.Remove(country);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

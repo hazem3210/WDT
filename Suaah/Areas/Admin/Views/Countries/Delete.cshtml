@@ -24,6 +24,12 @@
         <dd class = "col-sm-10">
             <img src="@Model.PhotoPath" class="img-fluid img-thumbnail"/>
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FlagPhoto)
+        </dt>
+        <dd class = "col-sm-10">
+            <img src="@Model.FlagPath" class="img-fluid img-thumbnail"/>
+        </dd>
     </dl>
     
     <form asp-action="Delete">
