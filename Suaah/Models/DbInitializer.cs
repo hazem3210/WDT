@@ -152,7 +152,7 @@ namespace Suaah.Models
                     {
                         Name ="China",
                         PhotoPath ="/img/Country/download (2).jpg",
-                        FlagPath="/img/Country/Cuba.svgChina.png"
+                        FlagPath="/img/Country/China.png"
                     },
                     new Country()
                     {
