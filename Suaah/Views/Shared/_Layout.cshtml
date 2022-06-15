@@ -296,8 +296,7 @@
                     </ul>
 
                     @{
-                        //if (User.IsInRole(SD.Role_Customer))
-                        //{
+                        
                         if (HttpContextAccessor.HttpContext.Session.GetInt32(SD.Session_HotelBooking) != null)
                         {
                             <a class="nav-link" asp-area="Customer" asp-controller="HotelBookings" asp-action="PendingReservation">
@@ -341,18 +340,10 @@
     <br />
     <br />
     <footer class="border-top footer text-muted mt-5">
-        @*
-        @{
-        var social = _context.SocialData;
-
-        }
-        *@
+         
         <div class="container">
             &copy; 2022 - Suaah - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> <br />
-            @*@foreach (var item in social)
-            {
-            <a href="@item.Link">@item.SocialName</a>
-            }*@
+           
         </div>
     </footer>
 
