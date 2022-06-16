@@ -31,7 +31,12 @@
         <div class="col-6 m-4 ">
              <partial name="_Pagination" />
         </div>
-
+        <datalist id="list">
+            @foreach (var item in ViewBag.Name)
+            {
+                <option>@item</option>
+            }
+        </datalist>
         <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden />
         <input name="order" value="@ViewBag.order" hidden />
 
@@ -99,7 +104,7 @@
     for (var i = 0; i < airlines.length; i++) {
         data += "<option>" + airlines[i] + "</option>";
     }
-    document.getElementById("list").innerHTML += data;
+    document.getElementById("list").innerHTML = data;
     }
     else {
         var airlines = @Html.Raw(Json.Serialize(ViewBag.Country));
@@ -107,7 +112,7 @@
     for (var i = 0; i < airlines.length; i++) {
         data += "<option>" + airlines[i] + "</option>";
     }
-    document.getElementById("list").innerHTML += data;
+    document.getElementById("list").innerHTML = data;
     }
 }
 

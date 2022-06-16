@@ -26,7 +26,7 @@ namespace Suaah.Areas.Admin.Controllers
         public async Task<IActionResult> Index(string search, string type, string order, string ordersort, int pageSize, int pageNumber)
         {
             ViewBag.Name = await _context.Airlines.Select(f => f.Name).ToListAsync();
-            ViewBag.Contry = await _context.Countries.Select(f => f.Name).ToListAsync();
+            ViewBag.Country = await _context.Countries.Select(f => f.Name).ToListAsync();
             List<Airline> airlines;
             List<string> types = new List<string>() { "Name", "Country" };
 

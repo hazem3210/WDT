@@ -55,16 +55,16 @@
             <h3>Search</h3>
 
             <label class="control-label">Search Type</label>
-            <select name="type" class="form-control form-select" asp-items="@ViewBag.type">
+            <select name="type" onchange="select();" class="form-control form-select" asp-items="@ViewBag.type">
             </select>
             <label class="control-label">Search</label>
-            <input name="search" class="form-control" value="@ViewBag.search" />
+            <input name="search" list="list" class="form-control" value="@ViewBag.search" />
         </div>
         <div class="col-6 m-4">
             <partial name="_Pagination" />
         </div>
     </div>
-
+    <datalist id="list"></datalist>
 
     <input type="submit" class="btn btn-outline-danger p-2  btn" style="width:100%" onclick="go();" />
 
@@ -151,9 +151,19 @@
     </tbody>
 </table>
 <script>
-    function a() {
-        document.getElementById("btn").click();
+function select() {
+    var airline = document.getElementsByName('type')[0].value;
+    if (airline == 'Customer') {
+    var airlines = @Html.Raw(Json.Serialize(ViewBag.Customers));
+    var data;
+    for (var i = 0; i < airlines.length; i++) {
+        data += "<option>" + airlines[i] + "</option>";
     }
+    document.getElementById("list").innerHTML = data;
+    }
+
+}
+  
     function go() {
         if (document.getElementById("ord").value == "desc") {
             document.getElementById("ord").value = "asc";

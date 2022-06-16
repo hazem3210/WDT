@@ -25,13 +25,18 @@
     <div class="row m-3">
         <div class="col-6">
             <label class="control-label">Search</label>
-            <input name="search" class="form-control" value="@ViewBag.search" />
+            <input name="search" list="list" class="form-control" value="@ViewBag.search" />
         </div>
         <div class="col-6">
             <label class="control-label">Type of Search</label>
-            <select name="type" class="form-control form-select" asp-items="@ViewBag.types"></select>
+            <select name="type" class="form-control form-select" onchange="select();" asp-items="@ViewBag.types"></select>
         </div>
-
+        <datalist id="list">
+            @foreach (var item in ViewBag.Users)
+            {
+                <option>@item</option>
+            }
+        </datalist>
         <div class="col-12">
 
             <label class="control-label">Role</label>
@@ -107,29 +112,29 @@
                     @{
                         if (User.IsInRole(SD.Role_Manager))
                         {
-                            <a asp-area="Identity" asp-page="/Account/Manage/Index" asp-route-id="@item.Id">Edit |</a>
+                                    <a asp-area="Identity" asp-page="/Account/Manage/Index" asp-route-id="@item.Id">Edit |</a>
                         }
                         else if (User.IsInRole(SD.Role_Admin) && role == "Customer")
                         {
-                            <a asp-area="Identity" asp-page="/Account/Manage/Index" asp-route-id="@item.Id">Edit |</a>
+                                    <a asp-area="Identity" asp-page="/Account/Manage/Index" asp-route-id="@item.Id">Edit |</a>
                         }
                         else
                         {
-                            <input type="submit" value="Edit" disabled /> <span>|</span>
+                                    <input type="submit" value="Edit" disabled /> <span>|</span>
                         }
 
                         if (role == "Customer")
                         {
-                            <a asp-action="Details" asp-route-id="@item.Id">Details |</a>
+                                    <a asp-action="Details" asp-route-id="@item.Id">Details |</a>
                         }
                         else
                         {
-                            <input type="submit" value="Details" disabled /> <span>|</span>
+                                    <input type="submit" value="Details" disabled /> <span>|</span>
                         }
 
                         if (role == "Customer" || (role == "Admin" && User.IsInRole(SD.Role_Manager)))
                         {
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         }
                         //else if (role == "Admin" && User.IsInRole(SD.Role_Manager))
                         //{
@@ -137,7 +142,7 @@
                         //}
                         else
                         {
-                            <input type="submit" value="Delete" disabled />
+                                    <input type="submit" value="Delete" disabled />
                         }
                     }
 
@@ -146,3 +151,42 @@
         }
     </tbody>
 </table>
+@section Scripts{
+    <script>
+        function select() {
+    var airline = document.getElementsByName('type')[0].value;
+    if (airline == 'User Name') {
+    var airlines = @Html.Raw(Json.Serialize(ViewBag.Users));
+    var data;
+    for (var i = 0; i < airlines.length; i++) {
+        data += "<option>" + airlines[i] + "</option>";
+    }
+    document.getElementById("list").innerHTML = data;
+    }
+    else if(airline=='Email'){
+        var airlines = @Html.Raw(Json.Serialize(ViewBag.Emails));
+    var data;
+    for (var i = 0; i < airlines.length; i++) {
+        data += "<option>" + airlines[i] + "</option>";
+    }
+    document.getElementById("list").innerHTML = data;
+    }
+    else if(airline=='Phone'){
+        var airlines = @Html.Raw(Json.Serialize(ViewBag.Phones));
+    var data;
+    for (var i = 0; i < airlines.length; i++) {
+        data += "<option>" + airlines[i] + "</option>";
+    }
+    document.getElementById("list").innerHTML = data;
+    }
+
+}
+function go() {
+            if (document.getElementById("ord").value == "desc") {
+                document.getElementById("ord").value = "asc";
+            }
+            else
+                document.getElementById("ord").value = "desc";
+        }
+    </script>
+}

@@ -229,6 +229,9 @@ namespace Suaah.Areas.Admin.Controllers
 
         public async Task<IActionResult> Users(string? search, string? type, string? order, string? ordersort,string? role, int pageSize, int pageNumber)
         {
+            ViewBag.Users=await _context.Users.Select(f=>f.UserName).ToListAsync();
+            ViewBag.Emails = await _context.Users.Select(f => f.Email).ToListAsync();
+            ViewBag.Phones = await _context.Users.Select(f => f.PhoneNumber).ToListAsync();
             List<IdentityUser> users;
             List<string> types = new List<string>() { "User Name", "Email", "Phone"};
             List<string> roles = new List<string>() { "Customer", "Admin", "Manager" };

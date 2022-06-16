@@ -26,13 +26,18 @@
 
         <div class="col-5">
             <label class="control-label">Search</label>
-            <input name="search" class="form-control" value="@ViewBag.search" />
+            <input name="search" list="list" class="form-control" value="@ViewBag.search" />
         </div>
         <div class="col-5">
             <label class="control-label">Type of Search</label>
-            <select name="type" class="form-select" asp-items="@ViewBag.types"></select>
+            <select name="type" class="form-select" onchange="select();" asp-items="@ViewBag.types"></select>
         </div>
-
+        <datalist id="list">
+            @foreach (var item in ViewBag.Names)
+            {
+                <option>@item</option>
+            }
+        </datalist>
 
     </div>
     <div class="row w-75 m-4">
@@ -106,6 +111,41 @@
 </table>
 @section Scripts{
     <script>
+    function select() {
+    var airline = document.getElementsByName('type')[0].value;
+    if (airline == 'Name') {
+    var airlines = @Html.Raw(Json.Serialize(ViewBag.Names));
+    var data;
+    for (var i = 0; i < airlines.length; i++) {
+        data += "<option>" + airlines[i] + "</option>";
+    }
+    document.getElementById("list").innerHTML = data;
+    }
+    else if(airline=='Email'){
+        var airlines = @Html.Raw(Json.Serialize(ViewBag.Emails));
+    var data;
+    for (var i = 0; i < airlines.length; i++) {
+        data += "<option>" + airlines[i] + "</option>";
+    }
+    document.getElementById("list").innerHTML = data;
+    }
+    else if(airline=='Phone'){
+        var airlines = @Html.Raw(Json.Serialize(ViewBag.Phones));
+    var data;
+    for (var i = 0; i < airlines.length; i++) {
+        data += "<option>" + airlines[i] + "</option>";
+    }
+    document.getElementById("list").innerHTML = data;
+    }
+    else{
+        var airlines = @Html.Raw(Json.Serialize(ViewBag.Passports));
+    var data;
+    for (var i = 0; i < airlines.length; i++) {
+        data += "<option>" + airlines[i] + "</option>";
+    }
+    document.getElementById("list").innerHTML = data;
+    }
+}
         function go() {
             if (document.getElementById("ord").value == "desc") {
                 document.getElementById("ord").value = "asc";

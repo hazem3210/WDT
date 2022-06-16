@@ -39,7 +39,10 @@
     <br />
     <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2  btn" style="width:100%" onclick="go();" />
     <datalist id="list">
-
+        @foreach (var item in ViewBag.Names)
+        {
+            <option>@item</option>
+        }
     </datalist>
 </form>
 
@@ -118,7 +121,7 @@
     for (var i = 0; i < airlines.length; i++) {
         data += "<option>" + airlines[i] + "</option>";
     }
-    document.getElementById("list").innerHTML += data;
+    document.getElementById("list").innerHTML = data;
     }
     else if(airline=='country'){
         var airlines = @Html.Raw(Json.Serialize(ViewBag.Countries));
@@ -126,7 +129,7 @@
     for (var i = 0; i < airlines.length; i++) {
         data += "<option>" + airlines[i] + "</option>";
     }
-    document.getElementById("list").innerHTML += data;
+    document.getElementById("list").innerHTML = data;
     }
     else{
         var airlines = @Html.Raw(Json.Serialize(ViewBag.Cities));
@@ -134,7 +137,7 @@
     for (var i = 0; i < airlines.length; i++) {
         data += "<option>" + airlines[i] + "</option>";
     }
-    document.getElementById("list").innerHTML += data;
+    document.getElementById("list").innerHTML = data;
     }
 }
         function go() {
