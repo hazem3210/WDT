@@ -1,9 +1,17 @@
 ﻿@model Suaah.Models.HomeData
-
-
 @{
     ViewData["Title"] = "Home Page";
 }
+
+@if (User.IsInRole(SD.Role_Manager) || User.IsInRole(SD.Role_Admin))
+{
+    <br />
+    <br />
+
+    <a asp-area="Customer" asp-controller="Home" asp-action="Admin" class="btn btn-outline-danger p-2 " style="width:100%">Admin Panel</a>
+     <br />
+}
+   
 
 <div class="text-center">
     <h1 class="display-4 m-4">Enjoy With Us</h1>

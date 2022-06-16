@@ -23,15 +23,17 @@
     <input name="order" value="@ViewBag.order" hidden />
 
     <div class="row m-3">
-        <div class="col-3">
+        <div class="col-6">
             <label class="control-label">Search</label>
             <input name="search" class="form-control" value="@ViewBag.search" />
         </div>
-        <div class="col-3">
+        <div class="col-6">
             <label class="control-label">Type of Search</label>
             <select name="type" class="form-control form-select" asp-items="@ViewBag.types"></select>
         </div>
-        <div class="col-3">
+
+        <div class="col-12">
+
             <label class="control-label">Role</label>
             <select name="role" class="form-control form-select" asp-items="@ViewBag.roles">
                 <option value="">Select All</option>
@@ -43,12 +45,9 @@
                 <partial name="_Pagination" />
             </div>
         </div>
-<div>
-        <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2" style="width:100%" onclick="go();"/>
+        <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2" style="width:100%" onclick="go();" />
     </div>
-        
-    </div>
-   
+
 </form>
 
 <div class="text-center">
