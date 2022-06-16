@@ -4,187 +4,187 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="row">
-<h1 class="text-center bg-black m-2 p-4 text-white col-12">Flights</h1>
+
+<div class="text-center  m-2 mt-5 p-5 h">
+    <h1>Flight Booking</h1>
 </div>
+<hr />
+
 <form method="get" asp-action="Index">
-    <div class="row">
+    <div class="row text-center">
         <div class="col-3 m-2 text-center"><h3>Date</h3></div>
         <div class="col-3 m-2 text-center"><h3>Country</h3></div>
         <div class="col-5 m-2 text-center"><h3>Class</h3></div>
 
     </div>
-<div class="row">
-     <div class="col-1">
-        <label class="control-label">From</label>
-    </div>
-    <div class="col-2">
-        <input name="timef" type="date" class="form-control" value="@ViewBag.timef"  />
-    </div>
-         <div class="col-1">
-        <label class="control-label">From</label>
-    </div>
-    <div class="col-2">
-        <input name="conf" list="names" class="form-control" value="@ViewBag.conf" />
-    </div>
-    <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden/>
-    <input name="order" value="@ViewBag.order" hidden/>
+    <div class="form-actions no-color text-center p-3 row">
 
-            <div class="col-1">
-        <label class="control-label">Class</label>
+        <div class="col-3">
+            <label class="control-label">From</label>
+
+            <input name="timef" type="date" class="form-control" value="@ViewBag.timef" />
+        </div>
+        <div class="col-3">
+            <label class="control-label">From</label>
+
+            <input name="conf" list="names" class="form-control" value="@ViewBag.conf" />
+        </div>
+        <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden />
+        <input name="order" value="@ViewBag.order" hidden />
+
+        <div class="col-3">
+            <label class="control-label">Class</label>
+
+            <select name="clas" class="form-control form-select" asp-items="@ViewBag.classes">
+                <option value="">All</option>
+            </select>
+        </div>
+        <div class="col-3">
+            <label class="control-label">Max</label>
+
+            <input name="max" class="form-control" value="@ViewBag.max" type="number" />
+        </div>
+
     </div>
-    <div class="col-2">
-        <select name="clas" class="form-control form-select" asp-items="@ViewBag.classes" >
-            <option value="">All</option>
-        </select>
-    </div>
-    <div class="col-1">
-        <label class="control-label">Max</label>
-    </div>
-    <div class="col-2">
-        <input name="max" class="form-control" value="@ViewBag.max" type="number" />
-    </div>
-    
-</div>
-<datalist id="names">
-        @foreach(string name in ViewBag.names)
+    <datalist id="names">
+        @foreach (string name in ViewBag.names)
         {
             <option>@name</option>
         }
     </datalist>
-<div class="row">
+    <div class="row">
 
 
-    <div class="col-1">
-        <label class="control-label">To</label>
-    </div>
-    <div class="col-2">
-        <input name="timet" type="date" class="form-control" value="@ViewBag.timet"  />
-    </div>
+        <div class="col-3  text-center">
+            <label class="control-label">To</label>
 
-             <div class="col-1">
-        <label class="control-label">To</label>
-    </div>
-    <div class="col-2">
-        <input name="cont" list="names" class="form-control" value="@ViewBag.cont" />
-    </div>
-        <div class="col-1">
-        <label class="control-label">Min</label>
-    </div>
-    <div class="col-2">
-        <input name="min" class="form-control" value="@ViewBag.min" type="number" />
-    </div>
+            <input name="timet" type="date" class="form-control" value="@ViewBag.timet" />
+        </div>
 
-</div>
-<div class="row m-1">
-            <div class="col-1">
-        <label class="control-label">Airline</label>
-    </div>
-    <div class="col-2">
-        <select name="airline" class="form-control form-select" asp-items="@ViewBag.airlines" >
-            <option value="">All</option>
-        </select>
-    </div>
-     <partial name="_Pag" />
+        <div class="col-3 text-center">
+            <label class="control-label">To</label>
 
+            <input name="cont" list="names" class="form-control" value="@ViewBag.cont" />
+        </div>
+        <div class="col-3  text-center">
+            <label class="control-label">Min</label>
 
-        <input type="submit" class="btn btn-secondary offset-1 col-2" onclick="go();"/>
+            <input name="min" class="form-control" value="@ViewBag.min" type="number" />
+        </div>
 
-</div>
-    <div class="row m-2">
-        <a class="btn btn-danger offset-5 col-2" asp-action="Index">Back to full list</a>
     </div>
+    <br />
+    <div class="row m-1">
+        <div class="col-3  text-center">
+            <label class="control-label">Airline</label>
+
+            <select name="airline" class="form-control form-select" asp-items="@ViewBag.airlines">
+                <option value="">All</option>
+            </select>
+        </div>
+        <div class="col-8  text-center">
+            <partial name="_Pagination" />
+        </div>
+    </div>
+       <br />
+
+    <input type="submit" class="btn btn-outline-danger p-2  btn" style="width:100%" onclick="go();" />
 </form>
-<table class="table">
+
+<div class="text-center">
+    <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
+</div>
+<table class="table table-hover table-striped text-center p-3">
     <thead>
         <tr>
             <th>
 
             </th>
             <th>
-                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="From" asp-route-ordersort="@ViewBag.ordersort" asp-route-airline="@ViewBag.airlines.SelectedValue" asp-route-clas="@ViewBag.classes.SelectedValue" asp-route-min="@ViewBag.min" asp-route-max="@ViewBag.max"  asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
-                From
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="From" asp-route-ordersort="@ViewBag.ordersort" asp-route-airline="@ViewBag.airlines.SelectedValue" asp-route-clas="@ViewBag.classes.SelectedValue" asp-route-min="@ViewBag.min" asp-route-max="@ViewBag.max" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
+                    From
                 </a>
             </th>
             <th>
-                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="To" asp-route-ordersort="@ViewBag.ordersort" asp-route-airline="@ViewBag.airlines.SelectedValue" asp-route-clas="@ViewBag.classes.SelectedValue" asp-route-min="@ViewBag.min" asp-route-max="@ViewBag.max"  asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
-               To
-               </a>
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="To" asp-route-ordersort="@ViewBag.ordersort" asp-route-airline="@ViewBag.airlines.SelectedValue" asp-route-clas="@ViewBag.classes.SelectedValue" asp-route-min="@ViewBag.min" asp-route-max="@ViewBag.max" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
+                    To
+                </a>
             </th>
             <th>
                 Price of Classes
             </th>
-             <th>
+            <th>
                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="Airline" asp-route-ordersort="@ViewBag.ordersort" asp-route-airline="@ViewBag.airlines.SelectedValue" asp-route-clas="@ViewBag.classes.SelectedValue" asp-route-min="@ViewBag.min" asp-route-max="@ViewBag.max" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
-                @Html.DisplayNameFor(model => model.AirlineCode)
+                    @Html.DisplayNameFor(model => model.AirlineCode)
                 </a>
             </th>
             <th>
                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="Time" asp-route-ordersort="@ViewBag.ordersort" asp-route-airline="@ViewBag.airlines.SelectedValue" asp-route-clas="@ViewBag.classes.SelectedValue" asp-route-min="@ViewBag.min" asp-route-max="@ViewBag.max" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-conf="@ViewBag.conf" asp-route-cont="@ViewBag.cont">
-                @Html.DisplayNameFor(model => model.LeaveTime)
+                    @Html.DisplayNameFor(model => model.LeaveTime)
                 </a>
             </th>
-            
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td style="width:12%">
-               <img src="@item.ArrivingAirport.Country.PhotoPath" class="img-fluid img-thumbnail">
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DepartingAirport.City) ,@Html.DisplayFor(modelItem => item.DepartingAirport.Country.Name)
-            </td>
-             <td>
-                @Html.DisplayFor(modelItem => item.ArrivingAirport.City) ,@Html.DisplayFor(modelItem => item.ArrivingAirport.Country.Name)
-            </td>
-            <td>
-                <ul>
-                @foreach(var clas in item.FlightClasses)
-                {
-                    <li>  @Html.DisplayFor(Iten=> clas.FlightClass.Class): @Html.DisplayFor(Iten => clas.Price) $</li>  
-                 }
-                 </ul>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Airline.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaveTime.Date)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="width:12%">
+                    <img src="@item.ArrivingAirport.Country.PhotoPath" class="img-fluid img-thumbnail">
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartingAirport.City) ,@Html.DisplayFor(modelItem => item.DepartingAirport.Country.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArrivingAirport.City) ,@Html.DisplayFor(modelItem => item.ArrivingAirport.Country.Name)
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var clas in item.FlightClasses)
+                        {
+                            <li>  @Html.DisplayFor(Iten=> clas.FlightClass.Class): @Html.DisplayFor(Iten => clas.Price) $</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Airline.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveTime.Date)
+                </td>
                 @{
-                    if(User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Admin))
+                    if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Admin))
                     {
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                             <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |  
-                            <a asp-route-id="@item.Id" asp-action="Flightdetails" class="btn btn-success" >Book <i class="bi bi-calendar2-plus-fill"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                            <a asp-route-id="@item.Id" asp-action="Flightdetails" class="btn btn-success">Book <i class="bi bi-calendar2-plus-fill"></i></a>
                         </td>
                     }
                     else
                     {
-                     <td>  
-                          <a asp-route-id="@item.Id" asp-action="Flightdetails" class="btn btn-success" >Book <i class="bi bi-calendar2-plus-fill"></i></a>
-                     </td>   
+                        <td>
+                            <a asp-route-id="@item.Id" asp-action="Flightdetails" class="btn btn-success">Book <i class="bi bi-calendar2-plus-fill"></i></a>
+                        </td>
                     }
 
-            }
+                }
 
-        </tr>
-}
+            </tr>
+        }
     </tbody>
 </table>
 @section Scripts{
     <script>
-function go() {
-    if (document.getElementById("ord").value == "desc") {
-        document.getElementById("ord").value = "asc";
-    }
-    else
-        document.getElementById("ord").value = "desc";
-}
+        function go() {
+            if (document.getElementById("ord").value == "desc") {
+                document.getElementById("ord").value = "asc";
+            }
+            else
+                document.getElementById("ord").value = "desc";
+        }
     </script>
 }

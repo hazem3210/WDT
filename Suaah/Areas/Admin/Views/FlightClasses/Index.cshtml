@@ -4,72 +4,79 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="row">
-<h1 class="text-center bg-black m-2 p-3 text-white col-12">Flight Classes</h1>
+
+<div class="text-center  m-2 mt-5 p-5 h">
+    <h1>Flights Classes</h1>
 </div>
+<hr />
+
 @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
 {
-<div class="row m-2">
+    <div class="row m-2">
         <a class="btn btn-danger col-12" asp-action="Create">Create New Class</a>
 
-</div>
+    </div>
 
 }
 <form method="get" asp-action="Index" class="m-1">
-<div class="row">
-    <div class="col-1">
-        <label class="control-label">Search</label>
-    </div>
-    <div class="col-2">
-        <input name="name" class="form-control" value="@ViewBag.name" />
-    </div>
-    <input name="order" id="ord" value="@ViewBag.order" hidden/>
-     <partial name="_Pag" />
+    <div class="form-actions no-color text-center p-3 row">
 
-    <div class="col-1">
-        <input type="submit" class="btn btn-secondary" onclick="go();"/>
+        <div class="col-3">
+            <label class="control-label">Search</label>
+
+            <input name="name" class="form-control" value="@ViewBag.name" />
         </div>
-    
-</div>
-<div class="row m-2">
-        <a class="btn btn-danger offset-5 col-2" asp-action="Index">Back to full list</a>
+        <input name="order" id="ord" value="@ViewBag.order" hidden />
+
+       <div class="col-8">
+         <partial name="_Pagination" />
+     </div>
+ 
+        <br />
     </div>
+   <input type="submit" class="btn btn-outline-danger p-2  btn" style="width:100%" onclick="go();" />
 </form>
-<table class="table">
+
+
+<div class="text-center">
+    <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
+</div>
+<table class="table table-hover table-striped text-center p-3">
     <thead>
         <tr>
             <th>
                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="@ViewBag.order" asp-route-name="@ViewBag.name">
-                @Html.DisplayNameFor(model => model.Class)
+                    @Html.DisplayNameFor(model => model.Class)
                 </a>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Class)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Class)
+                </td>
 
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 @section Scripts{
     <script>
-function go() {
-    if (document.getElementById("ord").value == "desc") {
-        document.getElementById("ord").value = "asc";
-    }
-    else
-        document.getElementById("ord").value = "desc";
-}
+        function go() {
+            if (document.getElementById("ord").value == "desc") {
+                document.getElementById("ord").value = "asc";
+            }
+            else
+                document.getElementById("ord").value = "desc";
+        }
     </script>
 }
