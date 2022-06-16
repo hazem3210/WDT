@@ -11,68 +11,57 @@
 <hr />
 
 <form method="get" asp-action="Index">
-    <div class="row text-center">
-        <div class="col-3 m-2 text-center"><h3>Date</h3></div>
-        <div class="col-3 m-2 text-center"><h3>Country</h3></div>
-        <div class="col-5 m-2 text-center"><h3>Class</h3></div>
+    <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden />
+    <input name="order" value="@ViewBag.order" hidden />
 
-    </div>
     <div class="form-actions no-color text-center p-3 row">
 
-        <div class="col-3">
-            <label class="control-label">From</label>
+        <div class="col-4">
+            <h3>Date</h3>
 
+            <label class="control-label">From</label>
             <input name="timef" type="date" class="form-control" value="@ViewBag.timef" />
-        </div>
-        <div class="col-3">
-            <label class="control-label">From</label>
 
-            <input name="conf" list="names" class="form-control" value="@ViewBag.conf" />
-        </div>
-        <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden />
-        <input name="order" value="@ViewBag.order" hidden />
-
-        <div class="col-3">
-            <label class="control-label">Class</label>
-
-            <select name="clas" class="form-control form-select" asp-items="@ViewBag.classes">
-                <option value="">All</option>
-            </select>
-        </div>
-        <div class="col-3">
-            <label class="control-label">Max</label>
-
-            <input name="max" class="form-control" value="@ViewBag.max" type="number" />
-        </div>
-
-    </div>
-    <datalist id="names">
-        @foreach (string name in ViewBag.names)
-        {
-            <option>@name</option>
-        }
-    </datalist>
-    <div class="row">
-
-
-        <div class="col-3  text-center">
             <label class="control-label">To</label>
-
             <input name="timet" type="date" class="form-control" value="@ViewBag.timet" />
         </div>
 
-        <div class="col-3 text-center">
-            <label class="control-label">To</label>
 
-            <input name="cont" list="names" class="form-control" value="@ViewBag.cont" />
-        </div>
-        <div class="col-3  text-center">
+        <div class="col-4">
+            <h3>Class</h3>
+
+            <label class="control-label">Class</label>
+            <select name="clas" class="form-control form-select" asp-items="@ViewBag.classes">
+                <option value="">All</option>
+            </select>
+
             <label class="control-label">Min</label>
-
             <input name="min" class="form-control" value="@ViewBag.min" type="number" />
+
+            <label class="control-label">Max</label>
+            <input name="max" class="form-control" value="@ViewBag.max" type="number" />
+        </div>
+
+        <datalist id="names">
+            @foreach (string name in ViewBag.names)
+            {
+                <option>@name</option>
+            }
+        </datalist>
+        <div class="col-4">
+            <h3>Country</h3>
+
+
+            <label class="control-label">From</label>
+            <input name="conf" list="names" class="form-control" value="@ViewBag.conf" />
+
+            <label class="control-label">To</label>
+            <input name="cont" list="names" class="form-control" value="@ViewBag.cont" />
+
         </div>
 
     </div>
+
     <br />
     <div class="row m-1">
         <div class="col-3  text-center">
@@ -86,7 +75,7 @@
             <partial name="_Pagination" />
         </div>
     </div>
-       <br />
+    <br />
 
     <input type="submit" class="btn btn-outline-danger p-2  btn" style="width:100%" onclick="go();" />
 </form>
