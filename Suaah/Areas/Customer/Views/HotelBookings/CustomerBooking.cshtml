@@ -46,9 +46,24 @@
                 <option>@item.TotalPrice</option>
             }
         </datalist>
+         
+         <br />
+         <br />
+        <partial name="_Pagination" /> 
+           <br />
+         <br />
+         <a asp-action="CustomerBooking" class="btn mx-2 btn-danger"
+           asp-route-hid="@ViewData["hid"]"
+           asp-route-hprice="@ViewData["hprice"]"
+           asp-route-pageSize="@ViewData["pageSize"]"
+           asp-route-pageNumber="@ViewData["pageNumber"]"
+           asp-route-sort="price" asp-route-ordersort="@ViewBag.ordersort">
+            Sort By Total Price
+        </a>
         <br />
         <br />
-        <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2" asp-action="CustomerBooking" />
+        <br />
+        <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2 w-100" asp-action="CustomerBooking" />
         <br />
         <br />
         <a asp-action="CustomerBooking" class="btn btn-outline-info my-4">Back to Full List</a>

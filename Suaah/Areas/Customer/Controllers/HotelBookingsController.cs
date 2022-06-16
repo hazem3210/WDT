@@ -522,7 +522,7 @@ namespace Suaah.Areas.Customer.Controllers
             return HBHAD;
         }
 
-        public IActionResult CustomerBooking(DateTime? bookingd, DateTime? payment, int? hid, float? hprice)
+        public IActionResult CustomerBooking(DateTime? bookingd, DateTime? payment, int? hid, float? hprice, int pageSize, int pageNumber, string sort, string ordersort)
         {
             var claimIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
@@ -537,6 +537,10 @@ namespace Suaah.Areas.Customer.Controllers
 
             ViewData["hid"] = hid;
             ViewData["hprice"] = hprice;
+            ViewData["pageSize"] = pageSize;
+            ViewData["pageNumber"] = pageNumber;
+
+            
 
             if (bookingd != null)
             {
@@ -557,6 +561,24 @@ namespace Suaah.Areas.Customer.Controllers
             {
                 HBHAD.HotelBookingHeaders = HBHAD.HotelBookingHeaders.Where(d => d.TotalPrice == hprice).ToList();
             }
+
+            if (pageSize > 0 && pageNumber > 0)
+            {
+                ViewBag.PageSize = pageSize;
+                ViewBag.PageNumber = pageNumber;
+
+                HBHAD.HotelBookingHeaders = HBHAD.HotelBookingHeaders.Skip(pageSize * (pageNumber - 1)).Take(pageSize).ToList();
+            }
+
+            if (sort == "price" && ordersort == "asc")
+                HBHAD.HotelBookingHeaders = HBHAD.HotelBookingHeaders.OrderBy(f => f.TotalPrice).ToList();
+            else
+                HBHAD.HotelBookingHeaders = HBHAD.HotelBookingHeaders.OrderByDescending(f => f.TotalPrice).ToList();
+
+            if (ordersort == "asc")
+                ViewBag.ordersort = "desc";
+            else
+                ViewBag.ordersort = "asc";
 
             return View(HBHAD);
         }
