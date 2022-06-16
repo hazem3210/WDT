@@ -1,8 +1,4 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -27,7 +23,7 @@ namespace Suaah.Areas.Admin.Controllers
 
         // GET: Airlines
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string? search,string hCountry, string? type, string? order, string? ordersort, int pageSize, int pageNumber)
+        public async Task<IActionResult> Index(string search, string type, string order, string ordersort, int pageSize, int pageNumber)
         {
             List<Airline> airlines;
             List<string> types = new List<string>() { "Name", "Country" };
@@ -49,19 +45,19 @@ namespace Suaah.Areas.Admin.Controllers
             else 
                 airlines = await _context.Airlines.Where(f => f.Country.Name.ToLower().Contains(search.Trim().ToLower())).Include(c => c.Country).ToListAsync();
            
-            if (order == "name" && ordersort == "desc")
+            if (order == "name" && ordersort == "asc")
                 airlines = airlines.OrderBy(f => f.Name).ToList();
-            else if (order == "country" && ordersort == "desc")
+            else if (order == "country" && ordersort == "asc")
                 airlines = airlines.OrderBy(f => f.Country.Name).ToList();
             else if (order == "name")
                 airlines = airlines.OrderByDescending(f => f.Name).ToList();
             else if (order == "country")
                 airlines = airlines.OrderByDescending(f => f.Country.Name).ToList();
            
-            if (ordersort == "desc")
-                ViewBag.ordersort = "asc";
-            else
+            if (ordersort == "asc")
                 ViewBag.ordersort = "desc";
+            else
+                ViewBag.ordersort = "asc";
 
             if (pageSize > 0 && pageNumber > 0)
             {
@@ -89,7 +85,9 @@ namespace Suaah.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewBag.flights=await _context.Flights.Where(f=>f.AirlineCode==id).Include(f=>f.Airline)
+
+            ViewBag.flights =await _context.Flights.Where(f=>f.AirlineCode==id)
+                .Include(f=>f.Airline)
                 .Include(f=>f.FlightClasses).ThenInclude(e=>e.FlightClass)
                 .Include(f=>f.ArrivingAirport).ThenInclude(e=>e.Country)
                 .Include(f => f.DepartingAirport).ThenInclude(e => e.Country)

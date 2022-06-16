@@ -78,14 +78,14 @@ namespace Suaah.Areas.Admin.Controllers
             }
 
 
-            if (order == "name" && ordersort == "desc")
+            if (order == "name" && ordersort == "asc")
                 hotels = hotels.OrderBy(h => h.Name);
 
-            else if (order == "add" && ordersort == "desc")
+            else if (order == "add" && ordersort == "asc")
                 hotels = hotels.OrderBy(h => h.Address); 
-            else if (order == "stars" && ordersort == "desc")
+            else if (order == "stars" && ordersort == "asc")
                 hotels = hotels.OrderBy(h => h.Stars);
-            else if (order == "country" && ordersort == "desc")
+            else if (order == "country" && ordersort == "asc")
                 hotels = hotels.OrderBy(h => h.Country.Name);
 
             else if (order == "name")
@@ -98,10 +98,10 @@ namespace Suaah.Areas.Admin.Controllers
             else if (order == "country")
                 hotels = hotels.OrderByDescending(h => h.Country.Name);
 
-            if (ordersort == "desc")
-                ViewBag.ordersort = "asc";
-            else
+            if (ordersort == "asc")
                 ViewBag.ordersort = "desc";
+            else
+                ViewBag.ordersort = "asc";
 
             if (pageSize > 0 && pageNumber > 0)
             {

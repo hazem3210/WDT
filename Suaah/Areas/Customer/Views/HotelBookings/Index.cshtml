@@ -33,14 +33,14 @@
             }
         </datalist>
 
-         <input type="search" list="rprice" name="rprice" value="@ViewData["rprice"]" placeholder="Room Price" class="p-2" />
+        <input type="search" list="rprice" name="rprice" value="@ViewData["rprice"]" placeholder="Room Price" class="p-2" />
         <datalist id="rdesc">
             @foreach (var item in rooms_)
             {
                 <option>@item.Price</option>
             }
-        </datalist> 
-        
+        </datalist>
+
         <input type="search" list="rservice" name="rservice" value="@ViewData["rservice"]" placeholder="Room Service" class="p-2" />
         <datalist id="rservice">
             @foreach (var item in services)
@@ -48,14 +48,25 @@
                 <option>@item.Name</option>
             }
         </datalist>
-       
-         <br />
+
+        <a asp-action="Index" class="btn mx-2 btn-danger"
+           asp-route-rdesc="@ViewData["rdesc"]"
+           asp-route-rprice="@ViewData["rprice"]"
+           asp-route-rhotel="@ViewData["rhotel"]"
+           asp-route-rservice="@ViewData["rservice"]"
+           asp-route-pageSize="@ViewData["pageSize"]"
+           asp-route-pageNumber="@ViewData["pageNumber"]"
+           asp-route-sort="price" asp-route-ordersort="@ViewBag.ordersort">
+            Sort By Price
+        </a>
+
+        <br />
         <br />
         <partial name="_Pagination" />
         <br />
         <br />
 
-         <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2 " style="width:100%" />
+        <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2 " style="width:100%" />
         <br />
 
         <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
@@ -63,85 +74,85 @@
     </div>
 </form>
 
-    @foreach (var room in Model)
-    {
-        <div class="card">
-            <div class="card-header bg-dark text-light ml-0">
-                <div class=" row container">
-                    <div class="col-6">
-                        <h3> @room.Hotel.Name Hotel</h3>
-                    </div>
+@foreach (var room in Model)
+{
+    <div class="card">
+        <div class="card-header bg-dark text-light ml-0">
+            <div class=" row container">
+                <div class="col-6">
+                    <h3> @room.Hotel.Name Hotel</h3>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="container rounded p-2">
-                    <div class="row">
-                        <div class="col-12 col-lg-6 pb-4">
-                            <div class="row">
-                                <h4 class="d-flex justify-content-between align-items-center mb-3">
-                                    <span class="text-info">Room</span>
-                                </h4>
-                            </div>
-                            <div class="row my-1">
-                                <div class="col-3">
-                                    <label>Price</label>
-                                </div>
-                                <div class="col-9">
-                                    <input class="form-control text-danger text-center" value="@room.Price" readonly />
-                                </div>
-                            </div>
-                            <div class="row my-1">
-                                <div class="col-3">
-                                    <label title="You Can Cancel Booking Before ... Hours">Cancel Before{Hours}</label>
-                                </div>
-                                <div class="col-9">
-                                    <input class="form-control text-danger text-center" value=" @room.CancelBeforeHours" readonly />
-                                </div>
-                            </div>
-                            <div class="row my-1">
-                                <div class="col-3">
-                                    <label>Description</label>
-                                </div>
-                                <div class="col-9">
-                                    <textarea class="form-control text-danger text-center" asp-for="@room.Description" readonly ></textarea>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-8 col-lg-5 offset-lg-1 text-left position-relative">
-                             <img src="@room.ImageUrl" style="width:80%; height:auto; position:absolute" />
-                        </div>
-                    </div>
-                    <br />
-
+        </div>
+        <div class="card-body">
+            <div class="container rounded p-2">
+                <div class="row">
                     <div class="col-12 col-lg-6 pb-4">
-                        <h4 class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="text-info">Services</span>
-                        </h4>
-                        @foreach (var item in room.Services)
-                        {
-                            <ul class="list-group mb-3">
+                        <div class="row">
+                            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-info">Room</span>
+                            </h4>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label>Price</label>
+                            </div>
+                            <div class="col-9">
+                                <input class="form-control text-danger text-center" value="@room.Price" readonly />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label title="You Can Cancel Booking Before ... Hours">Cancel Before{Hours}</label>
+                            </div>
+                            <div class="col-9">
+                                <input class="form-control text-danger text-center" value=" @room.CancelBeforeHours" readonly />
+                            </div>
+                        </div>
+                        <div class="row my-1">
+                            <div class="col-3">
+                                <label>Description</label>
+                            </div>
+                            <div class="col-9">
+                                <textarea class="form-control text-danger text-center" asp-for="@room.Description" readonly></textarea>
+                            </div>
+                        </div>
 
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <div>
-                                        <h6 class="my-0 text-danger">> @item.Services.Name</h6>
-                                    </div>
-                                </li>
-                            </ul>
-                        }
                     </div>
+                    <div class="col-8 col-lg-5 offset-lg-1 text-left position-relative">
+                        <img src="@room.ImageUrl" style="width:80%; height:auto; position:absolute" />
+                    </div>
+                </div>
+                <br />
+
+                <div class="col-12 col-lg-6 pb-4">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-info">Services</span>
+                    </h4>
+                    @foreach (var item in room.Services)
+                    {
+                        <ul class="list-group mb-3">
+
+                            <li class="list-group-item d-flex justify-content-between">
+                                <div>
+                                    <h6 class="my-0 text-danger">> @item.Services.Name</h6>
+                                </div>
+                            </li>
+                        </ul>
+                    }
                 </div>
             </div>
         </div>
-        <div class="card-footer">
-            <div class="row">
-                    <a class="btn btn-primary form-control" asp-area="Customer" asp-action="Create" asp-route-roomId="@room.Id">Booking</a>
-            </div>
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <a class="btn btn-primary form-control" asp-area="Customer" asp-action="Create" asp-route-roomId="@room.Id">Booking</a>
         </div>
+    </div>
 
 
-        <hr />
-        <hr />
+    <hr />
+    <hr />
 
     <br>
 }

@@ -21,8 +21,7 @@
 }
 
 <form asp-action="Index" method="get">
-    <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden /> @*////////////*@
-    <input name="order" value="@ViewBag.order" hidden />@*////////////*@
+    
 
     <div class="form-actions no-color text-center p-3">
 
@@ -179,12 +178,4 @@
         }
     </tbody>
 </table>
-<script>
-function go() {
-    if (document.getElementById("ord").value == "desc") {
-        document.getElementById("ord").value = "asc";
-    }
-    else
-        document.getElementById("ord").value = "desc";
-}
-</script>
+ 
