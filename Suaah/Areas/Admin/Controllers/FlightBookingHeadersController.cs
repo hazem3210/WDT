@@ -409,7 +409,7 @@ namespace Suaah.Areas.Admin.Controllers
             header.FlightBookings = flights;
             if (header.PaymentStatus == SD.Payment_Pending && header.PaymentDueDate > DateTime.Now) 
             {
-                string domain = "https://localhost:44310/";
+                string domain = "https://localhost:7033/";
                 var options = new SessionCreateOptions
                 {
                     PaymentMethodTypes = new List<string>
@@ -459,8 +459,10 @@ namespace Suaah.Areas.Admin.Controllers
         public async Task<IActionResult> OrderConfirm(int id)
         {
             FlightBookingHeader header = await _context.FlightBookingHeader.FirstOrDefaultAsync(f => f.ID == id);
+
             var service = new SessionService();
             var session = await service.GetAsync(header.SessionId);
+           
             if (session.PaymentStatus.ToLower() == "paid")
             {
                 header.OrderStatus = SD.Status_Approved;

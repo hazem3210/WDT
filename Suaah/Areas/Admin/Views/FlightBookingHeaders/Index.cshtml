@@ -52,18 +52,19 @@
     </div>
     <div class="row form-actions no-color text-center p-3">
         <div class="col-3">
+            <h3>Search</h3>
+
+             <label class="control-label">Search Type</label>
+            <select name="type" class="form-control form-select" asp-items="@ViewBag.type">
+            </select>
             <label class="control-label">Search</label>
             <input name="search" class="form-control" value="@ViewBag.search" />
         </div>
-        <div class="col-3">
-            <label class="control-label">Search Type</label>
-            <select name="type" class="form-control form-select" asp-items="@ViewBag.type">
-            </select>
-        </div>
-    </div> 
-    <div class="col-6 m-4">
+        <div class="col-6 m-4">
              <partial name="_Pagination" />
         </div>
+    </div> 
+    
       
      <input type="submit" class="btn btn-outline-danger p-2  btn" style="width:100%" onclick="go();" />
   
