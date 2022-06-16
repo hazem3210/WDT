@@ -15,7 +15,7 @@
                <select asp-for="CustomerId" asp-items="ViewBag.customers" class="form-control form-select col-4"  >
                <option selected disabled >Select Customer...</option>
                </select>
-               <span asp-validation-for="CustomerId"></span>
+               <span asp-validation-for="CustomerId"  class="text-danger"></span>
                     </div>
                 }
                 else
@@ -28,7 +28,7 @@
            <div class="form-group" >
                 <label asp-for="NumberOfSeats" class="control-label" ></label>
                <input asp-for="NumberOfSeats" type="number" class="form-control col-4" />
-               <span asp-validation-for="NumberOfSeats"></span>
+               <span asp-validation-for="NumberOfSeats"  class="text-danger"></span>
            </div>
 
            <div class="form-group" >
@@ -37,7 +37,7 @@
                <option selected disabled >Select Class...</option>
                </select>
                
-               <span asp-validation-for="FlightClassId"></span>
+               <span asp-validation-for="FlightClassId"  class="text-danger"></span>
            </div>
                <button class="btn btn-success" type="submit">Book <i class="bi bi-calendar2-plus-fill"></i></button>
         </form>

@@ -10,103 +10,115 @@
 <form method="post">
     <br />
     <div class="container">
-        <div class="card">
-            <div class="card-header bg-dark text-light ml-0">
-                <div class="row">
-                    <div class="col-6  pt-2">
-                        Your Hotel Reservation
-                    </div>
-                    <div class="col-6 text-end">
-                        <a class="btn btn-outline-info btn-sm" asp-action="Index">Reserve another room</a>
+        @if (Model.ToList().Count > 0)
+        {
+            <div class="card">
+                <div class="card-header bg-dark text-light ml-0">
+                    <div class="row">
+                        <div class="col-6  pt-2">
+                            Your Hotel Reservation
+                        </div>
+                        <div class="col-6 text-end">
+                            <a class="btn btn-outline-info btn-sm" asp-action="Index">Reserve another room</a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="card-body">
-                @foreach (var item in Model)
-                {
-                    TimeSpan timeSpan = item.Date - DateTime.Now;
-                    if (timeSpan.Hours < 5)
+                <div class="card-body">
+                    @foreach (var item in Model)
                     {
-                        x = true;
-                        y = "";
+                        TimeSpan timeSpan = item.Date - DateTime.Now;
+                        if (timeSpan.Hours < 5)
+                        {
+                            x = true;
+                            y = "";
 
-                    }
-                    else
-                    {
-                         @*x = false;*@
-                         y = "hidden";
-                    }
-                    <div class="row">
-                        <div class="col-12 col-lg-6 pt-md-3">
-                            <h5 class="d-inline">Hotel Name:</h5><strong class="mx-5">@item.HoteRoom.Hotel.Name</strong> <br>
-                            <h5 class="d-inline">Check In:</h5><strong class="mx-5">@item.Date</strong> <span @y class="text-danger">---Time Out--- </span><br>
-                            <h5 class="d-inline"> Room Description: </h5> <strong class="mx-5">
-                                @item.HoteRoom.Description
-                            </strong> <br>
-                            <h5 class="d-inline" title="You Can Cancel Booking Before ... Hours"> Cancel Before: </h5> <strong class="mx-4"> @item.HoteRoom.CancelBeforeHours h</strong> <br>
-                            <h5 class="d-inline"> Description: </h5>
-                            <div class="col-9">
-                                <textarea class="form-control text-danger text-center" asp-for="@item.HoteRoom.Description" readonly></textarea>
+                        }
+                        else
+                        {
+                            y = "hidden";
+                        }
+                        <div class="row">
+                            <div class="col-12 col-lg-6 pt-md-3">
+                                <h5 class="d-inline">Hotel Name:</h5><strong class="mx-5">@item.HoteRoom.Hotel.Name</strong> <br>
+                                <h5 class="d-inline">Check In:</h5><strong class="mx-5">@item.Date</strong> <span @y class="text-danger">---Time Out--- </span><br>
+                                <h5 class="d-inline"> Room Description: </h5> <strong class="mx-5">
+                                    @item.HoteRoom.Description
+                                </strong> <br>
+                                <h5 class="d-inline" title="You Can Cancel Booking Before ... Hours"> Cancel Before: </h5> <strong class="mx-4"> @item.HoteRoom.CancelBeforeHours h</strong> <br>
+                                <h5 class="d-inline"> Description: </h5>
+                                <div class="col-9">
+                                    <textarea class="form-control text-danger text-center" asp-for="@item.HoteRoom.Description" readonly></textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12  col-lg-6  row">
-                            <div class="col-6 pt-3">
-                                <h6><strong>@item.TotalPrice.ToString("c")<span class="text-muted">:</span> For @item.NumberOfDays Days<span class="text-muted">:</span>and For @item.NumberOfRooms Rooms </strong></h6>
-                            </div>
-                            <div class="col-6 col-sm-4 col-lg-6 pt-2">
-                                <div class="w-75 btn-group" role="group">
-                                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a> &nbsp;
-                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
-                                        <i class="bi bi-trash-fill"></i>
-                                    </a>
+                            <div class="col-12  col-lg-6  row">
+                                <div class="col-6 pt-3">
+                                    <h6><strong>@item.TotalPrice.ToString("c")<span class="text-muted">:</span> For @item.NumberOfDays Days<span class="text-muted">:</span>and For @item.NumberOfRooms Rooms </strong></h6>
+                                </div>
+                                <div class="col-6 col-sm-4 col-lg-6 pt-2">
+                                    <div class="w-75 btn-group" role="group">
+                                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a> &nbsp;
+                                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-12 col-lg-6 pt-md-3">
+                            <h5 class="d-inline">Services:</h5>
+                            @foreach (var item2 in item.HoteRoom.Services)
+                            {
+                                <h6 class="my-0 text-danger">> @item2.Services.Name</h6>
+                            }
+
+                        </div>
+                        <hr />
+                        tPrice += item.TotalPrice;
+                    }
+                    <div class="row">
+                        <div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between bg-white">
+                                    <span class="text-dark"> Total </span>
+                                    <strong class="text-dark">@tPrice.ToString("c")</strong>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 
-                    <div class="col-12 col-lg-6 pt-md-3">
-                        <h5 class="d-inline">Services:</h5>
-                        @foreach (var item2 in item.HoteRoom.Services)
+                </div>
+
+                <div class="card-footer">
+                    <div class="card-footer row">
+
+                        @if (x)
                         {
-                            <h6 class="my-0 text-danger">> @item2.Services.Name</h6>
+                            <a class="btn btn-success form-control disabled" asp-action="Summary">Summary</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-success form-control" asp-action="Summary">Summary</a>
                         }
 
-                    </div>
-                    <hr />
-                    tPrice += item.TotalPrice;
-                }
-                <div class="row">
-                    <div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
-                        <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between bg-white">
-                                <span class="text-dark"> Total </span>
-                                <strong class="text-dark">@tPrice.ToString("c")</strong>
-                            </li>
-                        </ul>
+
+
                     </div>
                 </div>
-
+            </div>
+        }
+        else
+        {
+            <div class="text-center  m-2 mt-5 p-5 h bg-danger">
+                <h1>There is no Bookings</h1>
             </div>
 
-            <div class="card-footer">
-                <div class="card-footer row">
+            <a class="btn btn-outline-danger form-control" asp-action="Index">Booking Room(s)
+</a>
 
-                    @if (x)
-                    {
-                        <a class="btn btn-success form-control disabled" asp-action="Summary" >Summary</a>
-                    }
-                    else
-                    {
-                        <a class="btn btn-success form-control" asp-action="Summary" >Summary</a>
-                    }
-
-
-
-                </div>
-            </div>
-        </div>
+        }
     </div>
 </form>
