@@ -48,7 +48,11 @@ namespace Suaah.Areas.Admin.Controllers
             List<FlightBookingHeader> applicationDbContext=null;
             List<string> stat = new List<string>() {"All", SD.Status_Approved, SD.Status_Cancelled, SD.Status_Done, SD.Status_Pending };
             List<string> pstat = new List<string>() { "All", SD.Payment_Approved, SD.Payment_Pending, SD.Payment_Cancelled, SD.Payment_Refunded };
-            List<string> types = new List<string>() { "ID","Customer" };
+            List<string> types;
+            if (User.IsInRole(SD.Role_Customer))
+                types = new List<string>() { "ID" };
+            else
+                types = new List<string>() { "ID", "Customer" };
             if (!string.IsNullOrEmpty(stats))
                 ViewBag.stats = new SelectList(stat, stats);
             else

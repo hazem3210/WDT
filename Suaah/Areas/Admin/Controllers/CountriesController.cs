@@ -27,7 +27,7 @@ namespace Suaah.Areas.Admin.Controllers
         // GET: Admin/Countries
         public async Task<IActionResult> Index(string? name,string? order, int pageSize, int pageNumber)
         {
-           
+            ViewBag.Names = await _context.Countries.Select(f => f.Name).ToListAsync();
             List<Country> countries;
             if (string.IsNullOrEmpty(name))
                 countries = await _context.Countries.ToListAsync();
