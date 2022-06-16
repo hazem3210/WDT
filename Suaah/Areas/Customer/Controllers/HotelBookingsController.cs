@@ -26,7 +26,7 @@ namespace Suaah.Areas.Customer.Controllers
 
         // GET: HotelBookings
         [AllowAnonymous]
-        public IActionResult Index(string rdesc, float? rprice, string rhotel, string rservice, int pageSize, int pageNumber)
+        public IActionResult Index(string rdesc, float? rprice, string rhotel, string rservice, int pageSize, int pageNumber, string sort, string ordersort)
         {
             ViewData["rdesc"] = rdesc;
             ViewData["rprice"] = rprice;
@@ -97,6 +97,17 @@ namespace Suaah.Areas.Customer.Controllers
 
                 hotelsRooms = hotelsRooms.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
             }
+
+            if (sort == "price" && ordersort == "asc")
+                hotelsRooms = hotelsRooms.OrderBy(f => f.Price);
+            else
+                hotelsRooms = hotelsRooms.OrderByDescending(f => f.Price);
+
+            if (ordersort == "asc")
+                ViewBag.ordersort = "desc";
+            else
+                ViewBag.ordersort = "asc";
+
             return View(hotelsRooms.ToList());
         }
 

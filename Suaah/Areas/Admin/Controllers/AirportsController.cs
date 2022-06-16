@@ -50,11 +50,12 @@ namespace Suaah.Areas.Admin.Controllers
                 airports = await _context.Airports.Include(e => e.Country).Where(f => f.Country.Name.ToLower().Contains(search.Trim().ToLower())).ToListAsync();
             else
                 airports = await _context.Airports.Where(f => f.City.ToLower().Contains(search.Trim().ToLower())).Include(e => e.Country).ToListAsync();
-             if (order == "name" && ordersort=="desc")
+
+             if (order == "name" && ordersort== "asc")
                 airports = airports.OrderBy(f => f.Name).ToList();
-            else if (order == "country" && ordersort == "desc")
+            else if (order == "country" && ordersort == "asc")
                 airports = airports.OrderBy(f => f.Country.Name).ToList();
-            else if(order=="city" && ordersort == "desc")
+            else if(order=="city" && ordersort == "asc")
                 airports = airports.OrderBy(f => f.City).ToList();
              else if(order == "name")
                 airports = airports.OrderByDescending(f => f.Name).ToList();
@@ -62,10 +63,11 @@ namespace Suaah.Areas.Admin.Controllers
                 airports = airports.OrderByDescending(f => f.Country.Name).ToList();
             else if (order == "city")
                 airports = airports.OrderByDescending(f => f.City).ToList();
-            if (ordersort == "desc")
-                ViewBag.ordersort = "asc";
-            else
+            
+            if (ordersort == "asc")
                 ViewBag.ordersort = "desc";
+            else
+                ViewBag.ordersort = "asc";
 
 
             if (pageSize > 0 && pageNumber > 0)

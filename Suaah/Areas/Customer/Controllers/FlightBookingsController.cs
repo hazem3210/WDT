@@ -620,7 +620,7 @@ namespace Suaah.Areas.Customer.Controllers
                 await _context.FlightBookingDetails.AddAsync(order);
             }
             await _context.SaveChangesAsync();
-            string domain = "https://localhost:44310/";
+            string domain = "https://localhost:7033/";
             var options = new SessionCreateOptions
             {
                 PaymentMethodTypes = new List<string>

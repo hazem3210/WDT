@@ -36,9 +36,7 @@
         <input name="order" value="@ViewBag.order" hidden />
 
     </div>
-    <datalist id="list">
-
-    </datalist>
+   
     <br />
     <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2  btn" style="width:100%" onclick="go();" />
 
@@ -48,16 +46,20 @@
 <div class="text-center">
     <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
 </div>
+
 <table class="table table-hover table-striped text-center p-3">
     <thead>
         <tr>
             <th>
-                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="name" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" 
+                asp-route-order="name" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" 
+                asp-route-type="@ViewBag.types.SelectedValue">
                     @Html.DisplayNameFor(model => model.Name)
                 </a>
             </th>
             <th>
-                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="country" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
+                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" 
+                asp-route-order="country" asp-route-ordersort="@ViewBag.ordersort" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.types.SelectedValue">
                     @Html.DisplayNameFor(model => model.CountryId)
                 </a>
             </th>
