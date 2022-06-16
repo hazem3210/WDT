@@ -211,7 +211,7 @@ namespace Suaah.Areas.Admin.Controllers
                     applicationDbContext = applicationDbContext.Where(f => f.OrderStatus.Contains(stats)).ToList();
                 }
             }
-            if(applicationDbContext == null)
+            if(applicationDbContext .Count == 0 || applicationDbContext == null)
             {
                 if(!User.IsInRole(SD.Role_Customer))
                 {

@@ -54,22 +54,22 @@
         <div class="col-3">
             <h3>Search</h3>
 
-             <label class="control-label">Search Type</label>
+            <label class="control-label">Search Type</label>
             <select name="type" class="form-control form-select" asp-items="@ViewBag.type">
             </select>
             <label class="control-label">Search</label>
             <input name="search" class="form-control" value="@ViewBag.search" />
         </div>
         <div class="col-6 m-4">
-             <partial name="_Pagination" />
+            <partial name="_Pagination" />
         </div>
-    </div> 
-    
-      
-     <input type="submit" class="btn btn-outline-danger p-2  btn" style="width:100%" onclick="go();" />
-  
+    </div>
+
+
+    <input type="submit" class="btn btn-outline-danger p-2  btn" style="width:100%" onclick="go();" />
+
 </form>
-  
+
 <div class="text-center">
     <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
 </div>
@@ -82,9 +82,16 @@
                 </a>
             </th>
             <th>
-                <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="Customer" asp-route-ordersort="@ViewBag.ordersort" asp-route-stats="@ViewBag.stats.SelectedValue" asp-route-pstats="@ViewBag.pstats.SelectedValue" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-prif="@ViewBag.prif" asp-route-prit="@ViewBag.prit" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.type.SelectedValue">
+                @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
+                {
+                    <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="Customer" asp-route-ordersort="@ViewBag.ordersort" asp-route-stats="@ViewBag.stats.SelectedValue" asp-route-pstats="@ViewBag.pstats.SelectedValue" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-prif="@ViewBag.prif" asp-route-prit="@ViewBag.prit" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.type.SelectedValue">
+                        @Html.DisplayNameFor(model => model.Customer)
+                    </a>
+                }
+                else
+                {
                     @Html.DisplayNameFor(model => model.Customer)
-                </a>
+                }
             </th>
             <th>
                 <a asp-route-pageSize="@ViewBag.PageSize" asp-route-pageNumber="@ViewBag.PageNumber" asp-action="Index" asp-route-order="OrderDate" asp-route-ordersort="@ViewBag.ordersort" asp-route-stats="@ViewBag.stats.SelectedValue" asp-route-pstats="@ViewBag.pstats.SelectedValue" asp-route-timef="@ViewBag.timef" asp-route-timet="@ViewBag.timet" asp-route-prif="@ViewBag.prif" asp-route-prit="@ViewBag.prit" asp-route-search="@ViewBag.search" asp-route-type="@ViewBag.type.SelectedValue">
