@@ -108,19 +108,19 @@ namespace Suaah.Areas.Admin.Controllers
                 headers = headers.Where(h => h.Payment == pay);
             }
 
-            if (order == "id" && ordersort == "desc")
+            if (order == "id" && ordersort == "asc")
                 headers = headers.OrderBy(h => h.Id);
-            else if (order == "name" && ordersort == "desc")
+            else if (order == "name" && ordersort == "asc")
                 headers = headers.OrderBy(h => h.Name);
-            else if (order == "bdate" && ordersort == "desc")
+            else if (order == "bdate" && ordersort == "asc")
                 headers = headers.OrderBy(h => h.BookingDate); 
-            else if (order == "pdate" && ordersort == "desc")
+            else if (order == "pdate" && ordersort == "asc")
                 headers = headers.OrderBy(h => h.PaymentDate); 
-            else if (order == "price" && ordersort == "desc")
+            else if (order == "price" && ordersort == "asc")
                 headers = headers.OrderBy(h => h.TotalPrice); 
-            else if (order == "stat" && ordersort == "desc")
+            else if (order == "stat" && ordersort == "asc")
                 headers = headers.OrderBy(h => h.Status); 
-            else if (order == "pay" && ordersort == "desc")
+            else if (order == "pay" && ordersort == "asc")
                 headers = headers.OrderBy(h => h.Payment);
 
             else if (order == "id")
@@ -140,10 +140,10 @@ namespace Suaah.Areas.Admin.Controllers
           
 
 
-            if (ordersort == "desc")
-                ViewBag.ordersort = "asc";
-            else
+            if (ordersort == "asc")
                 ViewBag.ordersort = "desc";
+            else
+                ViewBag.ordersort = "asc";
 
             if (pageSize > 0 && pageNumber > 0)
             {
@@ -155,30 +155,6 @@ namespace Suaah.Areas.Admin.Controllers
 
             return View(headers.ToList());
         }
-
-        #region API CALLS
-        [HttpGet]
-        public IActionResult GetAll(string status, DateTime? bookingd)
-        {
-            IEnumerable<HotelBookingHeader> hotelBookingHeaders;
-
-            if (status != "all")
-            {
-                hotelBookingHeaders = _context.HotelBookingHeader.Where(h => h.Status.ToLower() == status.ToLower()).Include(c => c.Customer);
-            }
-            else
-            {
-                hotelBookingHeaders = _context.HotelBookingHeader.Include(c => c.Customer);
-            }
-
-            if (bookingd != null)
-            {
-                hotelBookingHeaders = _context.HotelBookingHeader.Where(h => h.BookingDate == bookingd).Include(c => c.Customer); ;
-            }
-
-            return Json(new { data = hotelBookingHeaders });
-        }
-        #endregion
 
         // GET: Admin/HotelBookingHeaders/Details/5
         public IActionResult Details(int? id)

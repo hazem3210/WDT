@@ -38,15 +38,15 @@ namespace Suaah.Areas.Admin.Controllers
                 services = services.Where(h => h.Name.Contains(sName));
             }
 
-            if (order == "serv" && ordersort == "desc")
+            if (order == "serv" && ordersort == "asc")
                 services = services.OrderBy(h => h.Name);
             else if (order == "serv")
                 services = services.OrderByDescending(h => h.Name);
 
-            if (ordersort == "desc")
-                ViewBag.ordersort = "asc";
-            else
+            if (ordersort == "asc")
                 ViewBag.ordersort = "desc";
+            else
+                ViewBag.ordersort = "asc";
 
             if (pageSize > 0 && pageNumber > 0)
             {

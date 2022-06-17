@@ -46,13 +46,14 @@ namespace Suaah.Areas.Admin.Controllers
                 customers = await _context.Customers.Include(f => f.IdentityUser).Where(f => f.IdentityUser.PhoneNumber.ToLower().Contains(search.ToLower())).ToListAsync();
             else
                 customers = await _context.Customers.Include(f => f.IdentityUser).Where(f => f.PassportNumber.ToLower().Contains(search.ToLower())).ToListAsync();
-            if (order == "name" && ordersort == "desc")
+
+            if (order == "name" && ordersort == "asc")
                 customers = customers.OrderBy(f => f.Name).ToList();
-            else if (order == "email" && ordersort == "desc")
+            else if (order == "email" && ordersort == "asc")
                 customers = customers.OrderBy(f => f.IdentityUser.Email).ToList();
-            else if (order == "phone" && ordersort == "desc")
+            else if (order == "phone" && ordersort == "asc")
                 customers = customers.OrderBy(f => f.IdentityUser.PhoneNumber).ToList();
-            else if (order == "passport" && ordersort == "desc")
+            else if (order == "passport" && ordersort == "asc")
                 customers = customers.OrderBy(f => f.PassportNumber).ToList();
             else if (order == "name")
                 customers = customers.OrderByDescending(f => f.Name).ToList();
@@ -62,10 +63,11 @@ namespace Suaah.Areas.Admin.Controllers
                 customers = customers.OrderByDescending(f => f.IdentityUser.PhoneNumber).ToList();
             else if (order == "passport")
                 customers = customers.OrderByDescending(f => f.PassportNumber).ToList();
-            if (ordersort == "desc")
-                ViewBag.ordersort = "asc";
-            else
+           
+            if (ordersort == "asc")
                 ViewBag.ordersort = "desc";
+            else
+                ViewBag.ordersort = "asc";
 
             if (pageSize > 0 && pageNumber > 0)
             {

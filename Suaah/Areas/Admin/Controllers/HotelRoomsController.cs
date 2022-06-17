@@ -51,11 +51,11 @@ namespace Suaah.Areas.Admin.Controllers
                 rooms = rooms.Where(h => h.Price == rprice);
             }
 
-            if (order == "description" && ordersort == "desc")
+            if (order == "description" && ordersort == "asc")
                 rooms = rooms.OrderBy(h => h.Description);
-            else if (order == "price" && ordersort == "desc")
+            else if (order == "price" && ordersort == "asc")
                 rooms = rooms.OrderBy(h => h.Price);
-            else if (order == "hotel" && ordersort == "desc")
+            else if (order == "hotel" && ordersort == "asc")
                 rooms = rooms.OrderBy(h => h.Hotel.Name);
 
             else if (order == "description")
@@ -66,10 +66,10 @@ namespace Suaah.Areas.Admin.Controllers
                 rooms = rooms.OrderByDescending(h => h.Hotel.Name);
 
 
-            if (ordersort == "desc")
-                ViewBag.ordersort = "asc";
-            else
+            if (ordersort == "asc")
                 ViewBag.ordersort = "desc";
+            else
+                ViewBag.ordersort = "asc";
 
             if (pageSize > 0 && pageNumber > 0)
             {

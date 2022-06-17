@@ -181,7 +181,6 @@ namespace Suaah.Areas.Customer.Controllers
                 s:
                     try
                     {
-
                         if (HttpContext.Session.GetInt32(SD.Session_HotelBooking).Value != 0)
                         {
                             hotelBooking.CustomerId = _context.HotelBookings.FirstOrDefault(h => h.NotCustomerId == claim.Value).CustomerId;
@@ -370,6 +369,7 @@ namespace Suaah.Areas.Customer.Controllers
         {
             var claimIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
             var HotelBookings = await _context.HotelBookings
                 .Include(r => r.HoteRoom)
                   .ThenInclude(h => h.Hotel)
@@ -386,18 +386,14 @@ namespace Suaah.Areas.Customer.Controllers
                 _context.HotelBookingHeader.Add(HBHAD.HotelBookingHeader);
                 _context.SaveChanges();
 
-                HotelBookings[0].Flag = HBHAD.HotelBookingHeader.Id;
-
                 for (int i = 0; i < HBHAD.HotelBookingDetails.Count; i++)
                 {
                     HBHAD.HotelBookingDetails[i].HotelBookingHeaderId = HBHAD.HotelBookingHeader.Id;
-                    _context.HotelBookingDetails.Add(HBHAD.HotelBookingDetails[i]);
 
                     HotelBookings[i].Flag = HBHAD.HotelBookingHeader.Id;
-
-                    _context.SaveChanges();
                 }
-
+                _context.HotelBookingDetails.AddRange(HBHAD.HotelBookingDetails);
+                _context.SaveChanges();
             }
             else
             {
@@ -405,46 +401,49 @@ namespace Suaah.Areas.Customer.Controllers
                 HBHAD.HotelBookingDetails = _context.HotelBookingDetails.Where(d => d.HotelBookingHeaderId == HotelBookings[0].Flag).ToList();
             }
 
-            var domain = "https://localhost:7033/";
-            var options = new SessionCreateOptions
-            {
-                LineItems = new List<SessionLineItemOptions>(),
-                Mode = "payment",
-                SuccessUrl = domain + $"Customer/HotelBookings/BookingConfirmation?id={HBHAD.HotelBookingHeader.Id}",
-                CancelUrl = domain + $"Customer/HotelBookings/index",
-            };
+            //strip
+            //var domain = "https://localhost:7033/";
+            //var options = new SessionCreateOptions
+            //{
+            //    LineItems = new List<SessionLineItemOptions>(),
+            //    Mode = "payment",
+            //    SuccessUrl = domain + $"Customer/HotelBookings/BookingConfirmation?id={HBHAD.HotelBookingHeader.Id}",
+            //    CancelUrl = domain + $"Customer/HotelBookings/index",
+            //};
 
-            foreach (var item in HotelBookings)
-            {
-                var sessionItem = new SessionLineItemOptions
-                {
-                    PriceData = new SessionLineItemPriceDataOptions
-                    {
-                        UnitAmount = (long)(item.HoteRoom.Price * 100),
-                        Currency = "usd",
-                        ProductData = new SessionLineItemPriceDataProductDataOptions
-                        {
-                            Name = item.HoteRoom.Description + ", " + item.HoteRoom.Hotel.Name,
-                        },
+            //foreach (var item in HotelBookings)
+            //{
+            //    var sessionItem = new SessionLineItemOptions
+            //    {
+            //        PriceData = new SessionLineItemPriceDataOptions
+            //        {
+            //            UnitAmount = (long)(item.HoteRoom.Price * 100),
+            //            Currency = "usd",
+            //            ProductData = new SessionLineItemPriceDataProductDataOptions
+            //            {
+            //                Name = item.HoteRoom.Description + ", " + item.HoteRoom.Hotel.Name,
+            //            },
 
-                    },
-                    Quantity = item.NumberOfDays,
-                };
+            //        },
+            //        Quantity = item.NumberOfDays,
+            //    };
 
-                options.LineItems.Add(sessionItem);
-            }
+            //    options.LineItems.Add(sessionItem);
+            //}
 
-            var service = new SessionService();
-            Session session = service.Create(options);
-            HBHAD.HotelBookingHeader.SessionId = session.Id;
-            HBHAD.HotelBookingHeader.PaymentIntentId = session.PaymentIntentId;
-            _context.SaveChanges();
+            //var service = new SessionService();
+            //Session session = service.Create(options);
+            //HBHAD.HotelBookingHeader.SessionId = session.Id;
+            //HBHAD.HotelBookingHeader.PaymentIntentId = session.PaymentIntentId;
+            //_context.SaveChanges();
 
-            Response.Headers.Add("Location", session.Url);
-            return new StatusCodeResult(303);
+            //Response.Headers.Add("Location", session.Url);
+            //return new StatusCodeResult(303);
 
+            return RedirectToAction("BookingConfirmation", new { id = HBHAD.HotelBookingHeader.Id });
         }
 
+       
         public HotelBookingHeaderAndDetails SummaryAid(HotelBookingHeaderAndDetails HBHAD)
         {
             var claimIdentity = (ClaimsIdentity)User.Identity;
@@ -590,17 +589,17 @@ namespace Suaah.Areas.Customer.Controllers
                     .ThenInclude(u => u.IdentityUser)
                 .FirstOrDefault(u => u.Id == id);
 
-            var service = new SessionService();
-            Session session = service.Get(hotelBookingHeader.SessionId);
-            if (session.PaymentStatus.ToLower() == "paid")
-            {
+            //var service = new SessionService();
+            //Session session = service.Get(hotelBookingHeader.SessionId);
+            //if (session.PaymentStatus.ToLower() == "paid")
+            //{
                 hotelBookingHeader.Status = SD.Status_Approved;
                 hotelBookingHeader.Payment = SD.Payment_Approved;
                 hotelBookingHeader.PaymentDate = DateTime.Now;
                 _context.SaveChanges();
-            }
+            //}
 
-            _emailSender.SendEmailAsync(hotelBookingHeader.Customer.IdentityUser.Email, "New Booking - Suaah", "<p>New Booking Created</p>");
+            //_emailSender.SendEmailAsync(hotelBookingHeader.Customer.IdentityUser.Email, "New Booking - Suaah", "<p>New Booking Created</p>");
             var HotelBookings = _context.HotelBookings
                .Where(id => id.CustomerId == hotelBookingHeader.Customer.Id);
             _context.HotelBookings.RemoveRange(HotelBookings);
