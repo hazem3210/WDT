@@ -66,8 +66,8 @@
 
                                 for (var i = 0; i < Model.Services.Count; i++)
                                 {
-                                    @list[i].Services.Name
-                                    <br />
+                                            @list[i].Services.Name
+                                            <br />
                                 }
                             }
                         </div>
@@ -101,8 +101,10 @@
 
                     for (var i = 0; i < head.Count; i++)
                     {
-                        @head[i].Customer.Name <span>{@head[i].Customer.CitizenshipCountry}</span>
-                        <br />
+                               <h5 class="d-inline">Booking No.</h5><span>{@head[i].Id}</span><br/>
+                               <h5 class="d-inline"> Customer: </h5><span>@head[i].Customer.Name</span><br/>
+                               <h5 class="d-inline">Citizenship Country: </h5><span>@head[i].Customer.CitizenshipCountry</span>
+                               <hr />
                     }
                 }
             </div>
