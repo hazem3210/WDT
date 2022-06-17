@@ -27,12 +27,13 @@ namespace Suaah.Areas.Admin.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index(string? search, string? type, string? order, string? ordersort,DateTime? timef, DateTime? timet,string? conf,string? cont, int pageSize, int pageNumber)
         {
+            ViewBag.DGates = await _context.Flights.Select(f => f.DepartingGate).ToListAsync();
+            ViewBag.AGates = await _context.Flights.Select(f => f.ArriveGate).ToListAsync();
+            ViewBag.Airlines = await _context.Airlines.Select(f => f.Name).ToListAsync();
             List<Flight> flights=null; 
             List<string> names=await _context.Countries.Select(c => c.Name).ToListAsync();
             names.AddRange(await _context.Airports.Select(f=>f.City).ToListAsync());
             ViewBag.names = names;
-            List<string> airlines=await _context.Airlines.Select(f=>f.Name).ToListAsync();
-            ViewBag.airlines = airlines; 
             List<string> types = new List<string>() { "Departing Gate", "Arrive Gate", "Airline" };
             ViewBag.search = search;
             if(timef != null)

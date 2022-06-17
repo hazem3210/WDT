@@ -28,6 +28,7 @@ namespace Suaah.Areas.Admin.Controllers
         // GET: Admin/FlightBookingHeaders
         public async Task<IActionResult> Index(string? search, string? type, string? order, string? ordersort, DateTime? timef, DateTime? timet, double? prif, double? prit,string? stats, string? pstats, int pageSize, int pageNumber)
         {
+            ViewBag.Customers = await _context.Customers.Select(f => f.Name).ToListAsync();
             List<FlightBookingHeader> canceld = await _context.FlightBookingHeader.Where(f => f.PaymentDueDate < DateTime.Now && f.PaymentStatus == SD.Payment_Pending).ToListAsync();
             foreach(FlightBookingHeader canceldItem in canceld)
             {
@@ -48,7 +49,11 @@ namespace Suaah.Areas.Admin.Controllers
             List<FlightBookingHeader> applicationDbContext=null;
             List<string> stat = new List<string>() {"All", SD.Status_Approved, SD.Status_Cancelled, SD.Status_Done, SD.Status_Pending };
             List<string> pstat = new List<string>() { "All", SD.Payment_Approved, SD.Payment_Pending, SD.Payment_Cancelled, SD.Payment_Refunded };
-            List<string> types = new List<string>() { "ID","Customer" };
+            List<string> types;
+            if (User.IsInRole(SD.Role_Customer))
+                types = new List<string>() { "ID" };
+            else
+                types = new List<string>() { "ID", "Customer" };
             if (!string.IsNullOrEmpty(stats))
                 ViewBag.stats = new SelectList(stat, stats);
             else
@@ -117,15 +122,15 @@ namespace Suaah.Areas.Admin.Controllers
                     {
                         applicationDbContext = await _context.FlightBookingHeader.Where(f => f.OrderTotal < prit).Include(f => f.Customer).ToListAsync();
                     }
-                    else if (stats!="All" && pstats!="All")
+                    else if (stats!="All" && pstats!="All" && pstats != null && stats != null)
                     {
                         applicationDbContext = await _context.FlightBookingHeader.Where(f => f.OrderStatus.Contains(stats) && f.PaymentStatus.Contains(pstats)).Include(f => f.Customer).ToListAsync();
                     }
-                    else if (stats == "All" && pstats != "All")
+                    else if (stats == "All" && pstats != "All" && pstats != null && stats != null)
                     {
                         applicationDbContext = await _context.FlightBookingHeader.Where(f => f.PaymentStatus.Contains(pstats)).Include(f => f.Customer).ToListAsync();
                     }
-                    else if (stats != "All" && pstats == "All")
+                    else if (stats != "All" && pstats == "All" && pstats != null && stats != null)
                     {
                         applicationDbContext = await _context.FlightBookingHeader.Where(f => f.OrderStatus.Contains(stats)).Include(f => f.Customer).ToListAsync();
                     }

@@ -24,10 +24,15 @@
         <div class="col-3">
             <label class="control-label">Search</label>
 
-            <input name="name" class="form-control" value="@ViewBag.name" />
+            <input name="name" list="list" class="form-control" value="@ViewBag.name" />
         </div>
         <input name="order" id="ord" value="@ViewBag.order" hidden />
-
+        <datalist id="list">
+            @foreach (var item in ViewBag.Names)
+            {
+                <option>@item</option>
+            }
+        </datalist>
        <div class="col-8">
          <partial name="_Pagination" />
      </div>

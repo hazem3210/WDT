@@ -22,6 +22,11 @@ namespace Suaah.Areas.Admin.Controllers
         // GET: Customer/Customers
         public async Task<IActionResult> Index(string? search, string? type, string? order, string? ordersort, int pageSize, int pageNumber)
         {
+            ViewBag.Names = await _context.Customers.Select(f => f.Name).ToListAsync();
+            ViewBag.Emails = await _context.Customers.Include(f=>f.IdentityUser).Select(f => f.IdentityUser.Email).ToListAsync();
+            ViewBag.Phones = await _context.Customers.Include(f => f.IdentityUser).Select(f => f.IdentityUser.PhoneNumber).ToListAsync();
+            ViewBag.Passports = await _context.Customers.Select(f => f.PassportNumber).ToListAsync();
+
             List<Models.Customer> customers;
             List<string> types = new List<string>() { "Name", "Email","Phone","Passport Number" };
             ViewBag.search = search;
@@ -224,6 +229,9 @@ namespace Suaah.Areas.Admin.Controllers
 
         public async Task<IActionResult> Users(string? search, string? type, string? order, string? ordersort,string? role, int pageSize, int pageNumber)
         {
+            ViewBag.Users=await _context.Users.Select(f=>f.UserName).ToListAsync();
+            ViewBag.Emails = await _context.Users.Select(f => f.Email).ToListAsync();
+            ViewBag.Phones = await _context.Users.Select(f => f.PhoneNumber).ToListAsync();
             List<IdentityUser> users;
             List<string> types = new List<string>() { "User Name", "Email", "Phone"};
             List<string> roles = new List<string>() { "Customer", "Admin", "Manager" };

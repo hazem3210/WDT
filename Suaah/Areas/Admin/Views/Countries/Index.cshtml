@@ -21,7 +21,7 @@
     <div class="row text-center">
         <div class="col-5 m-2">
             <label class="control-label">Search</label>
-            <input name="name" class="form-control" value="@ViewBag.name" />
+            <input name="name" class="form-control" list="list" value="@ViewBag.name" />
         </div>
 
         <input name="order" id="ord" value="@ViewBag.order" hidden />
@@ -31,6 +31,12 @@
         </div>
 
       <br />
+      <datalist id="list">
+          @foreach(var item in ViewBag.Names)
+            {
+                <option>@item</option>
+            }
+        </datalist>
     <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2  btn" style="width:100%" onclick="go();" />
 
     </div>

@@ -57,9 +57,14 @@
          <div class="col-3">
             <label class="control-label">Search</label>
         
-            <input name="search" list="airline" class="form-control" value="@ViewBag.search" />
+            <input name="search" list="list" class="form-control" value="@ViewBag.search" />
         </div>
-
+        <datalist id="list">
+            @foreach (var item in ViewBag.DGates)
+            {
+                <option>@item</option>
+            }
+        </datalist>
          <div class="col-3">
             <label class="control-label">To</label>
          
@@ -176,14 +181,32 @@
     <script>
 function select() {
     var airline = document.getElementsByName('type')[0].value;
-    if (airline == 'Airline') {
-        Input();
+    if (airline == 'Departing Gate') {
+    var airlines = @Html.Raw(Json.Serialize(ViewBag.DGates));
+    var data;
+    for (var i = 0; i < airlines.length; i++) {
+        data += "<option>" + airlines[i] + "</option>";
     }
-    else {
-        Remove();
+    document.getElementById("list").innerHTML = data;
+    }
+    else if(airline=='Arrive Gate'){
+        var airlines = @Html.Raw(Json.Serialize(ViewBag.AGates));
+    var data;
+    for (var i = 0; i < airlines.length; i++) {
+        data += "<option>" + airlines[i] + "</option>";
+    }
+    document.getElementById("list").innerHTML = data;
+    }
+    else{
+        var airlines = @Html.Raw(Json.Serialize(ViewBag.Airlines));
+    var data;
+    for (var i = 0; i < airlines.length; i++) {
+        data += "<option>" + airlines[i] + "</option>";
+    }
+    document.getElementById("list").innerHTML = data;
     }
 }
-
+  
         function go() {
             if (document.getElementById("ord").value == "desc") {
                 document.getElementById("ord").value = "asc";
@@ -191,19 +214,5 @@ function select() {
             else
                 document.getElementById("ord").value = "desc";
         }
-function Input() {
-    var airlines = @Html.Raw(Json.Serialize(ViewBag.airlines));
-    var data = '<datalist id="airline">';
-    for (var i = 0; i < airlines.length; i++) {
-        data += "<option>" + airlines[i] + "</option>";
-    }
-    data += "</datalist>";
-    document.getElementsByTagName("form")[0].innerHTML += data;
-    return data;
-}
-function Remove() {
-    var data = document.getElementById("airline");
-    data?.remove();
-}
     </script>
 }

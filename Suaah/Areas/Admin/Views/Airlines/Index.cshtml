@@ -26,12 +26,17 @@
         </div>
         <div class="col-2 m-1">
             <label class="control-label">Type of Search</label>
-            <select name="type" class="form-control form-select" asp-items="@ViewBag.types"></select>
+            <select name="type" class="form-control form-select" onchange="select();" asp-items="@ViewBag.types"></select>
         </div>  
         <div class="col-6 m-4 ">
              <partial name="_Pagination" />
         </div>
-
+        <datalist id="list">
+            @foreach (var item in ViewBag.Name)
+            {
+                <option>@item</option>
+            }
+        </datalist>
         <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden />
         <input name="order" value="@ViewBag.order" hidden />
 
@@ -91,6 +96,26 @@
 </table>
 @section Scripts{
     <script>
+        function select() {
+    var airline = document.getElementsByName('type')[0].value;
+    if (airline == 'Name') {
+    var airlines = @Html.Raw(Json.Serialize(ViewBag.Name));
+    var data;
+    for (var i = 0; i < airlines.length; i++) {
+        data += "<option>" + airlines[i] + "</option>";
+    }
+    document.getElementById("list").innerHTML = data;
+    }
+    else {
+        var airlines = @Html.Raw(Json.Serialize(ViewBag.Country));
+    var data;
+    for (var i = 0; i < airlines.length; i++) {
+        data += "<option>" + airlines[i] + "</option>";
+    }
+    document.getElementById("list").innerHTML = data;
+    }
+}
+
         function go() {
             if (document.getElementById("ord").value == "desc") {
                 document.getElementById("ord").value = "asc";

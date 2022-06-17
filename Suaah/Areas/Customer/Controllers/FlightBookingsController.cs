@@ -65,7 +65,7 @@ namespace Suaah.Areas.Customer.Controllers
                    .Include(f => f.Airline)
                    .Include(f => f.ArrivingAirport).ThenInclude(a => a.Country)
                    .Include(f => f.DepartingAirport).ThenInclude(a => a.Country)
-                   .Include(f => f.FlightClasses).ThenInclude(a => a.FlightClass).Where(f=> f.LeaveTime>DateTime.Now&& f.AirlineCode==airline).ToListAsync();
+                   .Include(f => f.FlightClasses).ThenInclude(a => a.FlightClass).Where(f=> f.LeaveTime.AddDays(-2)>DateTime.Now&& f.AirlineCode==airline).ToListAsync();
             if(classavtive)
             {
                 if (flights == null)
@@ -76,7 +76,7 @@ namespace Suaah.Areas.Customer.Controllers
                    .Include(f => f.Airline)
                    .Include(f => f.ArrivingAirport).ThenInclude(a => a.Country)
                    .Include(f => f.DepartingAirport).ThenInclude(a => a.Country)
-                   .Include(f => f.FlightClasses).ThenInclude(a => a.FlightClass).Where(f => f.LeaveTime > DateTime.Now && f.FlightClasses.Any(a=>a.Price>=min&&a.Price<max && a.FlightClassId==clas)).ToListAsync();
+                   .Include(f => f.FlightClasses).ThenInclude(a => a.FlightClass).Where(f => f.LeaveTime.AddDays(-2) > DateTime.Now && f.FlightClasses.Any(a=>a.Price>=min&&a.Price<max && a.FlightClassId==clas)).ToListAsync();
                     }
                     else if (min == null && max != null)
                     {
@@ -84,7 +84,7 @@ namespace Suaah.Areas.Customer.Controllers
                    .Include(f => f.Airline)
                    .Include(f => f.ArrivingAirport).ThenInclude(a => a.Country)
                    .Include(f => f.DepartingAirport).ThenInclude(a => a.Country)
-                   .Include(f => f.FlightClasses).ThenInclude(a => a.FlightClass).Where(f => f.LeaveTime > DateTime.Now && f.FlightClasses.Any(a => a.Price < max && a.FlightClassId == clas)).ToListAsync();
+                   .Include(f => f.FlightClasses).ThenInclude(a => a.FlightClass).Where(f => f.LeaveTime.AddDays(-2) > DateTime.Now && f.FlightClasses.Any(a => a.Price < max && a.FlightClassId == clas)).ToListAsync();
                     }
                     else if (min != null && max == null)
                     {
@@ -92,7 +92,7 @@ namespace Suaah.Areas.Customer.Controllers
                    .Include(f => f.Airline)
                    .Include(f => f.ArrivingAirport).ThenInclude(a => a.Country)
                    .Include(f => f.DepartingAirport).ThenInclude(a => a.Country)
-                   .Include(f => f.FlightClasses).ThenInclude(a => a.FlightClass).Where(f => f.LeaveTime > DateTime.Now && f.FlightClasses.Any(a => a.Price >=min && a.FlightClassId == clas)).ToListAsync();
+                   .Include(f => f.FlightClasses).ThenInclude(a => a.FlightClass).Where(f => f.LeaveTime.AddDays(-2) > DateTime.Now && f.FlightClasses.Any(a => a.Price >=min && a.FlightClassId == clas)).ToListAsync();
                     }
 
                 }
@@ -117,7 +117,7 @@ namespace Suaah.Areas.Customer.Controllers
                 if(timef!=null&&timet!=null)
                 {
                     flights = await _context.Flights
-                    .Where(f => f.LeaveTime > DateTime.Now && f.LeaveTime>=timef&&f.LeaveTime<timet)
+                    .Where(f => f.LeaveTime.AddDays(-2) > DateTime.Now && f.LeaveTime>=timef&&f.LeaveTime<timet)
                    .Include(f => f.Airline)
                    .Include(f => f.ArrivingAirport).ThenInclude(a => a.Country)
                    .Include(f => f.DepartingAirport).ThenInclude(a => a.Country)
@@ -126,7 +126,7 @@ namespace Suaah.Areas.Customer.Controllers
                 else if(timef == null && timet != null)
                 {
                     flights = await _context.Flights
-                    .Where(f => f.LeaveTime > DateTime.Now && f.LeaveTime < timet)
+                    .Where(f => f.LeaveTime.AddDays(-2) > DateTime.Now && f.LeaveTime < timet)
                    .Include(f => f.Airline)
                    .Include(f => f.ArrivingAirport).ThenInclude(a => a.Country)
                    .Include(f => f.DepartingAirport).ThenInclude(a => a.Country)
@@ -135,7 +135,7 @@ namespace Suaah.Areas.Customer.Controllers
                 else if (timef != null && timet == null)
                 {
                     flights = await _context.Flights
-                    .Where(f => f.LeaveTime > DateTime.Now && f.LeaveTime >= timef)
+                    .Where(f => f.LeaveTime.AddDays(-2) > DateTime.Now && f.LeaveTime >= timef)
                    .Include(f => f.Airline)
                    .Include(f => f.ArrivingAirport).ThenInclude(a => a.Country)
                    .Include(f => f.DepartingAirport).ThenInclude(a => a.Country)
@@ -148,7 +148,7 @@ namespace Suaah.Areas.Customer.Controllers
                    .Include(f => f.ArrivingAirport).ThenInclude(a => a.Country)
                    .Include(f => f.DepartingAirport).ThenInclude(a => a.Country)
                    .Include(f => f.FlightClasses).ThenInclude(a => a.FlightClass)
-                   .Where(f=> f.LeaveTime > DateTime.Now && (f.DepartingAirport.City.ToLower().Contains(conf.ToLower()) || f.DepartingAirport.Country.Name.ToLower().Contains(conf.ToLower()))&& (f.ArrivingAirport.City.ToLower().Contains(cont.ToLower()) || f.ArrivingAirport.Country.Name.ToLower().Contains(cont.ToLower()))).ToListAsync();
+                   .Where(f=> f.LeaveTime.AddDays(-2) > DateTime.Now && (f.DepartingAirport.City.ToLower().Contains(conf.ToLower()) || f.DepartingAirport.Country.Name.ToLower().Contains(conf.ToLower()))&& (f.ArrivingAirport.City.ToLower().Contains(cont.ToLower()) || f.ArrivingAirport.Country.Name.ToLower().Contains(cont.ToLower()))).ToListAsync();
                 }
                 else if (conf == null && cont != null)
                 {
@@ -157,7 +157,7 @@ namespace Suaah.Areas.Customer.Controllers
                    .Include(f => f.ArrivingAirport).ThenInclude(a => a.Country)
                    .Include(f => f.DepartingAirport).ThenInclude(a => a.Country)
                    .Include(f => f.FlightClasses).ThenInclude(a => a.FlightClass)
-                   .Where(f => f.LeaveTime > DateTime.Now && (f.ArrivingAirport.City.ToLower().Contains(cont.ToLower()) || f.ArrivingAirport.Country.Name.ToLower().Contains(cont.ToLower()))).ToListAsync();
+                   .Where(f => f.LeaveTime.AddDays(-2) > DateTime.Now && (f.ArrivingAirport.City.ToLower().Contains(cont.ToLower()) || f.ArrivingAirport.Country.Name.ToLower().Contains(cont.ToLower()))).ToListAsync();
                 }
                 else if (conf != null && cont == null)
                 {
@@ -166,7 +166,7 @@ namespace Suaah.Areas.Customer.Controllers
                    .Include(f => f.ArrivingAirport).ThenInclude(a => a.Country)
                    .Include(f => f.DepartingAirport).ThenInclude(a => a.Country)
                    .Include(f => f.FlightClasses).ThenInclude(a => a.FlightClass)
-                   .Where(f => f.LeaveTime > DateTime.Now && (f.DepartingAirport.City.ToLower().Contains(conf.ToLower()) || f.DepartingAirport.Country.Name.ToLower().Contains(conf.ToLower()))).ToListAsync();
+                   .Where(f => f.LeaveTime.AddDays(-2) > DateTime.Now && (f.DepartingAirport.City.ToLower().Contains(conf.ToLower()) || f.DepartingAirport.Country.Name.ToLower().Contains(conf.ToLower()))).ToListAsync();
                 }
             }
             else
@@ -208,7 +208,7 @@ namespace Suaah.Areas.Customer.Controllers
             if(flights==null)
             {
                 flights = await _context.Flights
-                    .Where(f=> f.LeaveTime > DateTime.Now)
+                    .Where(f=> f.LeaveTime.AddDays(-2) > DateTime.Now)
                    .Include(f => f.Airline)
                    .Include(f => f.ArrivingAirport).ThenInclude(a => a.Country)
                    .Include(f => f.DepartingAirport).ThenInclude(a => a.Country)
@@ -378,7 +378,7 @@ namespace Suaah.Areas.Customer.Controllers
                           .Include(f=>f.DepartingAirport).ThenInclude(e => e.Country)
                           .Include(f=>f.FlightClasses).ThenInclude(e=>e.FlightClass)
                           .FirstOrDefaultAsync(f=>f.Id==id);
-            if(flight.LeaveTime < DateTime.Now)
+            if(flight.LeaveTime.AddDays(-2) < DateTime.Now)
             {
                 return NotFound();
             }
@@ -528,7 +528,7 @@ namespace Suaah.Areas.Customer.Controllers
                                                       .Include(f => f.Flight).ThenInclude(e => e.ArrivingAirport).ThenInclude(s => s.Country)
                                                       .Include(f => f.Flight).ThenInclude(e => e.DepartingAirport).ThenInclude(s => s.Country)
                                                       .ToListAsync();
-            if((flightBookings.Where(f=>f.Flight.LeaveTime<DateTime.Now).ToList().Count)>0)
+            if((flightBookings.Where(f=>f.Flight.LeaveTime.AddDays(-2)<DateTime.Now).ToList().Count)>0)
             {
                 _context.FlightBookings.RemoveRange(flightBookings);
                 await _context.SaveChangesAsync();

@@ -26,6 +26,8 @@ namespace Suaah.Areas.Admin.Controllers
         // GET: FlightClasses
         public async Task<IActionResult> Index(string? name, string? order, int pageSize, int pageNumber)
         {
+            ViewBag.Names = await _context.FlightClassss.Select(f => f.Class).ToListAsync();
+
             List<FlightClass> flightClasses;
             if (string.IsNullOrEmpty(name))
             {
