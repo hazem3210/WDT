@@ -26,7 +26,7 @@
 
                         </div>
                         <div class="col-9">
-                            <p class="card-text f mx-3">@Html.DisplayFor(model => model.Description)</p>
+                            <p class="card-text f ">@Html.DisplayFor(model => model.Description)</p>
                         </div>
                     </div>
                     <div class="row my-1">
@@ -83,28 +83,30 @@
 </div>
 <br />
 <br />
+@if (Model.BookingDetails.Count > 0)
+{
+    <div class="card m-4 p-2" style="width: 100%;">
+        <div class="card-body p-4">
+            <h2 class="text-center mt-2" title="Customers who have previously booked this room.">Customers</h2>
+            <br />
 
+            <div class="text-left mx-3 f">
+                @{
+                    List<HotelBookingHeader> head = new();
 
-<div class="card m-4 p-2" style="width: 100%;">
-    <div class="card-body p-4">
-        <h2 class="text-center mt-2" title="Customers who have previously booked this room.">Customers</h2>
-        <br />
+                    foreach (var h in Model.BookingDetails)
+                    {
+                        head.Add(h.HotelBookingHeader);
+                    }
 
-        <div class="text-left mx-3 f">
-            @{
-                List<HotelBookingHeader> head = new();
-
-                foreach (var h in Model.BookingDetails)
-                {
-                    head.Add(h.HotelBookingHeader);
+                    for (var i = 0; i < head.Count; i++)
+                    {
+                        @head[i].Customer.Name <span>{@head[i].Customer.CitizenshipCountry}</span>
+                        <br />
+                    }
                 }
-
-                for (var i = 0; i < head.Count; i++)
-                {
-                    @head[i].Customer.Name <span>{@head[i].Customer.CitizenshipCountry}</span>
-                    <br />
-                }
-            }
+            </div>
         </div>
     </div>
-</div>
+
+}
