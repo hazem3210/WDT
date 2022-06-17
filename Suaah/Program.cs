@@ -18,7 +18,7 @@ builder.Services.AddScoped<DbInitializer>();
 // to use rule, send email to confirmEmail
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
-
+// to map keys inside json to properities inside StripeSettings
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
@@ -58,7 +58,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+// to add Stripe Configuration of api key at the global level
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 SeedDatabase(); 
 
