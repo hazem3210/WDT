@@ -627,75 +627,75 @@ namespace Suaah.Models
                 {
                     new FlightsClasses()
                     {
-                        Price = 600,
+                        Price = 1200,
                         FlightClassId = 1,
                         FlightId = 1
                     },
                     new FlightsClasses()
                     {
-                        Price = 500,
+                        Price = 750,
                         FlightClassId = 2,
                         FlightId = 1
                     },
                     new FlightsClasses()
                     {
-                        Price = 400,
+                        Price = 500,
                         FlightClassId = 3,
                         FlightId = 1
                     },
                     new FlightsClasses()
                     {
-                        Price = 600,
+                        Price = 800,
                         FlightClassId = 1,
                         FlightId = 2
                     },
 
                     new FlightsClasses()
                     {
-                        Price = 500,
+                        Price = 600,
                         FlightClassId = 2,
                         FlightId = 2
                     },
 
                     new FlightsClasses()
                     {
-                        Price = 400,
+                        Price = 489,
                         FlightClassId = 3,
                         FlightId = 2
                     },
                     new FlightsClasses()
                     {
-                        Price = 600,
+                        Price = 570,
                         FlightClassId = 1,
                         FlightId = 4
                     },
                     new FlightsClasses()
                     {
-                        Price = 500,
+                        Price = 450,
                         FlightClassId = 2,
                         FlightId = 4
                     },
                     new FlightsClasses()
                     {
-                        Price = 400,
+                        Price = 300,
                         FlightClassId = 3,
                         FlightId = 4
                     },
                     new FlightsClasses()
                     {
-                        Price = 600,
+                        Price = 3000,
                         FlightClassId = 1,
                         FlightId = 3
                     },
                     new FlightsClasses()
                     {
-                        Price = 500,
+                        Price = 1500,
                         FlightClassId = 2,
                         FlightId = 3
                     },
                     new FlightsClasses()
                     {
-                        Price = 400,
+                        Price = 1000,
                         FlightClassId = 3,
                         FlightId = 3
                     },

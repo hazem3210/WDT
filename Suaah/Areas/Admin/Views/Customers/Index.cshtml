@@ -11,15 +11,17 @@
 
 @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
 {
-    <div class="m-2 mb-5">
+    <div class="m-2 mb-2">
         <a id="register" asp-area="Identity" asp-page="/Account/Register" class="w-100 d-block btn btn-danger p-2">
             Create New Customer
         </a>
     </div>
 }
-
-<form method="get" asp-action="Index">
-    <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden />
+<div class="text-center row">
+    <button onclick="filter();" class="btn btn-outline-info my-4">Filter</button>
+</div>
+<form method="get" asp-action="Index" id="filter" style="display:none;" >
+      <input name="ordersort" id="ord" value="@ViewBag.ordersort" hidden />
     <input name="order" value="@ViewBag.order" hidden />
 
     <div class="row m-3">
@@ -49,10 +51,9 @@
         <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2" style="width:100%" onclick="go();" />
     </div>
 
-
 </form>
 
-<div class="text-center">
+<div class="text-center" style="display:none;" id="full">
 
     <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
 </div>
@@ -146,6 +147,23 @@
     document.getElementById("list").innerHTML = data;
     }
 }
+function filter() {
+    var form = document.getElementById("filter");
+    var btn = document.getElementById("full");
+    if (form.getAttribute("style") == "display:none;") {
+
+        form.setAttribute("style", "");
+        btn.setAttribute("style", "");
+
+    }
+
+    else { 
+     
+        form.setAttribute("style", "display:none;");
+        btn.setAttribute("style", "display:none;");
+    }
+}
+
         function go() {
             if (document.getElementById("ord").value == "desc") {
                 document.getElementById("ord").value = "asc";

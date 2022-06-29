@@ -9,9 +9,11 @@
     <h1>Flights Booked</h1>
 </div>
 <hr />
-
-<form asp-action="index" method="get" class="m-1">
-    <div class="row text-center">
+<div class="text-center row">
+    <button onclick="filter();" class="btn btn-outline-info my-4">Filter</button>
+</div>
+<form method="get" asp-action="Index" id="filter" style="display:none;" class="m-1">
+   <div class="row text-center">
         <div class="col-3 "><h3>Stauts</h3></div>
         <div class="col-3"><h3>Time</h3></div>
         <div class="col-3"><h3>Price</h3></div>
@@ -70,7 +72,7 @@
 
 </form>
 
-<div class="text-center">
+<div class="text-center" style="display:none;" id="full">
     <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
 </div>
 <table class="table table-hover table-striped text-center p-3">
@@ -163,7 +165,23 @@ function select() {
     }
 
 }
-  
+  function filter() {
+    var form = document.getElementById("filter");
+    var btn = document.getElementById("full");
+    if (form.getAttribute("style") == "display:none;") {
+
+        form.setAttribute("style", "");
+        btn.setAttribute("style", "");
+
+    }
+
+    else { 
+     
+        form.setAttribute("style", "display:none;");
+        btn.setAttribute("style", "display:none;");
+    }
+}
+
     function go() {
         if (document.getElementById("ord").value == "desc") {
             document.getElementById("ord").value = "asc";

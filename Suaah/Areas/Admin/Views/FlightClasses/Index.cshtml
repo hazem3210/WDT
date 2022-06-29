@@ -18,8 +18,12 @@
     </div>
 
 }
-<form method="get" asp-action="Index" class="m-1">
-    <div class="form-actions no-color text-center p-3 row">
+
+<div class="text-center row">
+    <button onclick="filter();" class="btn btn-outline-info my-4">Filter</button>
+</div>
+<form method="get" asp-action="Index" id="filter" style="display:none;" class="m-1">
+   <div class="form-actions no-color text-center p-3 row">
 
         <div class="col-3">
             <label class="control-label">Search</label>
@@ -43,7 +47,7 @@
 </form>
 
 
-<div class="text-center">
+<div class="text-center" style="display:none;" id="full">
     <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
 </div>
 <table class="table table-hover table-striped text-center p-3">
@@ -76,6 +80,23 @@
 </table>
 @section Scripts{
     <script>
+        function filter() {
+    var form = document.getElementById("filter");
+    var btn = document.getElementById("full");
+    if (form.getAttribute("style") == "display:none;") {
+
+        form.setAttribute("style", "");
+        btn.setAttribute("style", "");
+
+    }
+
+    else { 
+     
+        form.setAttribute("style", "display:none;");
+        btn.setAttribute("style", "display:none;");
+    }
+}
+
         function go() {
             if (document.getElementById("ord").value == "desc") {
                 document.getElementById("ord").value = "asc";

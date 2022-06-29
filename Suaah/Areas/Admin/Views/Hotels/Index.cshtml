@@ -15,15 +15,15 @@
 <hr />
 @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Manager))
 {
-    <div class="m-2 mb-5">
+    <div class="m-2 mb-2">
         <a asp-action="Create" class="w-100 d-block btn btn-danger p-2">Create New Hotel</a>
     </div>
 }
-
-<form asp-action="Index" method="get">
-    
-
-    <div class="form-actions no-color text-center p-3">
+<div class="text-center row">
+    <button onclick="filter();" class="btn btn-outline-info my-4">Filter</button>
+</div>
+<form method="get" asp-action="Index" id="filter" style="display:none;">
+   <div class="form-actions no-color text-center p-3">
 
         <input type="search" list="nName" name="hName" value="@ViewData["hName"]" placeholder="Hotel Name" class="p-2" />
         <datalist id="nName">
@@ -86,7 +86,7 @@
     <br />
 </form>
 
-<div class="text-center">
+<div class="text-center" style="display:none;" id="full">
     <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
 </div>
 
@@ -178,4 +178,26 @@
         }
     </tbody>
 </table>
- 
+ @section Scripts{
+    <script>
+
+function filter() {
+    var form = document.getElementById("filter");
+    var btn = document.getElementById("full");
+    if (form.getAttribute("style") == "display:none;") {
+
+        form.setAttribute("style", "");
+        btn.setAttribute("style", "");
+
+    }
+
+    else { 
+     
+        form.setAttribute("style", "display:none;");
+        btn.setAttribute("style", "display:none;");
+    }
+}
+
+
+    </script>
+}

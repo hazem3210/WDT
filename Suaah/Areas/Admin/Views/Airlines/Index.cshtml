@@ -18,8 +18,11 @@
     </div>
 
 }
-<form method="get" asp-action="Index" class="m-1">
-    <div class="row text-center">
+<div class="text-center row">
+    <button onclick="filter();" class="btn btn-outline-info my-4">Filter</button>
+</div>
+<form method="get" asp-action="Index" id="filter" style="display:none;" class="m-1">
+   <div class="row text-center">
         <div class="col-2 m-2">
             <label class="control-label">Search</label>
             <input name="search" list="list" class="form-control" value="@ViewBag.search" />
@@ -44,11 +47,8 @@
    
     <br />
     <input type="submit" value="-  Search  -" class="btn btn-outline-danger p-2  btn" style="width:100%" onclick="go();" />
-
 </form>
-
-
-<div class="text-center">
+<div class="text-center" style="display:none;" id="full">
     <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
 </div>
 
@@ -113,6 +113,22 @@
         data += "<option>" + airlines[i] + "</option>";
     }
     document.getElementById("list").innerHTML = data;
+    }
+}
+function filter() {
+    var form = document.getElementById("filter");
+    var btn = document.getElementById("full");
+    if (form.getAttribute("style") == "display:none;") {
+
+        form.setAttribute("style", "");
+        btn.setAttribute("style", "");
+
+    }
+
+    else { 
+     
+        form.setAttribute("style", "display:none;");
+        btn.setAttribute("style", "display:none;");
     }
 }
 

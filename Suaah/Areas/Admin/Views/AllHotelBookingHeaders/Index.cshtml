@@ -11,9 +11,11 @@
     <h1>All Hotel Booking Headers</h1>
 
 </div>
-<form asp-action="index" method="get">
-
-    <div class="row m-3">
+<div class="text-center row">
+    <button onclick="filter();" class="btn btn-outline-info my-4">Filter</button>
+</div>
+<form method="get" asp-action="Index" id="filter" style="display:none;">
+ <div class="row m-3">
 
         <div class="col-5">
             <label class="control-label">Status</label>
@@ -95,7 +97,7 @@
     </div>
 </form>
 
-<div class="text-center">
+<div class="text-center" style="display:none;" id="full">
 
     <a asp-action="Index" class="btn btn-outline-info my-4">Back to Full List</a>
 </div>
@@ -217,3 +219,25 @@
         }
     </tbody>
 </table>
+@section Scripts{
+    <script>
+
+function filter() {
+    var form = document.getElementById("filter");
+    var btn = document.getElementById("full");
+    if (form.getAttribute("style") == "display:none;") {
+
+        form.setAttribute("style", "");
+        btn.setAttribute("style", "");
+
+    }
+
+    else { 
+     
+        form.setAttribute("style", "display:none;");
+        btn.setAttribute("style", "display:none;");
+    }
+}
+
+    </script>
+}
